@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
         body {
             background: linear-gradient(135deg, #0b0e14 0%, #0a0c10 100%);
@@ -21,10 +21,9 @@
             max-width: 1300px;
             margin: 0 auto;
         }
-        /* header */
         .header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
         .header h1 {
             font-size: 2.5rem;
@@ -32,7 +31,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: 2px;
         }
         .badge {
             background: #1e2128;
@@ -43,7 +41,6 @@
             margin-top: 0.5rem;
             color: #aaa;
         }
-        /* token & guild */
         .credentials {
             display: flex;
             flex-wrap: wrap;
@@ -53,10 +50,10 @@
             border: 1px solid #2c2f36;
             border-radius: 20px;
             padding: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
         .input-field {
-            flex: 1;
+            flex: 2;
             min-width: 240px;
         }
         .input-field label {
@@ -80,7 +77,24 @@
             border-color: #00ff99;
             box-shadow: 0 0 8px #00ff9940;
         }
-        /* controls row (name/count + apply button) */
+        .verify-btn {
+            background: #2a2e3a;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            border: 1px solid #3a3e4a;
+            align-self: flex-end;
+            margin-bottom: 0.2rem;
+            height: 48px;
+        }
+        .verify-btn:hover {
+            background: #00ff9922;
+            border-color: #00ff99;
+            color: #00ff99;
+        }
         .controls-row {
             background: #0f1117;
             border-radius: 20px;
@@ -126,7 +140,6 @@
             border-color: #00ff99;
             color: #00ff99;
         }
-        /* action buttons grid */
         .buttons-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -162,7 +175,6 @@
             border-color: #ff5555;
             color: #ff8888;
         }
-        /* status area */
         .status-area {
             background: #0a0c10;
             border-radius: 20px;
@@ -186,10 +198,6 @@
             font-size: 0.75rem;
             color: #555;
         }
-        hr {
-            border-color: #2c2f36;
-            margin: 1rem 0;
-        }
         @media (max-width: 700px) {
             body { padding: 1rem; }
             .buttons-grid { grid-template-columns: 1fr; }
@@ -212,6 +220,7 @@
             <label>🆔 SERVER ID</label>
             <input type="text" id="guildId" placeholder="123456789012345678">
         </div>
+        <button id="verifyTokenBtn" class="verify-btn">✓ اختبار التوكن</button>
     </div>
 
     <div class="controls-row">
@@ -254,10 +263,8 @@
     const customNameInput = document.getElementById('customName');
     const customCountInput = document.getElementById('customCount');
 
-    // إظهار رابط الخادم الحالي
     document.getElementById('serverUrl').innerText = window.location.origin;
 
-    // اختبار الاتصال بالخادم عند تحميل الصفحة
     async function testConnection() {
         try {
             const res = await fetch('/api/test');
@@ -274,7 +281,36 @@
         }
     }
 
-    // تنفيذ الإجراء
+    // اختبار التوكن
+    async function verifyToken() {
+        const token = tokenInput.value.trim();
+        if (!token) {
+            statusDiv.innerHTML = '❌ أدخل التوكن أولاً';
+            statusDiv.classList.add('error-text');
+            return;
+        }
+        statusDiv.innerHTML = '⏳ جاري التحقق من التوكن...';
+        statusDiv.classList.remove('error-text');
+        try {
+            const res = await fetch('/api/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                statusDiv.innerHTML = `✅ التوكن صالح! البوت: ${data.bot.username}#${data.bot.discriminator}`;
+                statusDiv.classList.remove('error-text');
+            } else {
+                statusDiv.innerHTML = `❌ ${data.error || 'توكن غير صالح'}`;
+                statusDiv.classList.add('error-text');
+            }
+        } catch (err) {
+            statusDiv.innerHTML = `❌ فشل الاتصال بالخادم: ${err.message}`;
+            statusDiv.classList.add('error-text');
+        }
+    }
+
     async function executeAction(action, params = {}) {
         const token = tokenInput.value.trim();
         const guildId = guildIdInput.value.trim();
@@ -286,13 +322,13 @@
         statusDiv.innerHTML = `⏳ جاري تنفيذ "${action}" ... (قد يستغرق وقتاً)`;
         statusDiv.classList.remove('error-text');
         try {
-            const response = await fetch('/api/action', {
+            const res = await fetch('/api/action', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token, guildId, action, params })
             });
-            const data = await response.json();
-            if (response.ok) {
+            const data = await res.json();
+            if (res.ok) {
                 statusDiv.innerHTML = `✅ تم بنجاح: ${data.message || 'اكتمل التنفيذ'}`;
                 statusDiv.classList.remove('error-text');
             } else {
@@ -305,7 +341,6 @@
         }
     }
 
-    // ربط الأزرار بالأوامر
     document.querySelectorAll('.action-btn[data-action]').forEach(btn => {
         btn.addEventListener('click', () => {
             const action = btn.getAttribute('data-action');
@@ -321,7 +356,6 @@
         });
     });
 
-    // زر تطبيق العدد والاسم
     document.getElementById('applyDefaultsBtn').addEventListener('click', () => {
         const name = customNameInput.value.trim() || '(افتراضي)';
         const count = customCountInput.value || '20';
@@ -329,7 +363,8 @@
         statusDiv.classList.remove('error-text');
     });
 
-    // اختبار الاتصال عند التحميل
+    document.getElementById('verifyTokenBtn').addEventListener('click', verifyToken);
+
     testConnection();
 </script>
 </body>
