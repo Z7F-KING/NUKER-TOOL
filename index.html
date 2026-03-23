@@ -3,150 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Server Nuker - Web Edition</title>
+    <title>Discord Nuker | Web Panel</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Courier New', monospace;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
         }
         body {
-            background: #0a0c10;
-            color: #00ff99;
-            padding: 2rem;
+            background: linear-gradient(135deg, #0b0e14 0%, #0a0c10 100%);
             min-height: 100vh;
+            padding: 2rem;
+            color: #e0e0e0;
         }
         .container {
             max-width: 1300px;
             margin: 0 auto;
         }
-        h1 {
-            font-size: 2rem;
+        /* header */
+        .header {
             text-align: center;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 5px #00ff99;
+            margin-bottom: 2.5rem;
         }
-        .sub {
-            text-align: center;
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #00ff99, #00ccff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+        }
+        .badge {
+            background: #1e2128;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
             color: #aaa;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #2c2f36;
-            padding-bottom: 1rem;
         }
-        .inputs {
-            background: #111418;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid #2c2f36;
-            margin-bottom: 2rem;
+        /* token & guild */
+        .credentials {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
-            justify-content: center;
-        }
-        .input-group {
-            flex: 1;
-            min-width: 250px;
-        }
-        .input-group label {
-            display: block;
-            color: #ccc;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 0.8rem;
-            background: #1e2128;
+            background: #111418cc;
+            backdrop-filter: blur(4px);
             border: 1px solid #2c2f36;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .input-field {
+            flex: 1;
+            min-width: 240px;
+        }
+        .input-field label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            color: #aaa;
+        }
+        .input-field input {
+            width: 100%;
+            background: #1a1d24;
+            border: 1px solid #2c2f36;
+            padding: 0.8rem 1rem;
+            border-radius: 14px;
             color: #00ff99;
-            border-radius: 8px;
-            font-size: 1rem;
+            font-family: monospace;
             transition: 0.2s;
         }
-        .input-group input:focus {
+        .input-field input:focus {
             outline: none;
             border-color: #00ff99;
-            box-shadow: 0 0 8px #00ff9933;
+            box-shadow: 0 0 8px #00ff9940;
         }
+        /* controls row (name/count + apply button) */
+        .controls-row {
+            background: #0f1117;
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 1rem;
+            border: 1px solid #2c2f36;
+        }
+        .ctrl-group {
+            flex: 2;
+            min-width: 160px;
+        }
+        .ctrl-group label {
+            font-size: 0.8rem;
+            color: #aaa;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .ctrl-group input {
+            width: 100%;
+            background: #1e2128;
+            border: 1px solid #2c2f36;
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            color: #00ff99;
+        }
+        .apply-btn {
+            background: #2a2e3a;
+            border: none;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #3a3e4a;
+        }
+        .apply-btn:hover {
+            background: #00ff9922;
+            border-color: #00ff99;
+            color: #00ff99;
+        }
+        /* action buttons grid */
         .buttons-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 1rem;
             margin: 2rem 0;
         }
-        button {
-            background: #1a1d24;
+        .action-btn {
+            background: #151a22;
             border: 1px solid #2c2f36;
-            color: #00ff99;
             padding: 1rem;
+            border-radius: 18px;
+            font-weight: 600;
             font-size: 1rem;
-            font-weight: bold;
-            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            transition: all 0.2s;
+            color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
-        button:hover {
-            background: #00ff9922;
+        .action-btn:hover {
+            background: #1e2530;
             border-color: #00ff99;
-            box-shadow: 0 0 8px #00ff9944;
             transform: translateY(-2px);
-        }
-        button:active {
-            transform: translateY(1px);
+            box-shadow: 0 8px 20px rgba(0,255,153,0.1);
+            color: #00ff99;
         }
         .danger {
-            color: #ff5555;
-            border-color: #ff555544;
+            border-left: 3px solid #ff5555;
         }
         .danger:hover {
-            background: #ff555522;
             border-color: #ff5555;
-            box-shadow: 0 0 8px #ff555588;
+            color: #ff8888;
         }
-        .config-row {
-            background: #111418;
-            padding: 1rem;
-            border-radius: 12px;
-            margin: 1rem 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            align-items: flex-end;
-        }
-        .config-row .input-group {
-            flex: 2;
-        }
-        .config-row button {
-            flex: 0.5;
-            min-width: 120px;
-            padding: 0.7rem;
-        }
-        .status {
-            background: #0f1117;
-            border-left: 4px solid #00ff99;
-            padding: 1rem;
-            margin-top: 1.5rem;
-            border-radius: 8px;
+        /* status area */
+        .status-area {
+            background: #0a0c10;
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin-top: 1rem;
             font-family: monospace;
-            white-space: pre-wrap;
+            font-size: 0.9rem;
+            border: 1px solid #2c2f36;
+            backdrop-filter: blur(2px);
+        }
+        .status-text {
+            color: #00ff99;
             word-break: break-word;
+        }
+        .error-text {
+            color: #ff7777;
         }
         .footer {
             text-align: center;
             margin-top: 3rem;
-            font-size: 0.8rem;
-            color: #666;
+            font-size: 0.75rem;
+            color: #555;
         }
         hr {
             border-color: #2c2f36;
             margin: 1rem 0;
-        }
-        small {
-            color: #00ff9988;
         }
         @media (max-width: 700px) {
             body { padding: 1rem; }
@@ -156,51 +198,52 @@
 </head>
 <body>
 <div class="container">
-    <h1>⚡ DISCORD SERVER NUKER ⚡</h1>
-    <div class="sub">WEB EDITION — تمام الوظائف كما في الأداة الأصلية</div>
+    <div class="header">
+        <h1>⚡ SERVER NUKER ⚡</h1>
+        <div class="badge">WEB EDITION | Full Control</div>
+    </div>
 
-    <div class="inputs">
-        <div class="input-group">
-            <label>🤖 توكن البوت (Bot Token)</label>
-            <input type="password" id="token" placeholder="OD...
-            YjI...">
+    <div class="credentials">
+        <div class="input-field">
+            <label>🤖 BOT TOKEN</label>
+            <input type="password" id="token" placeholder="OD...YjI" autocomplete="off">
         </div>
-        <div class="input-group">
-            <label>🆔 آيدي السيرفر (Server ID)</label>
+        <div class="input-field">
+            <label>🆔 SERVER ID</label>
             <input type="text" id="guildId" placeholder="123456789012345678">
         </div>
     </div>
 
-    <!-- خيارات إضافية للتخصيص -->
-    <div class="config-row">
-        <div class="input-group">
-            <label>🏷️ اسم القناة/الرول (اختياري)</label>
+    <div class="controls-row">
+        <div class="ctrl-group">
+            <label>🏷️ NAME (for channels/roles)</label>
             <input type="text" id="customName" placeholder="nuked-channel">
         </div>
-        <div class="input-group">
-            <label>🔢 العدد (افتراضي 20)</label>
-            <input type="number" id="customCount" placeholder="20" value="20">
+        <div class="ctrl-group">
+            <label>🔢 COUNT (default 20)</label>
+            <input type="number" id="customCount" value="20" step="1" min="1" max="200">
         </div>
-        <button id="applyDefaultsBtn" style="background:#2c2f36;">تطبيق العدد/الاسم</button>
+        <button id="applyDefaultsBtn" class="apply-btn">✓ تطبيق العدد / الاسم</button>
     </div>
 
     <div class="buttons-grid">
-        <button data-action="deleteChannels">🗑️ حذف كل القنوات</button>
-        <button data-action="createChannels">📁 إنشاء قنوات (عدد)</button>
-        <button data-action="createChannelsPing">🔔 إنشاء قنوات + منشن</button>
-        <button data-action="deleteRoles">🎭 حذف كل الرتب</button>
-        <button data-action="createRoles">👑 إنشاء رتب (عدد)</button>
-        <button data-action="deleteEmojis">😀 حذف كل الإيموجيات</button>
-        <button data-action="deleteStickers">🖼️ حذف كل الملصقات</button>
-        <button data-action="banAll" class="danger">⛔ طرد نهائي (Ban) الكل</button>
-        <button data-action="kickAll" class="danger">👢 طرد مؤقت (Kick) الكل</button>
+        <button class="action-btn" data-action="deleteChannels">🗑️ حذف كل القنوات</button>
+        <button class="action-btn" data-action="createChannels">📁 إنشاء قنوات (عدد)</button>
+        <button class="action-btn" data-action="createChannelsPing">🔔 إنشاء قنوات + منشن</button>
+        <button class="action-btn" data-action="deleteRoles">🎭 حذف كل الرتب</button>
+        <button class="action-btn" data-action="createRoles">👑 إنشاء رتب (عدد)</button>
+        <button class="action-btn" data-action="deleteEmojis">😀 حذف كل الإيموجيات</button>
+        <button class="action-btn" data-action="deleteStickers">🖼️ حذف كل الملصقات</button>
+        <button class="action-btn danger" data-action="banAll">⛔ حظر (Ban) الكل</button>
+        <button class="action-btn danger" data-action="kickAll">👢 طرد (Kick) الكل</button>
     </div>
 
-    <div class="status" id="status">
-        ✅ جاهز... أدخل التوكن و ID السيرفر
+    <div class="status-area">
+        <div id="status" class="status-text">✅ جاهز... أدخل التوكن و ID السيرفر</div>
     </div>
     <div class="footer">
-        ⚠️ للأغراض التعليمية فقط | تأكد أن البوت لديه الصلاحيات المناسبة (Administrator يفضل) | قد تواجه Rate Limits
+        ⚠️ للأغراض التعليمية | تأكد من صلاحيات البوت (Admin) وتفعيل Gateway Intents<br>
+        🔗 الخادم يعمل على <span id="serverUrl">http://localhost:3000</span>
     </div>
 </div>
 
@@ -211,16 +254,37 @@
     const customNameInput = document.getElementById('customName');
     const customCountInput = document.getElementById('customCount');
 
-    // إرسال الطلب للخادم
+    // إظهار رابط الخادم الحالي
+    document.getElementById('serverUrl').innerText = window.location.origin;
+
+    // اختبار الاتصال بالخادم عند تحميل الصفحة
+    async function testConnection() {
+        try {
+            const res = await fetch('/api/test');
+            const data = await res.json();
+            if (res.ok) {
+                statusDiv.innerHTML = `✅ متصل بالخادم: ${data.message}`;
+                statusDiv.classList.remove('error-text');
+            } else {
+                throw new Error('Response not ok');
+            }
+        } catch (err) {
+            statusDiv.innerHTML = `❌ لا يمكن الاتصال بالخادم. تأكد من تشغيله باستخدام "node server.js" على المنفذ 3000. خطأ: ${err.message}`;
+            statusDiv.classList.add('error-text');
+        }
+    }
+
+    // تنفيذ الإجراء
     async function executeAction(action, params = {}) {
         const token = tokenInput.value.trim();
         const guildId = guildIdInput.value.trim();
         if (!token || !guildId) {
             statusDiv.innerHTML = '❌ من فضلك أدخل التوكن و ID السيرفر أولاً';
+            statusDiv.classList.add('error-text');
             return;
         }
-
-        statusDiv.innerHTML = `⏳ جاري تنفيذ "${action}" ... يرجى الانتظار (قد يستغرق)`;
+        statusDiv.innerHTML = `⏳ جاري تنفيذ "${action}" ... (قد يستغرق وقتاً)`;
+        statusDiv.classList.remove('error-text');
         try {
             const response = await fetch('/api/action', {
                 method: 'POST',
@@ -230,37 +294,43 @@
             const data = await response.json();
             if (response.ok) {
                 statusDiv.innerHTML = `✅ تم بنجاح: ${data.message || 'اكتمل التنفيذ'}`;
+                statusDiv.classList.remove('error-text');
             } else {
                 statusDiv.innerHTML = `❌ خطأ: ${data.error || 'فشل الطلب'}`;
+                statusDiv.classList.add('error-text');
             }
         } catch (err) {
-            statusDiv.innerHTML = `❌ فشل الاتصال بالخادم: ${err.message}`;
+            statusDiv.innerHTML = `❌ فشل الاتصال بالخادم: ${err.message}. تأكد من تشغيل الخادم (node server.js)`;
+            statusDiv.classList.add('error-text');
         }
     }
 
-    // ربط الأزرار
-    document.querySelectorAll('button[data-action]').forEach(btn => {
+    // ربط الأزرار بالأوامر
+    document.querySelectorAll('.action-btn[data-action]').forEach(btn => {
         btn.addEventListener('click', () => {
             const action = btn.getAttribute('data-action');
             let params = {};
-
-            // إضافة اسم وعدد مخصص لبعض الأوامر
             if (action === 'createChannels' || action === 'createChannelsPing') {
-                params.name = customNameInput.value || 'nuked-channel';
+                params.name = customNameInput.value.trim() || 'nuked-channel';
                 params.count = parseInt(customCountInput.value) || 20;
             } else if (action === 'createRoles') {
-                params.roleName = customNameInput.value || 'nuked-role';
+                params.roleName = customNameInput.value.trim() || 'nuked-role';
                 params.roleCount = parseInt(customCountInput.value) || 20;
             }
-
             executeAction(action, params);
         });
     });
 
-    // زر تطبيق الاسم والعدد
+    // زر تطبيق العدد والاسم
     document.getElementById('applyDefaultsBtn').addEventListener('click', () => {
-        statusDiv.innerHTML = `🔧 تم ضبط الاسم: "${customNameInput.value || 'nuked-channel'}" والعدد: ${customCountInput.value || 20}`;
+        const name = customNameInput.value.trim() || '(افتراضي)';
+        const count = customCountInput.value || '20';
+        statusDiv.innerHTML = `🔧 تم ضبط الاسم: "${name}" والعدد: ${count}`;
+        statusDiv.classList.remove('error-text');
     });
+
+    // اختبار الاتصال عند التحميل
+    testConnection();
 </script>
 </body>
 </html>
