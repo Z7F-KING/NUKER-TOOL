@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Server Nuker - Web Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Courier New', monospace;
+        }
+        body {
+            background: #0a0c10;
+            color: #00ff99;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 5px #00ff99;
+        }
+        .sub {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #2c2f36;
+            padding-bottom: 1rem;
+        }
+        .inputs {
+            background: #111418;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #2c2f36;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .input-group {
+            flex: 1;
+            min-width: 250px;
+        }
+        .input-group label {
+            display: block;
+            color: #ccc;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.8rem;
+            background: #1e2128;
+            border: 1px solid #2c2f36;
+            color: #00ff99;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #00ff99;
+            box-shadow: 0 0 8px #00ff9933;
+        }
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        button {
+            background: #1a1d24;
+            border: 1px solid #2c2f36;
+            color: #00ff99;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        button:hover {
+            background: #00ff9922;
+            border-color: #00ff99;
+            box-shadow: 0 0 8px #00ff9944;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        .danger {
+            color: #ff5555;
+            border-color: #ff555544;
+        }
+        .danger:hover {
+            background: #ff555522;
+            border-color: #ff5555;
+            box-shadow: 0 0 8px #ff555588;
+        }
+        .config-row {
+            background: #111418;
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+        .config-row .input-group {
+            flex: 2;
+        }
+        .config-row button {
+            flex: 0.5;
+            min-width: 120px;
+            padding: 0.7rem;
+        }
+        .status {
+            background: #0f1117;
+            border-left: 4px solid #00ff99;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        hr {
+            border-color: #2c2f36;
+            margin: 1rem 0;
+        }
+        small {
+            color: #00ff9988;
+        }
+        @media (max-width: 700px) {
+            body { padding: 1rem; }
+            .buttons-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>⚡ DISCORD SERVER NUKER ⚡</h1>
+    <div class="sub">WEB EDITION — تمام الوظائف كما في الأداة الأصلية</div>
+
+    <div class="inputs">
+        <div class="input-group">
+            <label>🤖 توكن البوت (Bot Token)</label>
+            <input type="password" id="token" placeholder="OD...
+            YjI...">
+        </div>
+        <div class="input-group">
+            <label>🆔 آيدي السيرفر (Server ID)</label>
+            <input type="text" id="guildId" placeholder="123456789012345678">
+        </div>
+    </div>
+
+    <!-- خيارات إضافية للتخصيص -->
+    <div class="config-row">
+        <div class="input-group">
+            <label>🏷️ اسم القناة/الرول (اختياري)</label>
+            <input type="text" id="customName" placeholder="nuked-channel">
+        </div>
+        <div class="input-group">
+            <label>🔢 العدد (افتراضي 20)</label>
+            <input type="number" id="customCount" placeholder="20" value="20">
+        </div>
+        <button id="applyDefaultsBtn" style="background:#2c2f36;">تطبيق العدد/الاسم</button>
+    </div>
+
+    <div class="buttons-grid">
+        <button data-action="deleteChannels">🗑️ حذف كل القنوات</button>
+        <button data-action="createChannels">📁 إنشاء قنوات (عدد)</button>
+        <button data-action="createChannelsPing">🔔 إنشاء قنوات + منشن</button>
+        <button data-action="deleteRoles">🎭 حذف كل الرتب</button>
+        <button data-action="createRoles">👑 إنشاء رتب (عدد)</button>
+        <button data-action="deleteEmojis">😀 حذف كل الإيموجيات</button>
+        <button data-action="deleteStickers">🖼️ حذف كل الملصقات</button>
+        <button data-action="banAll" class="danger">⛔ طرد نهائي (Ban) الكل</button>
+        <button data-action="kickAll" class="danger">👢 طرد مؤقت (Kick) الكل</button>
+    </div>
+
+    <div class="status" id="status">
+        ✅ جاهز... أدخل التوكن و ID السيرفر
+    </div>
+    <div class="footer">
+        ⚠️ للأغراض التعليمية فقط | تأكد أن البوت لديه الصلاحيات المناسبة (Administrator يفضل) | قد تواجه Rate Limits
+    </div>
+</div>
+
+<script>
+    const tokenInput = document.getElementById('token');
+    const guildIdInput = document.getElementById('guildId');
+    const statusDiv = document.getElementById('status');
+    const customNameInput = document.getElementById('customName');
+    const customCountInput = document.getElementById('customCount');
+
+    // إرسال الطلب للخادم
+    async function executeAction(action, params = {}) {
+        const token = tokenInput.value.trim();
+        const guildId = guildIdInput.value.trim();
+        if (!token || !guildId) {
+            statusDiv.innerHTML = '❌ من فضلك أدخل التوكن و ID السيرفر أولاً';
+            return;
+        }
+
+        statusDiv.innerHTML = `⏳ جاري تنفيذ "${action}" ... يرجى الانتظار (قد يستغرق)`;
+        try {
+            const response = await fetch('/api/action', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token, guildId, action, params })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                statusDiv.innerHTML = `✅ تم بنجاح: ${data.message || 'اكتمل التنفيذ'}`;
+            } else {
+                statusDiv.innerHTML = `❌ خطأ: ${data.error || 'فشل الطلب'}`;
+            }
+        } catch (err) {
+            statusDiv.innerHTML = `❌ فشل الاتصال بالخادم: ${err.message}`;
+        }
+    }
+
+    // ربط الأزرار
+    document.querySelectorAll('button[data-action]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const action = btn.getAttribute('data-action');
+            let params = {};
+
+            // إضافة اسم وعدد مخصص لبعض الأوامر
+            if (action === 'createChannels' || action === 'createChannelsPing') {
+                params.name = customNameInput.value || 'nuked-channel';
+                params.count = parseInt(customCountInput.value) || 20;
+            } else if (action === 'createRoles') {
+                params.roleName = customNameInput.value || 'nuked-role';
+                params.roleCount = parseInt(customCountInput.value) || 20;
+            }
+
+            executeAction(action, params);
+        });
+    });
+
+    // زر تطبيق الاسم والعدد
+    document.getElementById('applyDefaultsBtn').addEventListener('click', () => {
+        statusDiv.innerHTML = `🔧 تم ضبط الاسم: "${customNameInput.value || 'nuked-channel'}" والعدد: ${customCountInput.value || 20}`;
+    });
+</script>
+</body>
+</html>
