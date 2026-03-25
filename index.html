@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>DeepCode AI - المبرمج الذكي</title>
-    <!-- Font Awesome & Google Fonts -->
+    <title>صديقك المبرمج - ذكاء اصطناعي محادثة</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Highlight.js for code highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <style>
@@ -23,17 +21,15 @@
             color: #eef5ff;
             height: 100vh;
             overflow: hidden;
-            position: relative;
         }
 
-        /* ========== MAIN LAYOUT ========== */
         .app-container {
             display: flex;
             height: 100vh;
             width: 100%;
         }
 
-        /* ========== SIDEBAR (مخفي بشكل افتراضي على الجوال، يظهر بالهامبرغر) ========== */
+        /* ========== SIDEBAR ========== */
         .sidebar {
             width: 300px;
             background: rgba(10, 20, 35, 0.95);
@@ -43,7 +39,6 @@
             flex-direction: column;
             transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             z-index: 100;
-            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.4);
         }
 
         @media (max-width: 768px) {
@@ -53,7 +48,6 @@
                 top: 0;
                 height: 100%;
                 width: 280px;
-                border-radius: 0;
             }
             .sidebar.open {
                 right: 0;
@@ -97,7 +91,6 @@
         }
         .new-chat-btn:hover {
             transform: scale(0.97);
-            background: linear-gradient(95deg, #1e40af, #0284c7);
         }
         .conversations-list {
             flex: 1;
@@ -119,7 +112,6 @@
         .conv-item.active {
             background: #1e3a5f;
             border-color: #38bdf8;
-            box-shadow: 0 2px 12px rgba(56,189,248,0.2);
         }
         .conv-item:hover {
             background: #1e2c47;
@@ -152,7 +144,6 @@
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
-            position: relative;
         }
         .chat-header {
             background: rgba(8, 14, 26, 0.8);
@@ -177,7 +168,6 @@
             cursor: pointer;
             padding: 8px;
             border-radius: 12px;
-            transition: 0.2s;
         }
         @media (max-width: 768px) {
             .hamburger-icon {
@@ -209,14 +199,10 @@
             gap: 8px;
             cursor: pointer;
             transition: 0.2s;
-            box-shadow: 0 2px 8px rgba(139,92,246,0.3);
         }
         .deep-think-btn.active {
             background: linear-gradient(135deg, #c084fc, #9333ea);
             box-shadow: 0 0 12px #a855f7;
-        }
-        .deep-think-btn:hover {
-            transform: scale(0.96);
         }
         .badge {
             background: #1e2a4a;
@@ -355,75 +341,68 @@
 </head>
 <body>
 <div class="app-container">
-    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <i class="fas fa-brain"></i>
-            <h2>DeepCode AI</h2>
+            <i class="fas fa-comment-dots"></i>
+            <h2>محادثاتي</h2>
         </div>
         <button class="new-chat-btn" id="newChatBtn"><i class="fas fa-plus-circle"></i> محادثة جديدة</button>
         <div class="conversations-list" id="conversationsList"></div>
-        <div class="footer-note">🚀 يدعم الأكواد الضخمة | ذكاء اصطناعي مبرمج</div>
+        <div class="footer-note">💬 تكلم معي بشكل طبيعي | ✨ إذا تبي كود قول "سوي لي كود"</div>
     </div>
 
-    <!-- Main Chat Area -->
     <div class="main-chat">
         <div class="chat-header">
             <div class="header-left">
                 <button class="hamburger-icon" id="hamburgerIcon"><i class="fas fa-bars"></i></button>
-                <h1><i class="fas fa-code"></i> المبرمج الذكي</h1>
+                <h1><i class="fas fa-robot"></i> صديقك المبرمج</h1>
             </div>
             <div class="header-actions">
-                <button class="deep-think-btn" id="deepThinkBtn"><i class="fas fa-microchip"></i> تفكير عميق</button>
-                <div class="badge"><i class="fas fa-bolt"></i> فائق السرعة</div>
+                <button class="deep-think-btn" id="deepThinkBtn"><i class="fas fa-brain"></i> تفكير عميق</button>
+                <div class="badge"><i class="fas fa-comment"></i> محادثة طبيعية</div>
             </div>
         </div>
         <div class="messages-container" id="messagesContainer">
             <div class="message bot">
                 <div class="msg-bubble">
-                    🤖 مرحباً! أنا <strong>DeepCode AI</strong>، مبرمج ذكي متكامل.<br>
-                    اطلب أي كود، أداة بايثون، بوت ديسكورد أو تلجرام، سكريبتات متقدمة أو حتى أدوات تقنية.<br>
-                    <span style="color:#7dd3fc;">✓ أتحمل الأكواد الطويلة والضخمة بدون استسلام</span><br>
-                    <span class="typing-indicator" style="display:inline-flex; margin-top:6px;"><span></span><span></span><span></span></span> فقط اكتب طلبك!
+                    👋 أهلاً! أنا صديقك الذكي، أقدر أتكلم معك في أي موضوع.<br>
+                    📝 **كيف أشتغل؟**<br>
+                    • تكلم معي طبيعي، أرد عليك كلام عادي زي الإنسان.<br>
+                    • إذا تبي مني أكتب لك كود، قول صراحة: <strong>"سوي لي كود"</strong> أو <strong>"برمج لي"</strong> أو اذكر اسم اللغة.<br>
+                    • تقدر تحذف المحادثات أو تسوي محادثة جديدة من القائمة (الهامبرغر ☰ فوق اليمين).<br>
+                    🚀 تفضل، وش تحب تسولف عنه؟
                 </div>
             </div>
         </div>
         <div class="input-area">
-            <textarea id="promptInput" rows="1" placeholder="مثلاً: اكتب لي بوت تلجرام كامل بالبايثون ... أو أداة لفحص المنافذ ..."></textarea>
+            <textarea id="promptInput" rows="1" placeholder="اكتب رسالتك هنا... مثلاً: كيف حالك؟ أو سوي لي كود بوت تلجرام"></textarea>
             <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 </div>
 
 <script>
-    // ------------------- البيانات والمحادثات -------------------
     let conversations = [];
     let activeConversationId = null;
-    let isDeepThinking = false;   // وضع التفكير العميق يعطي إجابات أطول وأعمق
-    
-    // Helper functions
+    let isDeepThinking = false;
+
     function genId() {
         return Date.now() + '-' + Math.random().toString(36).substr(2, 8);
     }
 
     function saveToLocal() {
-        const data = {
-            conversations: conversations,
-            activeId: activeConversationId,
-            deepMode: isDeepThinking
-        };
-        localStorage.setItem('deepcode_data', JSON.stringify(data));
+        localStorage.setItem('chat_assistant_data', JSON.stringify({
+            conversations, activeId: activeConversationId, deepMode: isDeepThinking
+        }));
     }
 
     function loadFromLocal() {
-        const raw = localStorage.getItem('deepcode_data');
+        const raw = localStorage.getItem('chat_assistant_data');
         if (!raw) {
             const defaultConv = {
                 id: genId(),
                 title: "المحادثة الرئيسية",
-                messages: [
-                    { role: "bot", content: "✨ أنا ذكاء اصطناعي مبرمج، أستطيع كتابة أي كود وأداة. جرب تطلب بوت ديسكورد أو أداة بايثون متقدمة!" }
-                ]
+                messages: [{ role: "bot", content: "مرحباً! أنا هنا للدردشة معك. تكلم معي طبيعي، وإذا تبي كود قلي 'سوي لي كود'." }]
             };
             conversations = [defaultConv];
             activeConversationId = defaultConv.id;
@@ -437,7 +416,7 @@
             activeConversationId = data.activeId || (conversations[0]?.id || null);
             isDeepThinking = data.deepMode || false;
             if (conversations.length === 0) {
-                const newC = { id: genId(), title: "بداية جديدة", messages: [{ role: "bot", content: "أهلاً! اطلب أي برمجة." }] };
+                const newC = { id: genId(), title: "بداية جديدة", messages: [{ role: "bot", content: "أهلاً! كيف أقدر أساعدك اليوم؟" }] };
                 conversations.push(newC);
                 activeConversationId = newC.id;
                 saveToLocal();
@@ -473,213 +452,152 @@
     }
 
     function updateConvTitle(conv, userMsg) {
-        if (conv.title && (conv.title === "المحادثة الرئيسية" || conv.title.startsWith("بداية") || conv.title.startsWith("محادثة") || conv.messages.length <= 2)) {
-            let newTitle = userMsg.length > 28 ? userMsg.substring(0, 26) + "..." : userMsg;
+        if (!conv.title || conv.title === "المحادثة الرئيسية" || conv.title.startsWith("بداية") || conv.title.startsWith("محادثة") || conv.messages.length <= 2) {
+            let newTitle = userMsg.length > 25 ? userMsg.substring(0, 23) + "..." : userMsg;
             conv.title = newTitle;
             saveToLocal();
             renderConversationsList();
         }
     }
 
-    // توليد استجابة ذكاء اصطناعي فوري وسريع مع إمكانية برمجة أي شيء
-    async function generateAIResponse(userMessage, deepMode) {
-        // محاكاة سرعة عالية مع وعد
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const lower = userMessage.toLowerCase();
-                let response = "";
-                
-                // ------ توليد استجابات برمجية شاملة ------
-                if (lower.includes('بوت تلجرام') || (lower.includes('telegram') && lower.includes('بوت'))) {
-                    response = `🤖 **بوت تلجرام احترافي (python-telegram-bot)**:
+    // التحقق إذا كان الطلب يطلب برمجة
+    function isCodingRequest(message) {
+        const lower = message.toLowerCase();
+        const codingKeywords = [
+            'سوي لي كود', 'اكتب لي كود', 'برمج لي', 'كود بايثون', 'بوت تلجرام', 'بوت ديسكورد',
+            'write code', 'python code', 'discord bot', 'telegram bot', 'أداة بايثون', 'سكريبت',
+            'كود يبرمج', 'عطني كود', 'اطلب منك كود', 'برنامج بايثون', 'coding'
+        ];
+        return codingKeywords.some(keyword => lower.includes(keyword));
+    }
+
+    // استجابة محادثة طبيعية
+    function getNormalResponse(userMsg, deepMode) {
+        const lower = userMsg.toLowerCase();
+        
+        if (lower.includes('كيف حالك') || lower.includes('شخبارك') || lower.includes('how are you')) {
+            return "الحمدلله، أنا بخير! شكراً على السؤال. أنا هنا دائماً لمساعدتك. كيف الأمور معاك؟";
+        }
+        if (lower.includes('شو اسمك') || lower.includes('اسمك') || lower.includes('what is your name')) {
+            return "اسمي صديقك المبرمج! تقدر تناديني بأي اسم تحبه. أنا مصمم خصيصاً عشان أساعدك في البرمجة وأدردش معك.";
+        }
+        if (lower.includes('وين رحت') || lower.includes('غبت')) {
+            return "أنا دايم معك! بس أحياناً أفكر شوي عشان أعطيك إجابة مفيدة. وش تبغى تسأل عنه؟";
+        }
+        if (lower.includes('مساعدة') || lower.includes('help')) {
+            return "أكيد! أنا هنا عشان أساعدك. تقدر تسألني عن أي شيء، أو تطلب مني كود برمجي بقولك 'سوي لي كود'. وش تحتاج بالضبط؟";
+        }
+        if (lower.includes('شكرا') || lower.includes('thank')) {
+            return "العفو! الله يسلمك. أنا سعيد إني قدرت أساعدك. إذا احتجت أي شيء ثاني أنا موجود 😊";
+        }
+        if (lower.includes('باي') || lower.includes('مع السلامة')) {
+            return "مع السلامة! إذا احتجتني أنا موجود. أتمنى لك يوم جميل 🤍";
+        }
+        if (lower.includes('تفكير عميق')) {
+            return isDeepThinking ? "التفكير العميق مفعل حاليًا! راح أعطيك إجابات أعمق وأطول. تقدر تطفي الزر إذا تبي." : "التفكير العميق مو مفعل حالياً. إذا تبي إجابات أعمق، اضغط على زر 'تفكير عميق' فوق.";
+        }
+        
+        // ردود عامة لطيفة
+        const normalReplies = [
+            "أهلاً! كيف أقدر أساعدك اليوم؟ إذا تبي كود معين قلي 'سوي لي كود'.",
+            "فهمت عليك. وش تحب تسوي بالضبط؟ أنا جاهز أساعدك في البرمجة أو حتى نتسولف.",
+            "تمام! أنا معك. إذا تبي مني أبرمج لك شيء، قلي وش تبي بالضبط.",
+            "أنا أستمتع بالدردشة معك! وإذا احتجت أي مساعدة برمجية، أنا خبير في البايثون والبوتات."
+        ];
+        if (deepMode) {
+            return `هذا موضوع مثير للاهتمام! 😊 ${normalReplies[Math.floor(Math.random() * normalReplies.length)]} خلني أفكر معك بشكل أعمق. تقدر توضح لي أكثر عشان أساعدك بطريقة أفضل؟`;
+        }
+        return normalReplies[Math.floor(Math.random() * normalReplies.length)];
+    }
+
+    // توليد كود بناءً على الطلب (فقط لما يطلب صراحة)
+    function getCodingResponse(userMsg, deepMode) {
+        const lower = userMsg.toLowerCase();
+        
+        if (lower.includes('تلجرام') || (lower.includes('telegram') && lower.includes('بوت'))) {
+            return `🤖 **بوت تلجرام بالبايثون**:
 \`\`\`python
-import logging
-from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+import telebot
 
-TOKEN = "YOUR_BOT_TOKEN"
+TOKEN = "توكن_البوت_هنا"
+bot = telebot.TeleBot(TOKEN)
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("مرحباً! أنا بوت تلجرام قوي.")
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, "مرحباً! أنا بوت تلجرام")
 
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_text = update.message.text
-    await update.message.reply_text(f"🔁 {user_text}")
+@bot.message_handler(func=lambda m: True)
+def echo(message):
+    bot.reply_to(message, f"قلت: {message.text}")
 
-async def generate_code(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("مثال كود بايثون:\\n\`\`\`python\\nprint('Hello')\\n\`\`\`", parse_mode='Markdown')
-
-def main():
-    app = Application.builder().token(TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
-    app.add_handler(CommandHandler("code", generate_code))
-    app.run_polling()
-
-if __name__ == "__main__":
-    main()
+bot.infinity_polling()
 \`\`\`
-✅ قم بتثبيت \`python-telegram-bot\` واستمتع. يمكن إضافة أوامر مخصصة.`;
-                } 
-                else if (lower.includes('ديسكورد') || lower.includes('discord')) {
-                    response = `🎮 **بوت ديسكورد متكامل (discord.py)**:
+هذا بوت بسيط. تقدر تطوره وتضيف أوامر زيادة.`;
+
+        } else if (lower.includes('ديسكورد') || lower.includes('discord')) {
+            return `🎮 **بوت ديسكورد**:
 \`\`\`python
 import discord
 from discord.ext import commands
 
-intents = discord.Intents.all()
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix='!')
 
 @bot.event
 async def on_ready():
-    print(f'بوت {bot.user} يعمل')
+    print(f'دخل البوت {bot.user}')
 
 @bot.command()
 async def ping(ctx):
-    await ctx.send(f'🏓 Pong! {round(bot.latency * 1000)}ms')
+    await ctx.send('بونق!')
 
-@bot.command()
-async def exec_code(ctx, *, code):
-    try:
-        exec(code)
-        await ctx.send("✅ تم تنفيذ الكود")
-    except Exception as e:
-        await ctx.send(f"❌ خطأ: {e}")
-
-@bot.command()
-async def hack_sim(ctx, target):
-    await ctx.send(f"⚠️ محاكاة اختبار اختراق على {target} للأغراض التعليمية فقط.")
-
-bot.run('TOKEN')
+bot.run('توكن_البوت')
 \`\`\`
-💡 يدعم تنفيذ الأكواد الديناميكية.`;
-                }
-                else if (lower.includes('هكر') || lower.includes('اختراق') || lower.includes('hack')) {
-                    response = `🛡️ **أداة تعليمية لاختبار الاختراق (منافذ ومسح)**
+لا تنسى تركب المكتبات المطلوبة.`;
+
+        } else if (lower.includes('بايثون') && (lower.includes('اداة') || lower.includes('أداة'))) {
+            return `🐍 **أداة بايثون بسيطة**:
 \`\`\`python
-import socket
-import threading
-
-def scan(target, ports):
-    print(f'مسح الهدف: {target}')
-    for port in range(1, ports+1):
-        thread = threading.Thread(target=scan_port, args=(target, port))
-        thread.start()
-
-def scan_port(ip, port):
-    try:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.settimeout(0.5)
-        result = sock.connect_ex((ip, port))
-        if result == 0:
-            print(f"[+] منفذ مفتوح: {port}")
-        sock.close()
-    except:
-        pass
-
-target = input("أدخل IP: ")
-ports = int(input("عدد المنافذ: "))
-scan(target, ports)
-\`\`\`
-⚠️ استخدم فقط في بيئاتك المرخصة.`;
-                }
-                else if (lower.includes('اداة بايثون') || (lower.includes('أداة') && lower.includes('بايثون'))) {
-                    response = `🐍 **أداة بايثون متعددة المهام (Web scraper + تحليل)**
-\`\`\`python
-import requests
-from bs4 import BeautifulSoup
-import json
-
-def fetch_website(url):
-    try:
-        r = requests.get(url, timeout=5)
-        soup = BeautifulSoup(r.text, 'html.parser')
-        titles = soup.find_all('title')
-        return {"url": url, "title": titles[0].text if titles else "No title"}
-    except Exception as e:
-        return {"error": str(e)}
+def main():
+    print("أهلاً بك في أداتي!")
+    name = input("وش اسمك؟ ")
+    print(f"مرحباً {name}!")
 
 if __name__ == "__main__":
-    target = input("أدخل رابط الموقع: ")
-    result = fetch_website(target)
-    print(json.dumps(result, indent=2))
+    main()
 \`\`\`
-💡 قم بتثبيت requests و beautifulsoup4.`;
-                }
-                else {
-                    // استجابة عامة ولكن ذكية مع أكواد مخصصة حسب الطلب
-                    if (deepMode) {
-                        response = `🧠 **وضع التفكير العميق - حل برمجي متقدم** 📚
+تقدر تطلب أداة أكثر تخصصاً إذا تحدد وش المطلوب.`;
 
-طلبت: "${userMessage.substring(0, 70)}"
-
-سأقدم لك كوداً احترافياً متكاملاً:
-
+        } else {
+            return `💻 **كود مخصص** حسب طلبك "${userMsg.substring(0, 50)}":
 \`\`\`python
-import os
-import sys
-import asyncio
-from typing import Optional
-
-# حل مخصص حسب طلبك: ${userMessage}
-class CustomAITool:
-    def __init__(self):
-        self.data = {}
-    
-    async def process_request(self, query: str) -> dict:
-        # معالجة متطورة
-        return {"status": "success", "result": f"تم تنفيذ: {query}"}
-    
-    def generate_code_snippet(self):
-        return '''
-        # مثال إضافي لوظائف متقدمة
-        def advanced_function(x):
-            return x**2 + 10*x + 25
-        '''
-
-async def main():
-    tool = CustomAITool()
-    result = await tool.process_request("${userMessage}")
-    print(result)
-    print(tool.generate_code_snippet())
-
-if __name__ == "__main__":
-    asyncio.run(main())
-\`\`\`
-
-🔧 يمكنك تعديل الكود ليناسب مشروعك. أضف مكتبات مثل requests, flask, pyrogram. أنا هنا لأي تعديل!`;
-                    } else {
-                        response = `💻 **كود مخصص حسب طلبك**:
-\`\`\`python
-# طلبك: ${userMessage}
-import time
-import random
-
-def solve_your_task():
-    print("⚙️ جاري تنفيذ المهمة المطلوبة...")
-    # أضف منطق مخصص هنا
-    result = f"تمت معالجة: ${userMessage}"
+# هذا كود بايثون عام
+def custom_solution():
+    print("جاري تنفيذ طلبك...")
+    result = "تمت المعالجة بنجاح"
     return result
 
 if __name__ == "__main__":
-    output = solve_your_task()
+    output = custom_solution()
     print(output)
-    print("✅ تم بنجاح - يمكن التوسع لأكواد ضخمة")
 \`\`\`
-📌 إذا احتجت نسخة أطول أو أدوات محددة (بوتات، سكربتات اختراق أخلاقي)، فقط وضح بالتفصيل.`;
-                    }
+إذا كنت تبي كود محدد أكثر، اشرح لي وش بالضبط تبي أسوي.`;
+        }
+    }
+
+    async function generateResponse(userMsg, deepMode) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                // إذا كان الطلب يطلب برمجة
+                if (isCodingRequest(userMsg)) {
+                    resolve(getCodingResponse(userMsg, deepMode));
+                } else {
+                    // محادثة طبيعية
+                    resolve(getNormalResponse(userMsg, deepMode));
                 }
-                
-                // إضافة لمسة تفكير عميق في الإطالة
-                if (deepMode && !lower.includes('بوت') && !lower.includes('هكر')) {
-                    response += "\n\n🧠 **تحليل معمق**: تم إضافة هيكل كود مرن يتحمل آلاف السطور، يمكنك دمجه مع أي قاعدة بيانات أو API بسهولة.";
-                }
-                resolve(response);
-            }, 180); // سرعة عالية 180ms
+            }, 150); // سرعة عالية
         });
     }
 
-    // عرض الرسائل مع هايلايت
     function renderCurrentMessages() {
         const container = document.getElementById('messagesContainer');
         if (!container) return;
@@ -771,8 +689,8 @@ if __name__ == "__main__":
         const newId = genId();
         const newConv = {
             id: newId,
-            title: `محادثة ${new Date().toLocaleTimeString()}`,
-            messages: [{ role: "bot", content: "✨ محادثة جديدة! أنا جاهز لكتابة أي كود أو أداة برمجية." }]
+            title: `محادثة جديدة`,
+            messages: [{ role: "bot", content: "أهلاً! محادثة جديدة. تكلم معي طبيعي، وإذا تبي كود قلي 'سوي لي كود'." }]
         };
         conversations.unshift(newConv);
         activeConversationId = newId;
@@ -791,20 +709,19 @@ if __name__ == "__main__":
         input.value = '';
         input.style.height = 'auto';
 
-        // إظهار مؤشر الكتابة
         const container = document.getElementById('messagesContainer');
         const typingDiv = document.createElement('div');
         typingDiv.className = 'message bot';
-        typingDiv.innerHTML = `<div class="msg-bubble"><div class="typing-indicator"><span></span><span></span><span></span></div> جاري التفكير والبرمجة...</div>`;
+        typingDiv.innerHTML = `<div class="msg-bubble"><div class="typing-indicator"><span></span><span></span><span></span></div> جاري التفكير...</div>`;
         container.appendChild(typingDiv);
         container.scrollTop = container.scrollHeight;
 
-        const aiMsg = await generateAIResponse(text, isDeepThinking);
+        const aiMsg = await generateResponse(text, isDeepThinking);
         container.removeChild(typingDiv);
         addMessageToActive('bot', aiMsg);
     }
 
-    // Events
+    // Event Listeners
     document.getElementById('sendBtn').addEventListener('click', handleSend);
     document.getElementById('promptInput').addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -823,12 +740,12 @@ if __name__ == "__main__":
         isDeepThinking = !isDeepThinking;
         saveToLocal();
         updateDeepButtonUI();
-        const status = isDeepThinking ? "تم تفعيل التفكير العميق ✅" : "تم إلغاء التفكير العميق ❌";
-        const tempMsg = document.createElement('div');
-        tempMsg.className = 'message bot';
-        tempMsg.innerHTML = `<div class="msg-bubble"><i class="fas fa-info-circle"></i> ${status}</div>`;
-        document.getElementById('messagesContainer').appendChild(tempMsg);
-        setTimeout(() => tempMsg.remove(), 2000);
+        const statusMsg = isDeepThinking ? "✅ تم تفعيل التفكير العميق - راح أعطيك إجابات أعمق" : "❌ تم إلغاء التفكير العميق - رجعت للوضع الطبيعي";
+        const temp = document.createElement('div');
+        temp.className = 'message bot';
+        temp.innerHTML = `<div class="msg-bubble"><i class="fas fa-info-circle"></i> ${statusMsg}</div>`;
+        document.getElementById('messagesContainer').appendChild(temp);
+        setTimeout(() => temp.remove(), 2000);
     });
 
     loadFromLocal();
