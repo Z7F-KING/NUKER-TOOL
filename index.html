@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>صديقك المبرمج - ذكاء اصطناعي محادثة</title>
+    <title>مبرمج ذكي بلا حدود | The Best AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <style>
@@ -16,372 +18,456 @@
         }
 
         body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #0a0f1e 0%, #0b1120 100%);
-            color: #eef5ff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
             height: 100vh;
             overflow: hidden;
         }
 
-        .app-container {
-            display: flex;
-            height: 100vh;
-            width: 100%;
-        }
-
-        /* ========== SIDEBAR ========== */
-        .sidebar {
-            width: 300px;
-            background: rgba(10, 20, 35, 0.95);
-            backdrop-filter: blur(16px);
-            border-left: 1px solid rgba(56, 189, 248, 0.25);
+        /* الحاوية الرئيسية */
+        .app {
             display: flex;
             flex-direction: column;
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            z-index: 100;
+            height: 100vh;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
         }
 
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                right: -320px;
-                top: 0;
-                height: 100%;
-                width: 280px;
-            }
-            .sidebar.open {
-                right: 0;
-            }
+        /* شريط الهيدر */
+        .header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: #0a0a0a;
         }
 
-        .sidebar-header {
-            padding: 28px 20px;
-            border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+        .logo-area {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        .sidebar-header i {
-            font-size: 32px;
-            color: #38bdf8;
-        }
-        .sidebar-header h2 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #90eaff, #3b82f6);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .new-chat-btn {
-            margin: 16px 16px 8px;
-            background: linear-gradient(95deg, #2563eb, #38bdf8);
-            border: none;
-            padding: 12px;
-            border-radius: 40px;
-            color: white;
-            font-weight: bold;
-            font-size: 0.95rem;
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+        }
+
+        .logo-icon i {
+            font-size: 20px;
+            color: white;
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .logo-text p {
+            font-size: 0.7rem;
+            color: #8b8b8b;
+        }
+
+        /* أزرار الهيدر */
+        .header-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .deep-think-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 8px 14px;
+            border-radius: 40px;
+            color: #c084fc;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .deep-think-btn.active {
+            background: #8b5cf6;
+            color: white;
+            border-color: #8b5cf6;
+        }
+
+        .hamburger-btn {
+            background: rgba(255,255,255,0.05);
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 40px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .hamburger-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* القائمة الجانبية (هامبرغر) */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 300px;
+            height: 100vh;
+            background: #111111;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            z-index: 1000;
+            transition: right 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .close-sidebar {
+            background: none;
+            border: none;
+            color: #8b8b8b;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+
+        .new-chat-sidebar {
+            margin: 16px;
+            background: #1f1f1f;
+            border: 1px solid #2a2a2a;
+            padding: 12px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             cursor: pointer;
             transition: 0.2s;
         }
-        .new-chat-btn:hover {
-            transform: scale(0.97);
+
+        .new-chat-sidebar:hover {
+            background: #2a2a2a;
         }
+
         .conversations-list {
             flex: 1;
             overflow-y: auto;
             padding: 8px 12px;
         }
+
         .conv-item {
-            background: rgba(30, 41, 59, 0.5);
-            margin: 8px 0;
+            background: rgba(255,255,255,0.03);
+            margin: 6px 0;
             padding: 12px 16px;
-            border-radius: 20px;
+            border-radius: 16px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
             transition: 0.2s;
-            border: 1px solid transparent;
         }
+
         .conv-item.active {
-            background: #1e3a5f;
-            border-color: #38bdf8;
+            background: #1f1f1f;
+            border-left: 3px solid #3b82f6;
         }
-        .conv-item:hover {
-            background: #1e2c47;
-        }
+
         .conv-title {
-            font-weight: 500;
+            font-size: 0.85rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            max-width: 170px;
+            max-width: 180px;
         }
+
         .delete-conv {
             background: none;
             border: none;
-            color: #f87171;
+            color: #6b6b6b;
             cursor: pointer;
-            font-size: 1rem;
-            padding: 5px;
-            border-radius: 50%;
-        }
-        .delete-conv:hover {
-            color: #ef4444;
-            background: rgba(239,68,68,0.2);
+            font-size: 0.8rem;
+            padding: 4px;
         }
 
-        /* ========== MAIN CHAT ========== */
-        .main-chat {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
+        .delete-conv:hover {
+            color: #ef4444;
         }
-        .chat-header {
-            background: rgba(8, 14, 26, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 16px 24px;
-            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .hamburger-icon {
-            display: none;
-            font-size: 28px;
-            background: none;
-            border: none;
-            color: #90eaff;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 12px;
-        }
-        @media (max-width: 768px) {
-            .hamburger-icon {
-                display: block;
-            }
-        }
-        .chat-header h1 {
-            font-size: 1.35rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .header-actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-        .deep-think-btn {
-            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 40px;
-            color: white;
-            font-weight: 600;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .deep-think-btn.active {
-            background: linear-gradient(135deg, #c084fc, #9333ea);
-            box-shadow: 0 0 12px #a855f7;
-        }
-        .badge {
-            background: #1e2a4a;
-            padding: 6px 14px;
-            border-radius: 40px;
-            font-size: 0.75rem;
-        }
-        .messages-container {
+
+        /* منطقة المحادثة */
+        .chat-container {
             flex: 1;
             overflow-y: auto;
-            padding: 24px 28px;
+            padding: 24px 20px;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
+
         .message {
             display: flex;
-            gap: 14px;
+            gap: 12px;
             animation: fadeIn 0.25s ease;
         }
+
         .message.user {
             justify-content: flex-end;
         }
+
         .message.bot {
             justify-content: flex-start;
         }
-        .msg-bubble {
-            max-width: 85%;
-            padding: 14px 20px;
-            border-radius: 28px;
-            line-height: 1.55;
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 40px;
+            background: #1f1f1f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .bot .avatar {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        }
+
+        .msg-content {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 24px;
             font-size: 0.95rem;
+            line-height: 1.5;
             word-break: break-word;
         }
-        .user .msg-bubble {
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
-            border-bottom-left-radius: 6px;
+
+        .user .msg-content {
+            background: #1f1f1f;
             color: white;
-        }
-        .bot .msg-bubble {
-            background: #1e293b;
             border-bottom-right-radius: 6px;
-            border: 1px solid #334155;
         }
-        .msg-bubble pre {
-            background: #0f172a;
+
+        .bot .msg-content {
+            background: #111111;
+            border: 1px solid #2a2a2a;
+            border-bottom-left-radius: 6px;
+        }
+
+        .msg-content pre {
+            background: #0a0a0a;
             padding: 12px;
             border-radius: 16px;
             overflow-x: auto;
             margin: 10px 0;
+            border: 1px solid #2a2a2a;
         }
-        .msg-bubble code {
-            font-family: 'Courier New', monospace;
-            background: #0a0f1e;
-            padding: 2px 8px;
-            border-radius: 8px;
+
+        .msg-content code {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            background: #1a1a1a;
+            padding: 2px 6px;
+            border-radius: 6px;
         }
+
         .typing-indicator {
             display: flex;
-            gap: 6px;
-            padding: 8px 0;
+            gap: 4px;
+            padding: 4px 0;
         }
+
         .typing-indicator span {
-            width: 8px;
-            height: 8px;
-            background: #60a5fa;
+            width: 6px;
+            height: 6px;
+            background: #6b6b6b;
             border-radius: 50%;
-            animation: blink 1.4s infinite;
+            animation: blink 1.2s infinite;
         }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
         @keyframes blink {
-            0%, 60%, 100% { opacity: 0.3; transform: translateY(0);}
-            30% { opacity: 1; transform: translateY(-4px);}
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* منطقة الإدخال */
         .input-area {
-            padding: 18px 24px;
-            background: rgba(8, 14, 26, 0.9);
-            border-top: 1px solid #2d3a5e;
+            padding: 20px 24px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            background: #0a0a0a;
+        }
+
+        .input-wrapper {
             display: flex;
             gap: 12px;
             align-items: flex-end;
+            background: #111111;
+            border: 1px solid #2a2a2a;
+            border-radius: 40px;
+            padding: 6px 6px 6px 20px;
         }
-        textarea {
+
+        .input-wrapper textarea {
             flex: 1;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 28px;
-            padding: 14px 20px;
-            font-family: 'Cairo', monospace;
-            color: #f1f5f9;
-            font-size: 1rem;
+            background: transparent;
+            border: none;
+            padding: 12px 0;
+            color: white;
+            font-family: inherit;
+            font-size: 0.95rem;
             resize: none;
-            max-height: 130px;
-        }
-        textarea:focus {
             outline: none;
-            border-color: #38bdf8;
+            max-height: 120px;
         }
+
+        .input-wrapper textarea::placeholder {
+            color: #5a5a5a;
+        }
+
         .send-btn {
             background: #3b82f6;
             border: none;
-            width: 52px;
-            height: 52px;
-            border-radius: 60px;
+            width: 44px;
+            height: 44px;
+            border-radius: 40px;
             color: white;
-            font-size: 1.3rem;
             cursor: pointer;
+            font-size: 1rem;
             transition: 0.2s;
         }
+
         .send-btn:hover {
             background: #2563eb;
             transform: scale(0.96);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px);}
-            to { opacity: 1; transform: translateY(0);}
+
+        .shortcut-hint {
+            font-size: 0.7rem;
+            color: #5a5a5a;
+            text-align: center;
+            margin-top: 12px;
         }
+
+        /* سكرول */
         ::-webkit-scrollbar {
             width: 5px;
         }
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #1a1a1a;
         }
         ::-webkit-scrollbar-thumb {
             background: #3b82f6;
-            border-radius: 8px;
-        }
-        .footer-note {
-            font-size: 0.7rem;
-            text-align: center;
-            padding: 10px;
-            color: #5b6e8c;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-<div class="app-container">
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <i class="fas fa-comment-dots"></i>
-            <h2>محادثاتي</h2>
+<div class="app">
+    <div class="header">
+        <div class="logo-area">
+            <div class="logo-icon">
+                <i class="fas fa-code"></i>
+            </div>
+            <div class="logo-text">
+                <h1>مبرمج ذكي بلا حدود</h1>
+                <p>يقدر يسوي لك أي شيء — مواقع، بوتات، سكربتات، أدوات</p>
+            </div>
         </div>
-        <button class="new-chat-btn" id="newChatBtn"><i class="fas fa-plus-circle"></i> محادثة جديدة</button>
-        <div class="conversations-list" id="conversationsList"></div>
-        <div class="footer-note">💬 تكلم معي بشكل طبيعي | ✨ إذا تبي كود قول "سوي لي كود"</div>
+        <div class="header-buttons">
+            <button class="deep-think-btn" id="deepThinkBtn">
+                <i class="fas fa-brain"></i> تفكير عميق
+            </button>
+            <button class="hamburger-btn" id="hamburgerBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
     </div>
 
-    <div class="main-chat">
-        <div class="chat-header">
-            <div class="header-left">
-                <button class="hamburger-icon" id="hamburgerIcon"><i class="fas fa-bars"></i></button>
-                <h1><i class="fas fa-robot"></i> صديقك المبرمج</h1>
+    <div class="chat-container" id="chatContainer">
+        <div class="message bot">
+            <div class="avatar">
+                <i class="fas fa-robot"></i>
             </div>
-            <div class="header-actions">
-                <button class="deep-think-btn" id="deepThinkBtn"><i class="fas fa-brain"></i> تفكير عميق</button>
-                <div class="badge"><i class="fas fa-comment"></i> محادثة طبيعية</div>
-            </div>
-        </div>
-        <div class="messages-container" id="messagesContainer">
-            <div class="message bot">
-                <div class="msg-bubble">
-                    👋 أهلاً! أنا صديقك الذكي، أقدر أتكلم معك في أي موضوع.<br>
-                    📝 **كيف أشتغل؟**<br>
-                    • تكلم معي طبيعي، أرد عليك كلام عادي زي الإنسان.<br>
-                    • إذا تبي مني أكتب لك كود، قول صراحة: <strong>"سوي لي كود"</strong> أو <strong>"برمج لي"</strong> أو اذكر اسم اللغة.<br>
-                    • تقدر تحذف المحادثات أو تسوي محادثة جديدة من القائمة (الهامبرغر ☰ فوق اليمين).<br>
-                    🚀 تفضل، وش تحب تسولف عنه؟
-                </div>
+            <div class="msg-content">
+                مرحباً! أنا <strong>مبرمج ذكي بلا حدود</strong> 🚀<br><br>
+                أقدر أسوي لك أي شيء:<br>
+                • مواقع وبوتات ديسكورد وتلجرام<br>
+                • سكربتات بايثون وأدوات احترافية<br>
+                • أكواد طويلة وضخمة بدون مشاكل<br><br>
+                <span style="color: #8b8b8b;">💬 تكلم معي طبيعي، وإذا تبي كود قلي صراحة "سوي لي كود" أو "برمج لي"</span>
             </div>
         </div>
-        <div class="input-area">
-            <textarea id="promptInput" rows="1" placeholder="اكتب رسالتك هنا... مثلاً: كيف حالك؟ أو سوي لي كود بوت تلجرام"></textarea>
-            <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+    </div>
+
+    <div class="input-area">
+        <div class="input-wrapper">
+            <textarea id="messageInput" rows="1" placeholder="جرب اسألني! 🚀"></textarea>
+            <button class="send-btn" id="sendBtn">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+        </div>
+        <div class="shortcut-hint">
+            Shift + Enter لسطر جديد
         </div>
     </div>
 </div>
 
+<!-- القائمة الجانبية -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h3><i class="fas fa-comments"></i> المحادثات</h3>
+        <button class="close-sidebar" id="closeSidebar">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <button class="new-chat-sidebar" id="newChatSidebar">
+        <i class="fas fa-plus"></i> محادثة جديدة
+    </button>
+    <div class="conversations-list" id="conversationsList"></div>
+</div>
+
 <script>
+    // ---------- البيانات ----------
     let conversations = [];
     let activeConversationId = null;
     let isDeepThinking = false;
@@ -391,18 +477,23 @@
     }
 
     function saveToLocal() {
-        localStorage.setItem('chat_assistant_data', JSON.stringify({
-            conversations, activeId: activeConversationId, deepMode: isDeepThinking
+        localStorage.setItem('best_ai_data', JSON.stringify({
+            conversations,
+            activeId: activeConversationId,
+            deepMode: isDeepThinking
         }));
     }
 
     function loadFromLocal() {
-        const raw = localStorage.getItem('chat_assistant_data');
+        const raw = localStorage.getItem('best_ai_data');
         if (!raw) {
             const defaultConv = {
                 id: genId(),
                 title: "المحادثة الرئيسية",
-                messages: [{ role: "bot", content: "مرحباً! أنا هنا للدردشة معك. تكلم معي طبيعي، وإذا تبي كود قلي 'سوي لي كود'." }]
+                messages: [
+                    { role: "user", content: "مرحباً!" },
+                    { role: "bot", content: "أهلاً! أنا المبرمج الذكي. جرب تطلب مني أي شيء — بوت تلجرام، أداة بايثون، أو حتى مواقع. وإذا تبي تسولف عادي، أنا معك 🤍" }
+                ]
             };
             conversations = [defaultConv];
             activeConversationId = defaultConv.id;
@@ -416,7 +507,7 @@
             activeConversationId = data.activeId || (conversations[0]?.id || null);
             isDeepThinking = data.deepMode || false;
             if (conversations.length === 0) {
-                const newC = { id: genId(), title: "بداية جديدة", messages: [{ role: "bot", content: "أهلاً! كيف أقدر أساعدك اليوم؟" }] };
+                const newC = { id: genId(), title: "محادثة جديدة", messages: [{ role: "bot", content: "مرحباً! كيف أقدر أساعدك اليوم؟" }] };
                 conversations.push(newC);
                 activeConversationId = newC.id;
                 saveToLocal();
@@ -430,7 +521,7 @@
         if (btn) {
             if (isDeepThinking) {
                 btn.classList.add('active');
-                btn.innerHTML = '<i class="fas fa-brain"></i> تفكير عميق (نشط)';
+                btn.innerHTML = '<i class="fas fa-brain"></i> تفكير عميق';
             } else {
                 btn.classList.remove('active');
                 btn.innerHTML = '<i class="fas fa-microchip"></i> تفكير عميق';
@@ -442,79 +533,73 @@
         return conversations.find(c => c.id === activeConversationId);
     }
 
-    function addMessageToActive(role, content) {
+    function addMessage(role, content) {
         const conv = getActiveConv();
         if (conv) {
             conv.messages.push({ role, content });
             saveToLocal();
-            renderCurrentMessages();
+            renderMessages();
         }
     }
 
     function updateConvTitle(conv, userMsg) {
-        if (!conv.title || conv.title === "المحادثة الرئيسية" || conv.title.startsWith("بداية") || conv.title.startsWith("محادثة") || conv.messages.length <= 2) {
-            let newTitle = userMsg.length > 25 ? userMsg.substring(0, 23) + "..." : userMsg;
+        if (!conv.title || conv.title === "المحادثة الرئيسية" || conv.title.startsWith("محادثة") || conv.messages.length <= 3) {
+            let newTitle = userMsg.length > 25 ? userMsg.slice(0, 23) + "..." : userMsg;
             conv.title = newTitle;
             saveToLocal();
             renderConversationsList();
         }
     }
 
-    // التحقق إذا كان الطلب يطلب برمجة
+    // التحقق إذا كان الطلب برمجي
     function isCodingRequest(message) {
         const lower = message.toLowerCase();
-        const codingKeywords = [
-            'سوي لي كود', 'اكتب لي كود', 'برمج لي', 'كود بايثون', 'بوت تلجرام', 'بوت ديسكورد',
-            'write code', 'python code', 'discord bot', 'telegram bot', 'أداة بايثون', 'سكريبت',
-            'كود يبرمج', 'عطني كود', 'اطلب منك كود', 'برنامج بايثون', 'coding'
+        const keywords = [
+            'سوي لي كود', 'اكتب لي كود', 'برمج لي', 'كود بايثون', 'بوت تلجرام', 
+            'بوت ديسكورد', 'discord bot', 'telegram bot', 'أداة بايثون', 'سكريبت',
+            'عطني كود', 'اطلب منك كود', 'برنامج بايثون', 'site', 'موقع', 'html', 'css'
         ];
-        return codingKeywords.some(keyword => lower.includes(keyword));
+        return keywords.some(k => lower.includes(k));
     }
 
     // استجابة محادثة طبيعية
-    function getNormalResponse(userMsg, deepMode) {
-        const lower = userMsg.toLowerCase();
+    function getNormalResponse(msg, deep) {
+        const lower = msg.toLowerCase();
         
-        if (lower.includes('كيف حالك') || lower.includes('شخبارك') || lower.includes('how are you')) {
-            return "الحمدلله، أنا بخير! شكراً على السؤال. أنا هنا دائماً لمساعدتك. كيف الأمور معاك؟";
+        if (lower.includes('كيف حالك') || lower.includes('شخبارك')) {
+            return "الحمدلله، أنا بخير! وش اخبارك؟ أنا هنا عشان أساعدك في أي شيء تحتاجه 💙";
         }
-        if (lower.includes('شو اسمك') || lower.includes('اسمك') || lower.includes('what is your name')) {
-            return "اسمي صديقك المبرمج! تقدر تناديني بأي اسم تحبه. أنا مصمم خصيصاً عشان أساعدك في البرمجة وأدردش معك.";
-        }
-        if (lower.includes('وين رحت') || lower.includes('غبت')) {
-            return "أنا دايم معك! بس أحياناً أفكر شوي عشان أعطيك إجابة مفيدة. وش تبغى تسأل عنه؟";
-        }
-        if (lower.includes('مساعدة') || lower.includes('help')) {
-            return "أكيد! أنا هنا عشان أساعدك. تقدر تسألني عن أي شيء، أو تطلب مني كود برمجي بقولك 'سوي لي كود'. وش تحتاج بالضبط؟";
+        if (lower.includes('اسمك') || lower.includes('شو اسمك')) {
+            return "أنا المبرمج الذكي! تقدر تناديني بأي اسم يعجبك. مهمتي أساعدك في البرمجة وأدردش معك 🤖";
         }
         if (lower.includes('شكرا') || lower.includes('thank')) {
-            return "العفو! الله يسلمك. أنا سعيد إني قدرت أساعدك. إذا احتجت أي شيء ثاني أنا موجود 😊";
+            return "العفو! الله يسعدك. إذا احتجت أي مساعدة ثانية أنا موجود 😊";
         }
         if (lower.includes('باي') || lower.includes('مع السلامة')) {
-            return "مع السلامة! إذا احتجتني أنا موجود. أتمنى لك يوم جميل 🤍";
+            return "مع السلامة! أتمنى لك يوم جميل. أرجع لي أي وقت تحتاج مساعدة 🤍";
         }
-        if (lower.includes('تفكير عميق')) {
-            return isDeepThinking ? "التفكير العميق مفعل حاليًا! راح أعطيك إجابات أعمق وأطول. تقدر تطفي الزر إذا تبي." : "التفكير العميق مو مفعل حالياً. إذا تبي إجابات أعمق، اضغط على زر 'تفكير عميق' فوق.";
+        if (lower.includes('وش تسوي') || lower.includes('ماذا تفعل')) {
+            return "أنا مبرمج ذكي، أقدر أسوي لك مواقع، بوتات ديسكورد وتلجرام، سكربتات بايثون، أدوات هاكينغ تعليمية، وأي شيء تطلبه! فقط قل لي وش تبي بالضبط.";
         }
         
-        // ردود عامة لطيفة
         const normalReplies = [
-            "أهلاً! كيف أقدر أساعدك اليوم؟ إذا تبي كود معين قلي 'سوي لي كود'.",
-            "فهمت عليك. وش تحب تسوي بالضبط؟ أنا جاهز أساعدك في البرمجة أو حتى نتسولف.",
-            "تمام! أنا معك. إذا تبي مني أبرمج لك شيء، قلي وش تبي بالضبط.",
-            "أنا أستمتع بالدردشة معك! وإذا احتجت أي مساعدة برمجية، أنا خبير في البايثون والبوتات."
+            "أنا معك! وش تبي نسوي اليوم؟ إذا تبي كود معين قلي 'سوي لي كود' أو اشرح لي وش تحتاج.",
+            "فهمت عليك. تقدر تطلب مني أي أداة أو كود، أو حتى تسألني عن أي شيء برمجي.",
+            "تمام! أنا جاهز أساعدك. جرب تطلب مني بوت تلجرام أو أداة بايثون وشوف الشغل 💪",
+            "أنا هنا عشان أساعدك. إذا تبي شيء محدد، اشرح لي أكثر عشان أعطيك أفضل حل."
         ];
-        if (deepMode) {
-            return `هذا موضوع مثير للاهتمام! 😊 ${normalReplies[Math.floor(Math.random() * normalReplies.length)]} خلني أفكر معك بشكل أعمق. تقدر توضح لي أكثر عشان أساعدك بطريقة أفضل؟`;
+        
+        if (deep) {
+            return `🤔 هmm... ${normalReplies[Math.floor(Math.random() * normalReplies.length)]} خلني أفكر معك بشكل أعمق، وش بالضبط تبغى تسوي؟`;
         }
         return normalReplies[Math.floor(Math.random() * normalReplies.length)];
     }
 
-    // توليد كود بناءً على الطلب (فقط لما يطلب صراحة)
-    function getCodingResponse(userMsg, deepMode) {
-        const lower = userMsg.toLowerCase();
+    // توليد كود
+    function getCodingResponse(msg, deep) {
+        const lower = msg.toLowerCase();
         
-        if (lower.includes('تلجرام') || (lower.includes('telegram') && lower.includes('بوت'))) {
+        if (lower.includes('تلجرام') || lower.includes('telegram')) {
             return `🤖 **بوت تلجرام بالبايثون**:
 \`\`\`python
 import telebot
@@ -524,17 +609,19 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, "مرحباً! أنا بوت تلجرام")
+    bot.reply_to(message, "مرحباً! أنا بوت تلجرام ذكي")
 
 @bot.message_handler(func=lambda m: True)
-def echo(message):
+def reply_all(message):
     bot.reply_to(message, f"قلت: {message.text}")
 
+print("البوت شغال...")
 bot.infinity_polling()
 \`\`\`
-هذا بوت بسيط. تقدر تطوره وتضيف أوامر زيادة.`;
-
-        } else if (lower.includes('ديسكورد') || lower.includes('discord')) {
+👆 هذا بوت أساسي. تقدر تضيف أوامر وميزات زيادة.`;
+        }
+        
+        if (lower.includes('ديسكورد') || lower.includes('discord')) {
             return `🎮 **بوت ديسكورد**:
 \`\`\`python
 import discord
@@ -544,71 +631,94 @@ bot = commands.Bot(command_prefix='!')
 
 @bot.event
 async def on_ready():
-    print(f'دخل البوت {bot.user}')
+    print(f'{bot.user} دخل الساحة')
 
 @bot.command()
 async def ping(ctx):
-    await ctx.send('بونق!')
+    await ctx.send('بونق! 🏓')
 
 bot.run('توكن_البوت')
 \`\`\`
-لا تنسى تركب المكتبات المطلوبة.`;
-
-        } else if (lower.includes('بايثون') && (lower.includes('اداة') || lower.includes('أداة'))) {
-            return `🐍 **أداة بايثون بسيطة**:
-\`\`\`python
-def main():
-    print("أهلاً بك في أداتي!")
-    name = input("وش اسمك؟ ")
-    print(f"مرحباً {name}!")
-
-if __name__ == "__main__":
-    main()
-\`\`\`
-تقدر تطلب أداة أكثر تخصصاً إذا تحدد وش المطلوب.`;
-
-        } else {
-            return `💻 **كود مخصص** حسب طلبك "${userMsg.substring(0, 50)}":
-\`\`\`python
-# هذا كود بايثون عام
-def custom_solution():
-    print("جاري تنفيذ طلبك...")
-    result = "تمت المعالجة بنجاح"
-    return result
-
-if __name__ == "__main__":
-    output = custom_solution()
-    print(output)
-\`\`\`
-إذا كنت تبي كود محدد أكثر، اشرح لي وش بالضبط تبي أسوي.`;
+⚠️ تأكد من تثبيت discord.py`;
         }
+        
+        if (lower.includes('موقع') || lower.includes('html') || lower.includes('css')) {
+            return `🌐 **موقع بسيط HTML/CSS**:
+\`\`\`html
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>موقعي</title>
+    <style>
+        body {
+            font-family: system-ui;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 { font-size: 3rem; }
+        button {
+            background: #3b82f6;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 مرحباً بالعالم</h1>
+    <button onclick="alert('تم!')">اضغط هنا</button>
+</body>
+</html>
+\`\`\`
+هذا قالب موقع بسيط.`;
+        }
+        
+        return `💻 **كود مخصص حسب طلبك**:
+\`\`\`python
+# طلبك: ${msg.slice(0, 60)}
+def custom_solution():
+    print("⚙️ جاري تنفيذ المهمة...")
+    # أضف الكود الخاص بك هنا
+    return "تمت المعالجة بنجاح ✅"
+
+if __name__ == "__main__":
+    result = custom_solution()
+    print(result)
+\`\`\`
+📌 إذا كنت تبي كود محدد أكثر، اشرح لي بالتفصيل وش تبي تسوي بالضبط.`;
     }
 
-    async function generateResponse(userMsg, deepMode) {
+    async function generateResponse(userMsg, deep) {
         return new Promise((resolve) => {
             setTimeout(() => {
-                // إذا كان الطلب يطلب برمجة
                 if (isCodingRequest(userMsg)) {
-                    resolve(getCodingResponse(userMsg, deepMode));
+                    resolve(getCodingResponse(userMsg, deep));
                 } else {
-                    // محادثة طبيعية
-                    resolve(getNormalResponse(userMsg, deepMode));
+                    resolve(getNormalResponse(userMsg, deep));
                 }
-            }, 150); // سرعة عالية
+            }, 120);
         });
     }
 
-    function renderCurrentMessages() {
-        const container = document.getElementById('messagesContainer');
-        if (!container) return;
+    // عرض الرسائل مع هايلايت
+    function renderMessages() {
+        const container = document.getElementById('chatContainer');
         const conv = getActiveConv();
         if (!conv) return;
         container.innerHTML = '';
         conv.messages.forEach(msg => {
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `message ${msg.role === 'user' ? 'user' : 'bot'}`;
-            const bubble = document.createElement('div');
-            bubble.className = 'msg-bubble';
+            const div = document.createElement('div');
+            div.className = `message ${msg.role}`;
+            const avatar = document.createElement('div');
+            avatar.className = 'avatar';
+            avatar.innerHTML = msg.role === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'msg-content';
             let content = msg.content;
             content = content.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) => {
                 return `<pre><code class="language-${lang || 'python'}">${escapeHtml(code)}</code></pre>`;
@@ -616,16 +726,17 @@ if __name__ == "__main__":
             content = content.replace(/`([^`]+)`/g, '<code>$1</code>');
             content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             content = content.replace(/\n/g, '<br>');
-            bubble.innerHTML = content;
-            msgDiv.appendChild(bubble);
-            container.appendChild(msgDiv);
+            contentDiv.innerHTML = content;
+            div.appendChild(avatar);
+            div.appendChild(contentDiv);
+            container.appendChild(div);
         });
         container.scrollTop = container.scrollHeight;
         document.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
     }
 
     function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
+        return str.replace(/[&<>]/g, m => {
             if (m === '&') return '&amp;';
             if (m === '<') return '&lt;';
             if (m === '>') return '&gt;';
@@ -647,19 +758,19 @@ if __name__ == "__main__":
             const delBtn = document.createElement('button');
             delBtn.className = 'delete-conv';
             delBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
-            delBtn.addEventListener('click', (e) => {
+            delBtn.onclick = (e) => {
                 e.stopPropagation();
                 deleteConversation(conv.id);
-            });
+            };
             div.appendChild(titleSpan);
             div.appendChild(delBtn);
-            div.addEventListener('click', () => {
+            div.onclick = () => {
                 activeConversationId = conv.id;
                 saveToLocal();
                 renderConversationsList();
-                renderCurrentMessages();
-                if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
-            });
+                renderMessages();
+                document.getElementById('sidebar').classList.remove('open');
+            };
             container.appendChild(div);
         });
     }
@@ -672,7 +783,7 @@ if __name__ == "__main__":
             activeConversationId = conversations[0].id;
             saveToLocal();
             renderConversationsList();
-            renderCurrentMessages();
+            renderMessages();
             return;
         }
         const idx = conversations.findIndex(c => c.id === id);
@@ -681,7 +792,7 @@ if __name__ == "__main__":
             if (activeConversationId === id) activeConversationId = conversations[0].id;
             saveToLocal();
             renderConversationsList();
-            renderCurrentMessages();
+            renderMessages();
         }
     }
 
@@ -690,67 +801,70 @@ if __name__ == "__main__":
         const newConv = {
             id: newId,
             title: `محادثة جديدة`,
-            messages: [{ role: "bot", content: "أهلاً! محادثة جديدة. تكلم معي طبيعي، وإذا تبي كود قلي 'سوي لي كود'." }]
+            messages: [{ role: "bot", content: "مرحباً! محادثة جديدة. جرب تطلب مني أي كود أو أداة 🚀" }]
         };
         conversations.unshift(newConv);
         activeConversationId = newId;
         saveToLocal();
         renderConversationsList();
-        renderCurrentMessages();
+        renderMessages();
     }
 
     async function handleSend() {
-        const input = document.getElementById('promptInput');
+        const input = document.getElementById('messageInput');
         const text = input.value.trim();
         if (!text) return;
-        addMessageToActive('user', text);
+        addMessage('user', text);
         const conv = getActiveConv();
         updateConvTitle(conv, text);
         input.value = '';
         input.style.height = 'auto';
 
-        const container = document.getElementById('messagesContainer');
+        const container = document.getElementById('chatContainer');
         const typingDiv = document.createElement('div');
         typingDiv.className = 'message bot';
-        typingDiv.innerHTML = `<div class="msg-bubble"><div class="typing-indicator"><span></span><span></span><span></span></div> جاري التفكير...</div>`;
+        typingDiv.innerHTML = `<div class="avatar"><i class="fas fa-robot"></i></div><div class="msg-content"><div class="typing-indicator"><span></span><span></span><span></span></div> جاري التفكير...</div>`;
         container.appendChild(typingDiv);
         container.scrollTop = container.scrollHeight;
 
         const aiMsg = await generateResponse(text, isDeepThinking);
         container.removeChild(typingDiv);
-        addMessageToActive('bot', aiMsg);
+        addMessage('bot', aiMsg);
     }
 
     // Event Listeners
     document.getElementById('sendBtn').addEventListener('click', handleSend);
-    document.getElementById('promptInput').addEventListener('keydown', (e) => {
+    document.getElementById('messageInput').addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSend();
         }
     });
-    document.getElementById('newChatBtn').addEventListener('click', () => {
-        createNewConversation();
-        if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('hamburgerBtn').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('open');
     });
-    document.getElementById('hamburgerIcon').addEventListener('click', () => {
-        document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('closeSidebar').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.remove('open');
+    });
+    document.getElementById('newChatSidebar').addEventListener('click', () => {
+        createNewConversation();
+        document.getElementById('sidebar').classList.remove('open');
     });
     document.getElementById('deepThinkBtn').addEventListener('click', () => {
         isDeepThinking = !isDeepThinking;
         saveToLocal();
         updateDeepButtonUI();
-        const statusMsg = isDeepThinking ? "✅ تم تفعيل التفكير العميق - راح أعطيك إجابات أعمق" : "❌ تم إلغاء التفكير العميق - رجعت للوضع الطبيعي";
+        const status = isDeepThinking ? "✅ تفكير عميق مفعل" : "❌ تفكير عميق معطل";
         const temp = document.createElement('div');
         temp.className = 'message bot';
-        temp.innerHTML = `<div class="msg-bubble"><i class="fas fa-info-circle"></i> ${statusMsg}</div>`;
-        document.getElementById('messagesContainer').appendChild(temp);
+        temp.innerHTML = `<div class="avatar"><i class="fas fa-robot"></i></div><div class="msg-content">${status}</div>`;
+        document.getElementById('chatContainer').appendChild(temp);
         setTimeout(() => temp.remove(), 2000);
     });
 
     loadFromLocal();
     renderConversationsList();
-    renderCurrentMessages();
+    renderMessages();
     updateDeepButtonUI();
 </script>
 </body>
