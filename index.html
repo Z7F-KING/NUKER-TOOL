@@ -25,7 +25,6 @@
             overflow: hidden;
         }
 
-        /* الحاوية الرئيسية */
         .app {
             display: flex;
             flex-direction: column;
@@ -35,7 +34,6 @@
             position: relative;
         }
 
-        /* شريط الهيدر */
         .header {
             padding: 20px 24px;
             display: flex;
@@ -77,7 +75,6 @@
             color: #8b8b8b;
         }
 
-        /* أزرار الهيدر */
         .header-buttons {
             display: flex;
             gap: 12px;
@@ -124,7 +121,6 @@
             background: rgba(255,255,255,0.1);
         }
 
-        /* القائمة الجانبية (هامبرغر) */
         .sidebar {
             position: fixed;
             top: 0;
@@ -229,7 +225,6 @@
             color: #ef4444;
         }
 
-        /* منطقة المحادثة */
         .chat-container {
             flex: 1;
             overflow-y: auto;
@@ -262,6 +257,7 @@
             align-items: center;
             justify-content: center;
             font-size: 0.9rem;
+            flex-shrink: 0;
         }
 
         .bot .avatar {
@@ -289,13 +285,47 @@
             border-bottom-left-radius: 6px;
         }
 
-        .msg-content pre {
+        /* حاوية الكود مع زر النسخ */
+        .code-wrapper {
+            position: relative;
+            margin: 10px 0;
+        }
+        
+        .code-wrapper pre {
             background: #0a0a0a;
             padding: 12px;
             border-radius: 16px;
             overflow-x: auto;
-            margin: 10px 0;
             border: 1px solid #2a2a2a;
+            margin: 0;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #2a2a2a;
+            border: none;
+            color: #aaa;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        
+        .copy-btn:hover {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .copy-btn.copied {
+            background: #10b981;
+            color: white;
         }
 
         .msg-content code {
@@ -330,7 +360,6 @@
             to { opacity: 1; transform: translateY(0);}
         }
 
-        /* منطقة الإدخال */
         .input-area {
             padding: 20px 24px;
             border-top: 1px solid rgba(255,255,255,0.08);
@@ -388,7 +417,6 @@
             margin-top: 12px;
         }
 
-        /* سكرول */
         ::-webkit-scrollbar {
             width: 5px;
         }
@@ -452,7 +480,6 @@
     </div>
 </div>
 
-<!-- القائمة الجانبية -->
 <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
         <h3><i class="fas fa-comments"></i> المحادثات</h3>
@@ -467,7 +494,6 @@
 </div>
 
 <script>
-    // ---------- البيانات ----------
     let conversations = [];
     let activeConversationId = null;
     let isDeepThinking = false;
@@ -491,8 +517,7 @@
                 id: genId(),
                 title: "المحادثة الرئيسية",
                 messages: [
-                    { role: "user", content: "مرحباً!" },
-                    { role: "bot", content: "أهلاً! أنا المبرمج الذكي. جرب تطلب مني أي شيء — بوت تلجرام، أداة بايثون، أو حتى مواقع. وإذا تبي تسولف عادي، أنا معك 🤍" }
+                    { role: "bot", content: "مرحباً! أنا المبرمج الذكي. جرب تطلب مني أي شيء — بوت تلجرام، أداة بايثون، أو حتى مواقع. وإذا تبي تسولف عادي، أنا معك 🤍" }
                 ]
             };
             conversations = [defaultConv];
@@ -551,56 +576,107 @@
         }
     }
 
-    // التحقق إذا كان الطلب برمجي
     function isCodingRequest(message) {
         const lower = message.toLowerCase();
         const keywords = [
             'سوي لي كود', 'اكتب لي كود', 'برمج لي', 'كود بايثون', 'بوت تلجرام', 
             'بوت ديسكورد', 'discord bot', 'telegram bot', 'أداة بايثون', 'سكريبت',
-            'عطني كود', 'اطلب منك كود', 'برنامج بايثون', 'site', 'موقع', 'html', 'css'
+            'عطني كود', 'اطلب منك كود', 'برنامج بايثون', 'site', 'موقع', 'html'
         ];
         return keywords.some(k => lower.includes(k));
     }
 
-    // استجابة محادثة طبيعية
+    // ردود واقعية ومتنوعة
+    const normalResponses = {
+        greetings: [
+            "أهلاً وسهلاً! كيف الحال؟ وش أخبارك اليوم؟",
+            "يا هلا! أنا معك. وش تبغى تسوي؟",
+            "مرحباً! أنا فاضي لك، تفضل وش تحتاج؟",
+            "أهلاً! والله نورت. وش جالس تسوي؟"
+        ],
+        howAreYou: [
+            "الحمدلله، أنا بخير وزيادة! وش أخبارك؟",
+            "الحمدلله تمام التمام، ياخي أنت شخبارك؟",
+            "والله أنا ممتاز! يجيك البرق، وش عندك؟",
+            "الحمدلله، أنا زي الفل. جالس أستنى وش تبغى مني 😎"
+        ],
+        name: [
+            "اسمي المبرمج الذكي! لكن تقدر تناديني بأي اسم يعجبك. شو تسميني؟",
+            "أنا معروف بـ 'المبرمج الذكي'، بس عادي ناديني بأي شيء حلو.",
+            "أنا صديقك المبرمج! مالي اسم ثابت، أنت شو تحب تناديني؟"
+        ],
+        thank: [
+            "العفو، الله يسلمك! أنا هنا عشانك 🤍",
+            "الشكر لله، أنا سعيد إني قدرت أساعدك!",
+            "لا شكر على واجب، أنت الأروع!"
+        ],
+        bye: [
+            "مع السلامة! إذا احتجتني أنا موجود، أرجع أي وقت 🤍",
+            "باي باي! أتمنى لك يوم جميل، وإذا تبي شيء أنا جاهز.",
+            "الله معك! ترا أنا هنا دايم، متى ما تحتاجني."
+        ],
+        whatDo: [
+            "أنا مبرمج ذكي، أقدر أسوي لك مواقع، بوتات ديسكورد وتلجرام، سكربتات بايثون، أدوات هاكينغ تعليمية، وأي شيء تطلبه! بس قلي وش تبي بالضبط.",
+            "شغلي الأساسي البرمجة! أقدر أبرمج لك أي شيء. لكن عادي نتسولف لو تبي، أنا ما عندي مشكلة 😄",
+            "أنا هنا عشان أساعدك في البرمجة، بس أحب أتسولف معاك بعد. وش ودك تسوي؟"
+        ],
+        default: [
+            "والله فكرت فيها... أنا معك، وش تبي نسوي بالضبط؟ إذا تبي كود قلي 'سوي لي كود' وأنا أبرمج لك.",
+            "ياخي حلو، أنا معك. خلني أفهم وش تبغى بالضبط عشان أساعدك صح؟",
+            "تمام! أنا مستعد. إذا تبي كود معين قلي وش تبي بالضبط، وإذا تبي تسولف عادي أنا معك.",
+            "أنا فاهم عليك. وش تبي نسوي الحين؟ أنا جاهز للبرمجة أو حتى للدردشة.",
+            "هههه، والله أنا معك يالغالي. وش ودك تسوي بالضبط؟ قولي لي وأنا أبرمج لك أي شيء."
+        ]
+    };
+
+    function getRandom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
     function getNormalResponse(msg, deep) {
         const lower = msg.toLowerCase();
         
-        if (lower.includes('كيف حالك') || lower.includes('شخبارك')) {
-            return "الحمدلله، أنا بخير! وش اخبارك؟ أنا هنا عشان أساعدك في أي شيء تحتاجه 💙";
+        if (lower.includes('كيف حالك') || lower.includes('شخبارك') || lower.includes('كيفك')) {
+            return getRandom(normalResponses.howAreYou);
         }
-        if (lower.includes('اسمك') || lower.includes('شو اسمك')) {
-            return "أنا المبرمج الذكي! تقدر تناديني بأي اسم يعجبك. مهمتي أساعدك في البرمجة وأدردش معك 🤖";
+        if (lower.includes('شو اسمك') || lower.includes('اسمك') || lower.includes('من انت')) {
+            return getRandom(normalResponses.name);
         }
-        if (lower.includes('شكرا') || lower.includes('thank')) {
-            return "العفو! الله يسعدك. إذا احتجت أي مساعدة ثانية أنا موجود 😊";
+        if (lower.includes('شكرا') || lower.includes('thank') || lower.includes('يسلمو')) {
+            return getRandom(normalResponses.thank);
         }
-        if (lower.includes('باي') || lower.includes('مع السلامة')) {
-            return "مع السلامة! أتمنى لك يوم جميل. أرجع لي أي وقت تحتاج مساعدة 🤍";
+        if (lower.includes('باي') || lower.includes('مع السلامة') || lower.includes('سلام')) {
+            return getRandom(normalResponses.bye);
         }
-        if (lower.includes('وش تسوي') || lower.includes('ماذا تفعل')) {
-            return "أنا مبرمج ذكي، أقدر أسوي لك مواقع، بوتات ديسكورد وتلجرام، سكربتات بايثون، أدوات هاكينغ تعليمية، وأي شيء تطلبه! فقط قل لي وش تبي بالضبط.";
+        if (lower.includes('وش تسوي') || lower.includes('ماذا تفعل') || lower.includes('شغلك')) {
+            return getRandom(normalResponses.whatDo);
+        }
+        if (lower.includes('مرحبا') || lower.includes('هلا') || lower.includes('السلام')) {
+            return getRandom(normalResponses.greetings);
+        }
+        if (lower.includes('تفكير عميق') && deep) {
+            return "أيوة يابوي، التفكير العميق مفعل! يعني راح أعطيك إجابات أعمق وأطول. إذا تبي ترجع للوضع العادي اضغط على الزر مرة ثانية.";
         }
         
-        const normalReplies = [
-            "أنا معك! وش تبي نسوي اليوم؟ إذا تبي كود معين قلي 'سوي لي كود' أو اشرح لي وش تحتاج.",
-            "فهمت عليك. تقدر تطلب مني أي أداة أو كود، أو حتى تسألني عن أي شيء برمجي.",
-            "تمام! أنا جاهز أساعدك. جرب تطلب مني بوت تلجرام أو أداة بايثون وشوف الشغل 💪",
-            "أنا هنا عشان أساعدك. إذا تبي شيء محدد، اشرح لي أكثر عشان أعطيك أفضل حل."
-        ];
-        
+        // ردود واقعية متنوعة
         if (deep) {
-            return `🤔 هmm... ${normalReplies[Math.floor(Math.random() * normalReplies.length)]} خلني أفكر معك بشكل أعمق، وش بالضبط تبغى تسوي؟`;
+            const deepReplies = [
+                `ياخي والله فكرت فيها زين... ${getRandom(normalResponses.default).substring(0, 50)} خلني أقولك، إذا تبي شيء معين قوله لي صراحة وأنا أبرمجلك إياه بأحسن شكل.`,
+                `صراحة موضوعك مثير للاهتمام. أنا معك فيها. وش بالضبط اللي في بالك؟ قولي لي وأنا أبدع لك في البرمجة.`,
+                `هههه، والله أنا أحب الناس اللي تفكر زيك. وش تبي تسوي بالضبط؟ أنا مستعد أبرمج لك أي شيء تحتاجه.`
+            ];
+            return getRandom(deepReplies);
         }
-        return normalReplies[Math.floor(Math.random() * normalReplies.length)];
+        
+        return getRandom(normalResponses.default);
     }
 
-    // توليد كود
     function getCodingResponse(msg, deep) {
         const lower = msg.toLowerCase();
         
         if (lower.includes('تلجرام') || lower.includes('telegram')) {
             return `🤖 **بوت تلجرام بالبايثون**:
+
 \`\`\`python
 import telebot
 
@@ -618,11 +694,13 @@ def reply_all(message):
 print("البوت شغال...")
 bot.infinity_polling()
 \`\`\`
-👆 هذا بوت أساسي. تقدر تضيف أوامر وميزات زيادة.`;
+
+هذا بوت أساسي. تقدر تضيف أوامر زي /help، /about، وتربطه بقاعدة بيانات.`;
         }
         
         if (lower.includes('ديسكورد') || lower.includes('discord')) {
             return `🎮 **بوت ديسكورد**:
+
 \`\`\`python
 import discord
 from discord.ext import commands
@@ -637,60 +715,92 @@ async def on_ready():
 async def ping(ctx):
     await ctx.send('بونق! 🏓')
 
+@bot.command()
+async def say(ctx, *, msg):
+    await ctx.send(msg)
+
 bot.run('توكن_البوت')
 \`\`\`
-⚠️ تأكد من تثبيت discord.py`;
+
+تأكد من تثبيت discord.py: \`pip install discord.py\``;
         }
         
         if (lower.includes('موقع') || lower.includes('html') || lower.includes('css')) {
             return `🌐 **موقع بسيط HTML/CSS**:
+
 \`\`\`html
 <!DOCTYPE html>
 <html dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>موقعي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقعي الجميل</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: system-ui;
             background: linear-gradient(135deg, #0f172a, #1e1b4b);
             color: white;
             text-align: center;
             padding: 50px;
+            min-height: 100vh;
         }
-        h1 { font-size: 3rem; }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
         button {
             background: #3b82f6;
             border: none;
             padding: 12px 24px;
             border-radius: 40px;
             color: white;
+            font-size: 1rem;
             cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #2563eb;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
     <h1>🚀 مرحباً بالعالم</h1>
-    <button onclick="alert('تم!')">اضغط هنا</button>
+    <p>هذا موقع صنعه المبرمج الذكي</p>
+    <button onclick="alert('تم الضغط! 🎉')">اضغط هنا</button>
 </body>
 </html>
 \`\`\`
-هذا قالب موقع بسيط.`;
+
+حط هذا الكود في ملف index.html وافتحه بالمتصفح.`;
         }
         
         return `💻 **كود مخصص حسب طلبك**:
+
 \`\`\`python
 # طلبك: ${msg.slice(0, 60)}
 def custom_solution():
+    """
+    حل مخصص لما تطلبه
+    """
     print("⚙️ جاري تنفيذ المهمة...")
+    
     # أضف الكود الخاص بك هنا
-    return "تمت المعالجة بنجاح ✅"
+    result = "تمت المعالجة بنجاح ✅"
+    
+    return result
 
 if __name__ == "__main__":
-    result = custom_solution()
-    print(result)
+    output = custom_solution()
+    print(output)
 \`\`\`
-📌 إذا كنت تبي كود محدد أكثر، اشرح لي بالتفصيل وش تبي تسوي بالضبط.`;
+
+📌 إذا كنت تبي كود محدد أكثر، اشرح لي بالتفصيل وش تبي بالضبط وأنا أضبطه لك.`;
     }
 
     async function generateResponse(userMsg, deep) {
@@ -701,16 +811,16 @@ if __name__ == "__main__":
                 } else {
                     resolve(getNormalResponse(userMsg, deep));
                 }
-            }, 120);
+            }, 150);
         });
     }
 
-    // عرض الرسائل مع هايلايت
     function renderMessages() {
         const container = document.getElementById('chatContainer');
         const conv = getActiveConv();
         if (!conv) return;
         container.innerHTML = '';
+        
         conv.messages.forEach(msg => {
             const div = document.createElement('div');
             div.className = `message ${msg.role}`;
@@ -719,21 +829,51 @@ if __name__ == "__main__":
             avatar.innerHTML = msg.role === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
             const contentDiv = document.createElement('div');
             contentDiv.className = 'msg-content';
+            
+            // معالجة الكود مع زر نسخ
             let content = msg.content;
             content = content.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) => {
-                return `<pre><code class="language-${lang || 'python'}">${escapeHtml(code)}</code></pre>`;
+                const codeId = 'code-' + Math.random().toString(36).substr(2, 8);
+                return `<div class="code-wrapper" id="${codeId}">
+                            <button class="copy-btn" onclick="copyCode('${codeId}')"><i class="fas fa-copy"></i> نسخ</button>
+                            <pre><code class="language-${lang || 'python'}">${escapeHtml(code)}</code></pre>
+                         </div>`;
             });
             content = content.replace(/`([^`]+)`/g, '<code>$1</code>');
             content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             content = content.replace(/\n/g, '<br>');
             contentDiv.innerHTML = content;
+            
             div.appendChild(avatar);
             div.appendChild(contentDiv);
             container.appendChild(div);
         });
+        
         container.scrollTop = container.scrollHeight;
         document.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
     }
+    
+    // وظيفة نسخ الكود
+    window.copyCode = function(wrapperId) {
+        const wrapper = document.getElementById(wrapperId);
+        if (!wrapper) return;
+        const codeBlock = wrapper.querySelector('code');
+        if (!codeBlock) return;
+        const code = codeBlock.innerText;
+        
+        navigator.clipboard.writeText(code).then(() => {
+            const btn = wrapper.querySelector('.copy-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> تم النسخ!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(err => {
+            console.error('فشل النسخ:', err);
+        });
+    };
 
     function escapeHtml(str) {
         return str.replace(/[&<>]/g, m => {
@@ -833,39 +973,4 @@ if __name__ == "__main__":
     }
 
     // Event Listeners
-    document.getElementById('sendBtn').addEventListener('click', handleSend);
-    document.getElementById('messageInput').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            handleSend();
-        }
-    });
-    document.getElementById('hamburgerBtn').addEventListener('click', () => {
-        document.getElementById('sidebar').classList.add('open');
-    });
-    document.getElementById('closeSidebar').addEventListener('click', () => {
-        document.getElementById('sidebar').classList.remove('open');
-    });
-    document.getElementById('newChatSidebar').addEventListener('click', () => {
-        createNewConversation();
-        document.getElementById('sidebar').classList.remove('open');
-    });
-    document.getElementById('deepThinkBtn').addEventListener('click', () => {
-        isDeepThinking = !isDeepThinking;
-        saveToLocal();
-        updateDeepButtonUI();
-        const status = isDeepThinking ? "✅ تفكير عميق مفعل" : "❌ تفكير عميق معطل";
-        const temp = document.createElement('div');
-        temp.className = 'message bot';
-        temp.innerHTML = `<div class="avatar"><i class="fas fa-robot"></i></div><div class="msg-content">${status}</div>`;
-        document.getElementById('chatContainer').appendChild(temp);
-        setTimeout(() => temp.remove(), 2000);
-    });
-
-    loadFromLocal();
-    renderConversationsList();
-    renderMessages();
-    updateDeepButtonUI();
-</script>
-</body>
-</html>
+    document.getElementById('sendBtn').addEventListener('click',
