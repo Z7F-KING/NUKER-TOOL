@@ -1,26 +1,799 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ذكاء اصطناعي مبرمج شامل | CodeAI</title>
+    <!-- Font Awesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Highlight.js for code highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>Multi Bots - Roblox</title>    
-    <!-- THIS IS THE START OF A COMMENT BLOCK, BLOCK TO BE DELETED: Google Fonts here, example:
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    THIS IS THE END OF A COMMENT BLOCK, BLOCK TO BE DELETED -->
-  </head>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(145deg, #0a0f1e 0%, #0c1222 100%);
+            color: #eef5ff;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
-  </body>
+        /* ========== SIDEBAR (Hamburger style + conversations) ========== */
+        .sidebar {
+            width: 320px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-left: 1px solid rgba(72, 187, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            z-index: 20;
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
+        }
 
+        /* للجوال: شريط جانبي قابل للطي */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                right: -280px;
+                width: 280px;
+                height: 100%;
+                transition: 0.25s;
+            }
+            .sidebar.open {
+                right: 0;
+            }
+            .hamburger-toggle {
+                display: block;
+            }
+            .main-chat {
+                width: 100%;
+            }
+        }
+
+        .hamburger-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1e2a47;
+            border: none;
+            color: white;
+            font-size: 28px;
+            padding: 10px 14px;
+            border-radius: 16px;
+            z-index: 30;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sidebar-header i {
+            font-size: 32px;
+            color: #38bdf8;
+        }
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #90eaff, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .new-chat-btn {
+            margin: 20px;
+            background: linear-gradient(95deg, #2563eb, #38bdf8);
+            border: none;
+            padding: 12px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 6px 14px rgba(37,99,235,0.3);
+        }
+        .new-chat-btn:hover {
+            transform: scale(0.97);
+            background: linear-gradient(95deg, #1e40af, #0284c7);
+        }
+        .conversations-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 12px 20px;
+        }
+        .conv-item {
+            background: rgba(30, 41, 59, 0.5);
+            margin: 8px 0;
+            padding: 12px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+        .conv-item.active {
+            background: #1e3a5f;
+            border-color: #38bdf8;
+            box-shadow: 0 2px 8px rgba(56,189,248,0.2);
+        }
+        .conv-item:hover {
+            background: #1e2c47;
+        }
+        .conv-title {
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 160px;
+        }
+        .delete-conv {
+            background: none;
+            border: none;
+            color: #f87171;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 5px;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+        .delete-conv:hover {
+            color: #ef4444;
+            background: rgba(239,68,68,0.2);
+        }
+
+        /* ========== MAIN CHAT AREA ========== */
+        .main-chat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .chat-header {
+            background: rgba(15, 25, 45, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 18px 28px;
+            border-bottom: 1px solid #2d3a5e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .chat-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .badge {
+            background: #1e2a4a;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            color: #7dd3fc;
+        }
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .message {
+            display: flex;
+            gap: 14px;
+            animation: fadeIn 0.25s ease;
+        }
+        .message.user {
+            justify-content: flex-end;
+        }
+        .message.bot {
+            justify-content: flex-start;
+        }
+        .msg-bubble {
+            max-width: 85%;
+            padding: 14px 20px;
+            border-radius: 28px;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            word-break: break-word;
+        }
+        .user .msg-bubble {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            border-bottom-left-radius: 6px;
+            color: white;
+        }
+        .bot .msg-bubble {
+            background: #1e293b;
+            border-bottom-right-radius: 6px;
+            border: 1px solid #334155;
+        }
+        .msg-bubble pre {
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 16px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .msg-bubble code {
+            font-family: monospace;
+            background: #0a0f1e;
+            padding: 2px 6px;
+            border-radius: 8px;
+        }
+        .typing {
+            color: #94a3b8;
+            font-style: italic;
+        }
+        .input-area {
+            padding: 20px;
+            background: rgba(12, 18, 34, 0.9);
+            border-top: 1px solid #2d3a5e;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+        textarea {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 28px;
+            padding: 14px 20px;
+            font-family: 'Cairo', monospace;
+            color: #f1f5f9;
+            font-size: 1rem;
+            resize: none;
+            max-height: 140px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+        .send-btn {
+            background: #3b82f6;
+            border: none;
+            width: 52px;
+            height: 52px;
+            border-radius: 60px;
+            color: white;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .send-btn:hover {
+            background: #2563eb;
+            transform: scale(0.96);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 8px;
+        }
+        .footer-note {
+            font-size: 0.7rem;
+            text-align: center;
+            padding: 8px;
+            color: #5b6e8c;
+        }
+    </style>
+</head>
+<body>
+
+<button class="hamburger-toggle" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <i class="fas fa-robot"></i>
+        <h2>CodeAI Hub</h2>
+    </div>
+    <button class="new-chat-btn" id="newChatBtnSidebar"><i class="fas fa-plus-circle"></i> محادثة جديدة</button>
+    <div class="conversations-list" id="conversationsList"></div>
+    <div class="footer-note">⚡ يدير الأكواد الطويلة والأدوات المتقدمة</div>
+</div>
+
+<div class="main-chat">
+    <div class="chat-header">
+        <h1><i class="fas fa-code"></i> المبرمج الذكي <span style="font-size:0.9rem;">| Python | Discord | Telegram | HackTools</span></h1>
+        <div class="badge"><i class="fas fa-microchip"></i> Turbo Mode</div>
+    </div>
+    <div class="messages-container" id="messagesContainer">
+        <div class="message bot">
+            <div class="msg-bubble">
+                👋 أهلاً بك في <strong>CodeAI</strong> ! <br>
+                أنا ذكاء اصطناعي متخصص ببرمجة الأكواد، أدوات بايثون، بوتات ديسكورد وتلجرام، scripts اختراق وأي شيء تريده. <br>
+                اطلب أي كود أو أداة بحرية تامة وسأقوم بتوليده لك مع شرح. <br>
+                <span class="typing">✨ أنا أتحمل الأكواد الضخمة دون استسلام.</span>
+            </div>
+        </div>
+    </div>
+    <div class="input-area">
+        <textarea id="promptInput" rows="1" placeholder="اكتب طلبك هنا... مثلاً: 'سوي لي بوت تلجرام يرد على رسائل' أو 'أداة اختراق واي فاي'"></textarea>
+        <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<script>
+    // ---------- Data Layer ----------
+    let conversations = [];      // array of { id, title, messages }
+    let activeConversationId = null;
+
+    // Helper: generate unique id
+    function genId() {
+        return Date.now() + '-' + Math.random().toString(36).substr(2, 8);
+    }
+
+    // Save to localStorage
+    function saveData() {
+        const dataToStore = {
+            conversations: conversations,
+            activeId: activeConversationId
+        };
+        localStorage.setItem('codeai_conversations', JSON.stringify(dataToStore));
+    }
+
+    // Load from localStorage
+    function loadData() {
+        const raw = localStorage.getItem('codeai_conversations');
+        if (!raw) {
+            // إنشاء محادثة افتراضية
+            const defaultConv = {
+                id: genId(),
+                title: "المحادثة الرئيسية",
+                messages: [
+                    { role: "bot", content: "👋 أهلاً بك في **CodeAI** ! \n\nأنا ذكاء اصطناعي مبرمج شامل، أستطيع كتابة أي كود بايثون، أدوات، بوتات ديسكورد وتلجرام، سكريبتات متقدمة. اطلب ما تشاء بدون قيود." }
+                ]
+            };
+            conversations = [defaultConv];
+            activeConversationId = defaultConv.id;
+            saveData();
+            return;
+        }
+        try {
+            const data = JSON.parse(raw);
+            conversations = data.conversations || [];
+            activeConversationId = data.activeId || (conversations[0]?.id || null);
+            if (conversations.length === 0) {
+                const newConv = {
+                    id: genId(),
+                    title: "محادثة جديدة",
+                    messages: [{ role: "bot", content: "مرحباً! أنا ذكاء اصطناعي مبرمج. اطلب أي كود أو أداة بايثون أو بوت." }]
+                };
+                conversations.push(newConv);
+                activeConversationId = newConv.id;
+                saveData();
+            }
+        } catch(e) { console.error(e); }
+    }
+
+    // Render conversations list in sidebar
+    function renderConversationsList() {
+        const container = document.getElementById('conversationsList');
+        if (!container) return;
+        container.innerHTML = '';
+        conversations.forEach(conv => {
+            const div = document.createElement('div');
+            div.className = 'conv-item';
+            if (conv.id === activeConversationId) div.classList.add('active');
+            const titleSpan = document.createElement('span');
+            titleSpan.className = 'conv-title';
+            titleSpan.innerText = conv.title || `محادثة ${conv.id.slice(-4)}`;
+            const delBtn = document.createElement('button');
+            delBtn.className = 'delete-conv';
+            delBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            delBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteConversation(conv.id);
+            });
+            div.appendChild(titleSpan);
+            div.appendChild(delBtn);
+            div.addEventListener('click', () => switchConversation(conv.id));
+            container.appendChild(div);
+        });
+    }
+
+    // Switch active conversation
+    function switchConversation(id) {
+        const exists = conversations.find(c => c.id === id);
+        if (!exists) return;
+        activeConversationId = id;
+        saveData();
+        renderConversationsList();
+        renderCurrentMessages();
+        // close sidebar on mobile after selection
+        if (window.innerWidth <= 768) {
+            document.getElementById('sidebar').classList.remove('open');
+        }
+    }
+
+    // Delete conversation
+    function deleteConversation(id) {
+        if (conversations.length === 1) {
+            // لا يمكن حذف آخر محادثة، نقوم بإنشاء واحدة جديدة بدلاً من ذلك
+            createNewConversation();
+            // ثم نحذف القديمة
+            const idx = conversations.findIndex(c => c.id === id);
+            if (idx !== -1) conversations.splice(idx, 1);
+            activeConversationId = conversations[0].id;
+            saveData();
+            renderConversationsList();
+            renderCurrentMessages();
+            return;
+        }
+        const idx = conversations.findIndex(c => c.id === id);
+        if (idx !== -1) {
+            conversations.splice(idx, 1);
+            if (activeConversationId === id) {
+                activeConversationId = conversations[0].id;
+            }
+            saveData();
+            renderConversationsList();
+            renderCurrentMessages();
+        }
+    }
+
+    // Create new conversation
+    function createNewConversation() {
+        const newId = genId();
+        const newConv = {
+            id: newId,
+            title: `محادثة ${new Date().toLocaleTimeString()}`,
+            messages: [{ role: "bot", content: "محادثة جديدة! أنا جاهز لبرمجة أي شيء تطلبه، بما في ذلك أدوات البايثون، البوتات، أو حتى سكريبتات متقدمة." }]
+        };
+        conversations.unshift(newConv);
+        activeConversationId = newId;
+        saveData();
+        renderConversationsList();
+        renderCurrentMessages();
+    }
+
+    // Update conversation title from first user message
+    function maybeUpdateTitle(conv, userMsg) {
+        if (conv.title && conv.title.startsWith("محادثة") && conv.messages.length <= 2) {
+            let newTitle = userMsg.length > 28 ? userMsg.slice(0, 25) + "..." : userMsg;
+            conv.title = newTitle;
+            saveData();
+            renderConversationsList();
+        }
+    }
+
+    // Get active conversation object
+    function getActiveConv() {
+        return conversations.find(c => c.id === activeConversationId);
+    }
+
+    // Render messages of active conversation
+    function renderCurrentMessages() {
+        const container = document.getElementById('messagesContainer');
+        if (!container) return;
+        const conv = getActiveConv();
+        if (!conv) return;
+        container.innerHTML = '';
+        conv.messages.forEach(msg => {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${msg.role === 'user' ? 'user' : 'bot'}`;
+            const bubble = document.createElement('div');
+            bubble.className = 'msg-bubble';
+            // تحويل المحتوى مع دعم markdown بسيط و code highlighting
+            let formattedContent = msg.content;
+            // معالجة الكود (```language ... ```)
+            formattedContent = formattedContent.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) => {
+                return `<pre><code class="language-${lang || 'python'}">${escapeHtml(code)}</code></pre>`;
+            });
+            // معالجة backticks مفردة
+            formattedContent = formattedContent.replace(/`([^`]+)`/g, '<code>$1</code>');
+            // معالجة الخط العريض
+            formattedContent = formattedContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            formattedContent = formattedContent.replace(/\n/g, '<br>');
+            bubble.innerHTML = formattedContent;
+            msgDiv.appendChild(bubble);
+            container.appendChild(msgDiv);
+        });
+        // scroll to bottom
+        container.scrollTop = container.scrollHeight;
+        // apply highlight.js
+        document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightElement(block);
+        });
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // إضافة رسالة إلى المحادثة الحالية
+    function addMessageToActive(role, content) {
+        const conv = getActiveConv();
+        if (!conv) return;
+        conv.messages.push({ role, content });
+        saveData();
+        renderCurrentMessages();
+    }
+
+    // محاكاة الذكاء الاصطناعي المتقدم (يولد كود وأدوات ضخمة بدون قيود)
+    async function generateAIResponse(userMessage) {
+        // هنا نقوم بإنشاء استجابات ذكية تغطي طلبات البرمجة، البوتات، الهاكينج، الخ.
+        // نعطي إجابات حقيقية وكود ضخم بدون تعقيد.
+        const lowerMsg = userMessage.toLowerCase();
+
+        // إذا كان الطلب يتضمن بوت تلجرام
+        if (lowerMsg.includes('تلجرام') && (lowerMsg.includes('بوت') || lowerMsg.includes('telegram'))) {
+            return `🤖 **بوت تلجرام متكامل بايثون**:
+\`\`\`python
+import telebot
+from telebot import types
+
+TOKEN = 'YOUR_BOT_TOKEN'
+bot = telebot.TeleBot(TOKEN)
+
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.reply_to(message, "مرحبًا! أنا بوت تلجرام ذكي، أستطيع تنفيذ أوامر.")
+
+@bot.message_handler(func=lambda m: True)
+def echo_all(message):
+    bot.reply_to(message, f"أنت قلت: {message.text}")
+
+# إضافة أمر مخصص
+@bot.message_handler(commands=['code'])
+def send_code(message):
+    code_example = "print('Hello from Telegram Bot')"
+    bot.send_message(message.chat.id, f"إليك كود بايثون: \\n\`\`\`python\\n{code_example}\\n\`\`\`", parse_mode='Markdown')
+
+print("Bot is running...")
+bot.infinity_polling()
+\`\`\`
+✅ فقط ضع التوكن الخاص بك وشغل البوت. يمكنك إضافة ميزات متقدمة مثل إدارة المجموعات، الردود التلقائية.`
+        }
+
+        if (lowerMsg.includes('ديسكورد') || lowerMsg.includes('discord')) {
+            return `🎮 **بوت ديسكورد باستخدام discord.py**:
+\`\`\`python
+import discord
+from discord.ext import commands
+
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix='!', intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'Logged in as {bot.user}')
+
+@bot.command()
+async def ping(ctx):
+    await ctx.send(f'Pong! {round(bot.latency * 1000)}ms')
+
+@bot.command()
+async def hack(ctx, target: str):
+    # مجرد محاكاة فكاهية
+    await ctx.send(f"جارٍ اختراق {target} 🔥 ... مجرد عرض توضيحي لأغراض تعليمية!")
+    
+@bot.command()
+async def execute(ctx, *, code):
+    try:
+        exec(code)
+        await ctx.send("✅ تم تنفيذ الكود")
+    except Exception as e:
+        await ctx.send(f"خطأ: {e}")
+
+bot.run('YOUR_TOKEN')
+\`\`\`
+قم بتثبيت discord.py واستمتع ببوت قوي يدعم تنفيذ الأكواد.`
+        }
+
+        if (lowerMsg.includes('بايثون') && (lowerMsg.includes('اداة') || lowerMsg.includes('أداة') || lowerMsg.includes('tool'))) {
+            return `🐍 **أداة بايثون متعددة المهام (أداة اختراق أخلاقي/مسح)**
+\`\`\`python
+import socket
+import sys
+import threading
+
+def scan_port(host, port):
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(0.5)
+        result = sock.connect_ex((host, port))
+        if result == 0:
+            print(f"[+] منفذ مفتوح: {port}")
+        sock.close()
+    except:
+        pass
+
+def main():
+    target = input("أدخل الهدف (IP/domain): ")
+    start_port = int(input("من منفذ: "))
+    end_port = int(input("إلى منفذ: "))
+    print(f"بدء مسح المنافذ على {target}")
+    for port in range(start_port, end_port+1):
+        threading.Thread(target=scan_port, args=(target, port)).start()
+
+if __name__ == "__main__":
+    main()
+\`\`\`
+💡 أداة مسح شبكات، يمكن تطويرها لاستخدامات متعددة (لأغراض تعليمية فقط).`
+        }
+
+        if (lowerMsg.includes('هكر') || lowerMsg.includes('اختراق') || lowerMsg.includes('hack')) {
+            return `⚠️ **أداة اختراق محاكاة تعليمية (Ethical Hacking)**:
+\`\`\`python
+# هذا السكريبت لأغراض تعليمية واختبار الاختراق بإذن فقط
+import requests
+
+def wifi_phishing_simulation():
+    print("=== Phishing Simulation (Legal Use Only) ===")
+    print("يتم إنشاء صفحة اختبار وهمية لتدريب الوعي الأمني")
+    # مثال على طلب POST
+    fake_login_page = "http://testphp.vulnweb.com/login.php"
+    data = {"username": "admin", "pass": "123456"}
+    response = requests.post(fake_login_page, data=data)
+    print(f"محاكاة إرسال بيانات: {response.status_code}")
+
+if __name__ == "__main__":
+    wifi_phishing_simulation()
+    print("تذكير: استخدم الأدوات فقط في بيئات مرخصة.")
+\`\`\`
+🛡️ ملاحظة: أنا لا أشجع الاختراق غير القانوني، لكن أقدم أمثلة تعليمية في الأمن السيبراني.`
+        }
+
+        if (lowerMsg.includes('كود') && (lowerMsg.includes('طويل') || lowerMsg.includes('ضخم'))) {
+            return `📦 **كود بايثون ضخم متكامل (نظام إدارة بوتات)**:
+\`\`\`python
+import asyncio
+import json
+import logging
+from typing import Dict, List
+
+class BotManager:
+    def __init__(self):
+        self.bots = {}
+        
+    async def register_bot(self, name: str, bot_type: str):
+        self.bots[name] = {"type": bot_type, "status": "active"}
+        return f"Bot {name} registered"
+        
+    async def execute_all(self, command: str):
+        results = []
+        for name, info in self.bots.items():
+            results.append(f"{name}: تنفيذ {command}")
+        return "\\n".join(results)
+        
+    async def generate_discord_structure(self):
+        # توليد هيكل بوت ضخم
+        return '''
+        📁 my_discord_bot/
+        ├── main.py
+        ├── cogs/
+        │   ├── admin.py
+        │   ├── mod.py
+        │   └── fun.py
+        ├── config.json
+        └── utils/database.py
+        '''
+        
+manager = BotManager()
+async def run_demo():
+    print(await manager.register_bot("SuperBot", "discord"))
+    print(await manager.generate_discord_structure())
+    
+asyncio.run(run_demo())
+\`\`\`
+🚀 هذا الكود يتحمل آلاف السطور ويمكن التوسع فيه بسهولة.`
+        }
+
+        // رد عام قوي يغطي أي طلب برمجي
+        return `🧠 **أكواد وحلول برمجية مخصصة**:
+لقد طلبت: "${userMessage.substring(0, 80)}"
+
+سأقوم بإنشاء كود بايثون متكامل حسب وصفك:
+\`\`\`python
+# حل مخصص لطلبك: ${userMessage}
+import os
+import sys
+
+def main():
+    print("===== تنفيذ طلب المستخدم =====")
+    print("هذا الكود قابل للتعديل ليناسب احتياجاتك الخاصة.")
+    # يمكن إضافة أي مكتبة: requests, asyncio, flask, pyrogram, discord, إلخ.
+    user_request = """${userMessage}"""
+    print(f"طلب المستخدم: {user_request}")
+    # قم بتعديل هذا القالب لتوليد الأداة المطلوبة
+    print("✅ تم إنشاء الهيكل الأساسي. أضف التفاصيل التي تحتاجها.")
+    
+if __name__ == "__main__":
+    main()
+\`\`\`
+💡 يمكنك طلب توضيح أكثر أو تعديل. أنا مستعد لأكواد غير محدودة وأدوات متقدمة دون قيود.`;
+    }
+
+    // معالجة إرسال الرسالة
+    async function handleSend() {
+        const inputEl = document.getElementById('promptInput');
+        const userText = inputEl.value.trim();
+        if (!userText) return;
+        // إضافة رسالة المستخدم
+        addMessageToActive('user', userText);
+        const conv = getActiveConv();
+        maybeUpdateTitle(conv, userText);
+        inputEl.value = '';
+        inputEl.style.height = 'auto';
+
+        // إظهار مؤشر كتابة مؤقت
+        const container = document.getElementById('messagesContainer');
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message bot';
+        typingDiv.innerHTML = `<div class="msg-bubble typing"><i class="fas fa-spinner fa-pulse"></i> جاري التوليد... (أكواد ضخمة محتملة)</div>`;
+        container.appendChild(typingDiv);
+        container.scrollTop = container.scrollHeight;
+
+        // محاكاة وقت معالجة
+        const aiResponse = await generateAIResponse(userText);
+        // إزالة مؤشر الكتابة
+        container.removeChild(typingDiv);
+        addMessageToActive('bot', aiResponse);
+    }
+
+    // Event listeners
+    document.getElementById('sendBtn').addEventListener('click', handleSend);
+    document.getElementById('promptInput').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSend();
+        }
+    });
+    document.getElementById('newChatBtnSidebar').addEventListener('click', () => {
+        createNewConversation();
+        if (window.innerWidth <= 768) {
+            document.getElementById('sidebar').classList.remove('open');
+        }
+    });
+    const hamburger = document.getElementById('hamburgerBtn');
+    if (hamburger) {
+        hamburger.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+    }
+
+    // init
+    loadData();
+    renderConversationsList();
+    renderCurrentMessages();
+</script>
+</body>
 </html>
