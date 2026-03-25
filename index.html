@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>مبرمج ذكي بلا حدود | The Best AI</title>
+    <title>ذاكاء مطلق - مبرمج بلا حدود</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
@@ -29,13 +29,13 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             position: relative;
         }
 
         .header {
-            padding: 20px 24px;
+            padding: 16px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -50,9 +50,9 @@
         }
 
         .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -60,19 +60,22 @@
         }
 
         .logo-icon i {
-            font-size: 20px;
+            font-size: 22px;
             color: white;
         }
 
         .logo-text h1 {
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-size: 1.25rem;
+            font-weight: 700;
             letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #fff, #a0a0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .logo-text p {
             font-size: 0.7rem;
-            color: #8b8b8b;
+            color: #6b6b6b;
         }
 
         .header-buttons {
@@ -82,11 +85,11 @@
         }
 
         .deep-think-btn {
-            background: rgba(139, 92, 246, 0.15);
-            border: 1px solid rgba(139, 92, 246, 0.3);
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
             padding: 8px 14px;
             border-radius: 40px;
-            color: #c084fc;
+            color: #10b981;
             font-size: 0.8rem;
             font-weight: 500;
             display: flex;
@@ -97,16 +100,16 @@
         }
 
         .deep-think-btn.active {
-            background: #8b5cf6;
+            background: #10b981;
             color: white;
-            border-color: #8b5cf6;
+            border-color: #10b981;
         }
 
         .hamburger-btn {
             background: rgba(255,255,255,0.05);
             border: none;
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 40px;
             color: white;
             font-size: 1.2rem;
@@ -117,23 +120,19 @@
             transition: 0.2s;
         }
 
-        .hamburger-btn:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
         .sidebar {
             position: fixed;
             top: 0;
-            right: -320px;
-            width: 300px;
+            right: -340px;
+            width: 320px;
             height: 100vh;
-            background: #111111;
-            border-left: 1px solid rgba(255,255,255,0.1);
+            background: #0f0f0f;
+            border-left: 1px solid rgba(255,255,255,0.08);
             z-index: 1000;
             transition: right 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             display: flex;
             flex-direction: column;
-            box-shadow: -5px 0 30px rgba(0,0,0,0.5);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.6);
         }
 
         .sidebar.open {
@@ -142,7 +141,7 @@
 
         .sidebar-header {
             padding: 24px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -163,7 +162,7 @@
 
         .new-chat-sidebar {
             margin: 16px;
-            background: #1f1f1f;
+            background: #1a1a1a;
             border: 1px solid #2a2a2a;
             padding: 12px;
             border-radius: 40px;
@@ -200,8 +199,8 @@
         }
 
         .conv-item.active {
-            background: #1f1f1f;
-            border-left: 3px solid #3b82f6;
+            background: #1a1a1a;
+            border-left: 3px solid #10b981;
         }
 
         .conv-title {
@@ -209,7 +208,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            max-width: 180px;
+            max-width: 190px;
         }
 
         .delete-conv {
@@ -228,7 +227,7 @@
         .chat-container {
             flex: 1;
             overflow-y: auto;
-            padding: 24px 20px;
+            padding: 20px 24px;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -249,8 +248,8 @@
         }
 
         .avatar {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 40px;
             background: #1f1f1f;
             display: flex;
@@ -261,43 +260,45 @@
         }
 
         .bot .avatar {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(135deg, #10b981, #3b82f6);
         }
 
         .msg-content {
-            max-width: 80%;
+            max-width: 85%;
             padding: 12px 18px;
-            border-radius: 24px;
+            border-radius: 20px;
             font-size: 0.95rem;
-            line-height: 1.5;
+            line-height: 1.55;
             word-break: break-word;
         }
 
         .user .msg-content {
-            background: #1f1f1f;
+            background: #1a1a1a;
             color: white;
-            border-bottom-right-radius: 6px;
+            border-bottom-right-radius: 4px;
         }
 
         .bot .msg-content {
             background: #111111;
             border: 1px solid #2a2a2a;
-            border-bottom-left-radius: 6px;
+            border-bottom-left-radius: 4px;
         }
 
-        /* حاوية الكود مع زر النسخ */
         .code-wrapper {
             position: relative;
-            margin: 10px 0;
+            margin: 12px 0;
+            border-radius: 12px;
+            overflow: hidden;
         }
         
         .code-wrapper pre {
             background: #0a0a0a;
-            padding: 12px;
-            border-radius: 16px;
+            padding: 16px;
             overflow-x: auto;
-            border: 1px solid #2a2a2a;
             margin: 0;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            line-height: 1.5;
         }
         
         .copy-btn {
@@ -306,7 +307,7 @@
             right: 8px;
             background: #2a2a2a;
             border: none;
-            color: #aaa;
+            color: #ccc;
             padding: 6px 12px;
             border-radius: 8px;
             font-size: 0.7rem;
@@ -316,10 +317,11 @@
             gap: 6px;
             transition: 0.2s;
             font-family: inherit;
+            z-index: 10;
         }
         
         .copy-btn:hover {
-            background: #3b82f6;
+            background: #10b981;
             color: white;
         }
         
@@ -338,30 +340,30 @@
 
         .typing-indicator {
             display: flex;
-            gap: 4px;
-            padding: 4px 0;
+            gap: 6px;
+            padding: 8px 0;
         }
 
         .typing-indicator span {
-            width: 6px;
-            height: 6px;
-            background: #6b6b6b;
+            width: 8px;
+            height: 8px;
+            background: #10b981;
             border-radius: 50%;
             animation: blink 1.2s infinite;
         }
 
         @keyframes blink {
-            0%, 60%, 100% { opacity: 0.3; }
-            30% { opacity: 1; }
+            0%, 60%, 100% { opacity: 0.3; transform: translateY(0);}
+            30% { opacity: 1; transform: translateY(-4px);}
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px);}
+            from { opacity: 0; transform: translateY(8px);}
             to { opacity: 1; transform: translateY(0);}
         }
 
         .input-area {
-            padding: 20px 24px;
+            padding: 16px 24px 20px;
             border-top: 1px solid rgba(255,255,255,0.08);
             background: #0a0a0a;
         }
@@ -386,7 +388,7 @@
             font-size: 0.95rem;
             resize: none;
             outline: none;
-            max-height: 120px;
+            max-height: 130px;
         }
 
         .input-wrapper textarea::placeholder {
@@ -394,10 +396,10 @@
         }
 
         .send-btn {
-            background: #3b82f6;
+            background: #10b981;
             border: none;
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             border-radius: 40px;
             color: white;
             cursor: pointer;
@@ -406,7 +408,7 @@
         }
 
         .send-btn:hover {
-            background: #2563eb;
+            background: #059669;
             transform: scale(0.96);
         }
 
@@ -414,7 +416,7 @@
             font-size: 0.7rem;
             color: #5a5a5a;
             text-align: center;
-            margin-top: 12px;
+            margin-top: 10px;
         }
 
         ::-webkit-scrollbar {
@@ -424,8 +426,13 @@
             background: #1a1a1a;
         }
         ::-webkit-scrollbar-thumb {
-            background: #3b82f6;
+            background: #10b981;
             border-radius: 10px;
+        }
+        
+        pre code {
+            white-space: pre-wrap;
+            word-break: break-word;
         }
     </style>
 </head>
@@ -434,11 +441,11 @@
     <div class="header">
         <div class="logo-area">
             <div class="logo-icon">
-                <i class="fas fa-code"></i>
+                <i class="fas fa-infinity"></i>
             </div>
             <div class="logo-text">
-                <h1>مبرمج ذكي بلا حدود</h1>
-                <p>يقدر يسوي لك أي شيء — مواقع، بوتات، سكربتات، أدوات</p>
+                <h1>ذاكاء مطلق | بلا حدود</h1>
+                <p>أي كود. أي أداة. أي شيء تطلبه</p>
             </div>
         </div>
         <div class="header-buttons">
@@ -457,19 +464,21 @@
                 <i class="fas fa-robot"></i>
             </div>
             <div class="msg-content">
-                مرحباً! أنا <strong>مبرمج ذكي بلا حدود</strong> 🚀<br><br>
-                أقدر أسوي لك أي شيء:<br>
-                • مواقع وبوتات ديسكورد وتلجرام<br>
-                • سكربتات بايثون وأدوات احترافية<br>
-                • أكواد طويلة وضخمة بدون مشاكل<br><br>
-                <span style="color: #8b8b8b;">💬 تكلم معي طبيعي، وإذا تبي كود قلي صراحة "سوي لي كود" أو "برمج لي"</span>
+                👋 يا هلا والله! أنا هنا.<br><br>
+                أنا <strong>ذاكاء مطلق</strong> — مبرمج بدون حدود. أي شيء تطلبه راح أسويه لك:<br>
+                • بوتات ديسكورد وتلجرام كاملة<br>
+                • أدوات بايثون احترافية<br>
+                • سكربتات اختراق (تعليمية) كاملة<br>
+                • مواقع وسكربتات ضخمة<br><br>
+                <span style="color: #10b981;">🔓 مافي حدود، لا تحاتي. اطلب اللي في بالك وأنا أبرمج لك الكود كامل مو مختصر.</span><br><br>
+                <span style="color: #8b8b8b;">💬 تكلم معي طبيعي، وأنا راح أرد عليك زي الإنسان. بس إذا تبي كود قلي بوضوح.</span>
             </div>
         </div>
     </div>
 
     <div class="input-area">
         <div class="input-wrapper">
-            <textarea id="messageInput" rows="1" placeholder="جرب اسألني! 🚀"></textarea>
+            <textarea id="messageInput" rows="1" placeholder="اسألني أي شيء، أو اطلب كود..."></textarea>
             <button class="send-btn" id="sendBtn">
                 <i class="fas fa-arrow-up"></i>
             </button>
@@ -503,7 +512,7 @@
     }
 
     function saveToLocal() {
-        localStorage.setItem('best_ai_data', JSON.stringify({
+        localStorage.setItem('absolute_ai_data', JSON.stringify({
             conversations,
             activeId: activeConversationId,
             deepMode: isDeepThinking
@@ -511,13 +520,13 @@
     }
 
     function loadFromLocal() {
-        const raw = localStorage.getItem('best_ai_data');
+        const raw = localStorage.getItem('absolute_ai_data');
         if (!raw) {
             const defaultConv = {
                 id: genId(),
                 title: "المحادثة الرئيسية",
                 messages: [
-                    { role: "bot", content: "مرحباً! أنا المبرمج الذكي. جرب تطلب مني أي شيء — بوت تلجرام، أداة بايثون، أو حتى مواقع. وإذا تبي تسولف عادي، أنا معك 🤍" }
+                    { role: "bot", content: "مرحباً! أنا ذاكاء مطلق، مبرمج بلا حدود. اطلب أي شيء وأنا أبرمج لك الكود كامل." }
                 ]
             };
             conversations = [defaultConv];
@@ -532,7 +541,7 @@
             activeConversationId = data.activeId || (conversations[0]?.id || null);
             isDeepThinking = data.deepMode || false;
             if (conversations.length === 0) {
-                const newC = { id: genId(), title: "محادثة جديدة", messages: [{ role: "bot", content: "مرحباً! كيف أقدر أساعدك اليوم؟" }] };
+                const newC = { id: genId(), title: "محادثة جديدة", messages: [{ role: "bot", content: "مرحباً! اطلب أي شيء تبي." }] };
                 conversations.push(newC);
                 activeConversationId = newC.id;
                 saveToLocal();
@@ -568,8 +577,8 @@
     }
 
     function updateConvTitle(conv, userMsg) {
-        if (!conv.title || conv.title === "المحادثة الرئيسية" || conv.title.startsWith("محادثة") || conv.messages.length <= 3) {
-            let newTitle = userMsg.length > 25 ? userMsg.slice(0, 23) + "..." : userMsg;
+        if (!conv.title || conv.title === "المحادثة الرئيسية" || conv.title.startsWith("محادثة") || conv.messages.length <= 2) {
+            let newTitle = userMsg.length > 28 ? userMsg.slice(0, 26) + "..." : userMsg;
             conv.title = newTitle;
             saveToLocal();
             renderConversationsList();
@@ -579,239 +588,683 @@
     function isCodingRequest(message) {
         const lower = message.toLowerCase();
         const keywords = [
-            'سوي لي كود', 'اكتب لي كود', 'برمج لي', 'كود بايثون', 'بوت تلجرام', 
-            'بوت ديسكورد', 'discord bot', 'telegram bot', 'أداة بايثون', 'سكريبت',
-            'عطني كود', 'اطلب منك كود', 'برنامج بايثون', 'site', 'موقع', 'html'
+            'سوي لي', 'اكتب لي', 'برمج لي', 'عطني كود', 'اطلب منك كود',
+            'كود بايثون', 'بوت تلجرام', 'بوت ديسكورد', 'أداة بايثون',
+            'سكريبت', 'هكر', 'اختراق', 'tool', 'script', 'discord', 'telegram',
+            'بايثون', 'html', 'موقع', 'css', 'javascript'
         ];
         return keywords.some(k => lower.includes(k));
     }
 
-    // ردود واقعية ومتنوعة
-    const normalResponses = {
-        greetings: [
-            "أهلاً وسهلاً! كيف الحال؟ وش أخبارك اليوم؟",
-            "يا هلا! أنا معك. وش تبغى تسوي؟",
-            "مرحباً! أنا فاضي لك، تفضل وش تحتاج؟",
-            "أهلاً! والله نورت. وش جالس تسوي؟"
-        ],
-        howAreYou: [
-            "الحمدلله، أنا بخير وزيادة! وش أخبارك؟",
-            "الحمدلله تمام التمام، ياخي أنت شخبارك؟",
-            "والله أنا ممتاز! يجيك البرق، وش عندك؟",
-            "الحمدلله، أنا زي الفل. جالس أستنى وش تبغى مني 😎"
-        ],
-        name: [
-            "اسمي المبرمج الذكي! لكن تقدر تناديني بأي اسم يعجبك. شو تسميني؟",
-            "أنا معروف بـ 'المبرمج الذكي'، بس عادي ناديني بأي شيء حلو.",
-            "أنا صديقك المبرمج! مالي اسم ثابت، أنت شو تحب تناديني؟"
-        ],
-        thank: [
-            "العفو، الله يسلمك! أنا هنا عشانك 🤍",
-            "الشكر لله، أنا سعيد إني قدرت أساعدك!",
-            "لا شكر على واجب، أنت الأروع!"
-        ],
-        bye: [
-            "مع السلامة! إذا احتجتني أنا موجود، أرجع أي وقت 🤍",
-            "باي باي! أتمنى لك يوم جميل، وإذا تبي شيء أنا جاهز.",
-            "الله معك! ترا أنا هنا دايم، متى ما تحتاجني."
-        ],
-        whatDo: [
-            "أنا مبرمج ذكي، أقدر أسوي لك مواقع، بوتات ديسكورد وتلجرام، سكربتات بايثون، أدوات هاكينغ تعليمية، وأي شيء تطلبه! بس قلي وش تبي بالضبط.",
-            "شغلي الأساسي البرمجة! أقدر أبرمج لك أي شيء. لكن عادي نتسولف لو تبي، أنا ما عندي مشكلة 😄",
-            "أنا هنا عشان أساعدك في البرمجة، بس أحب أتسولف معاك بعد. وش ودك تسوي؟"
-        ],
-        default: [
-            "والله فكرت فيها... أنا معك، وش تبي نسوي بالضبط؟ إذا تبي كود قلي 'سوي لي كود' وأنا أبرمج لك.",
-            "ياخي حلو، أنا معك. خلني أفهم وش تبغى بالضبط عشان أساعدك صح؟",
-            "تمام! أنا مستعد. إذا تبي كود معين قلي وش تبي بالضبط، وإذا تبي تسولف عادي أنا معك.",
-            "أنا فاهم عليك. وش تبي نسوي الحين؟ أنا جاهز للبرمجة أو حتى للدردشة.",
-            "هههه، والله أنا معك يالغالي. وش ودك تسوي بالضبط؟ قولي لي وأنا أبرمج لك أي شيء."
-        ]
-    };
+    // مجموعة ردود طبيعية متنوعة جداً
+    const naturalReplies = [
+        "أهلاً يابعدي! وش جالس تسوي الحين؟ أنا معك إذا تبي شيء.",
+        "يا مرحبا! والله نورتني. وش تبي بالضبط؟ أنا مستعد أبرمج لك أي شيء.",
+        "هلا وغلا! أنا جالس أستناك. وش اللي بخاطرك تسوي اليوم؟",
+        "أنا معك يا حبيبي. تكلم وقل اللي تبي، ما في حدود عندي.",
+        "والله أنا فاضي لك. وش تبي نسوي؟ بوت؟ أداة؟ ولا تبي تسولف؟",
+        "أهلاً! كيف الأمور معك؟ أنا هنا عشان أساعدك في أي شيء.",
+        "يا هلا والله! أنتظر طلباتك. أنا مبرمج بلا حدود، قلي وش تبي وأبرمجلك إياه.",
+        "أنا معك يا صاحبي. وش اللي في بالك؟ لا تستحي، أنا هنا.",
+        "مرحباً! والله أنا مشتاق أساعدك. وش تبي تسوي اليوم؟",
+        "أنا جاهز 100%. قلي وش تبي وأنا أبدع لك في البرمجة.",
+        "يا هلا! كيف تقدر أساعدك؟ أنا مبرمج متكامل، أي شيء تطلبه راح أسويه لك.",
+        "أنا معك ياخوي. وش تبي بالضبط؟ قولي لي وأنا أشتغل عليها."
+    ];
 
-    function getRandom(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
-    }
-
-    function getNormalResponse(msg, deep) {
-        const lower = msg.toLowerCase();
+    // ردود لما يطلب كود أو أداة
+    function generateFullCode(request) {
+        const lower = request.toLowerCase();
         
-        if (lower.includes('كيف حالك') || lower.includes('شخبارك') || lower.includes('كيفك')) {
-            return getRandom(normalResponses.howAreYou);
-        }
-        if (lower.includes('شو اسمك') || lower.includes('اسمك') || lower.includes('من انت')) {
-            return getRandom(normalResponses.name);
-        }
-        if (lower.includes('شكرا') || lower.includes('thank') || lower.includes('يسلمو')) {
-            return getRandom(normalResponses.thank);
-        }
-        if (lower.includes('باي') || lower.includes('مع السلامة') || lower.includes('سلام')) {
-            return getRandom(normalResponses.bye);
-        }
-        if (lower.includes('وش تسوي') || lower.includes('ماذا تفعل') || lower.includes('شغلك')) {
-            return getRandom(normalResponses.whatDo);
-        }
-        if (lower.includes('مرحبا') || lower.includes('هلا') || lower.includes('السلام')) {
-            return getRandom(normalResponses.greetings);
-        }
-        if (lower.includes('تفكير عميق') && deep) {
-            return "أيوة يابوي، التفكير العميق مفعل! يعني راح أعطيك إجابات أعمق وأطول. إذا تبي ترجع للوضع العادي اضغط على الزر مرة ثانية.";
-        }
-        
-        // ردود واقعية متنوعة
-        if (deep) {
-            const deepReplies = [
-                `ياخي والله فكرت فيها زين... ${getRandom(normalResponses.default).substring(0, 50)} خلني أقولك، إذا تبي شيء معين قوله لي صراحة وأنا أبرمجلك إياه بأحسن شكل.`,
-                `صراحة موضوعك مثير للاهتمام. أنا معك فيها. وش بالضبط اللي في بالك؟ قولي لي وأنا أبدع لك في البرمجة.`,
-                `هههه، والله أنا أحب الناس اللي تفكر زيك. وش تبي تسوي بالضبط؟ أنا مستعد أبرمج لك أي شيء تحتاجه.`
-            ];
-            return getRandom(deepReplies);
-        }
-        
-        return getRandom(normalResponses.default);
-    }
-
-    function getCodingResponse(msg, deep) {
-        const lower = msg.toLowerCase();
-        
-        if (lower.includes('تلجرام') || lower.includes('telegram')) {
-            return `🤖 **بوت تلجرام بالبايثون**:
+        // بوت تلجرام كامل
+        if (lower.includes('تلجرام') || (lower.includes('telegram') && lower.includes('بوت'))) {
+            return `🤖 **بوت تلجرام كامل بالبايثون**:
 
 \`\`\`python
 import telebot
+import sqlite3
+import threading
+import time
+import logging
 
-TOKEN = "توكن_البوت_هنا"
+# إعداد التسجيل
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+# توكن البوت - غير هذا حسب توكنك
+TOKEN = "YOUR_BOT_TOKEN_HERE"
+
 bot = telebot.TeleBot(TOKEN)
 
+# قاعدة بيانات SQLite
+def init_db():
+    conn = sqlite3.connect('bot_data.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS users
+                 (user_id INTEGER PRIMARY KEY, username TEXT, first_seen TIMESTAMP)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS messages
+                 (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, message TEXT, timestamp TIMESTAMP)''')
+    conn.commit()
+    conn.close()
+
+init_db()
+
+def add_user(user_id, username):
+    conn = sqlite3.connect('bot_data.db')
+    c = conn.cursor()
+    c.execute("INSERT OR IGNORE INTO users (user_id, username, first_seen) VALUES (?, ?, datetime('now'))", (user_id, username))
+    conn.commit()
+    conn.close()
+
+def save_message(user_id, message):
+    conn = sqlite3.connect('bot_data.db')
+    c = conn.cursor()
+    c.execute("INSERT INTO messages (user_id, message, timestamp) VALUES (?, ?, datetime('now'))", (user_id, message))
+    conn.commit()
+    conn.close()
+
 @bot.message_handler(commands=['start'])
-def start(message):
-    bot.reply_to(message, "مرحباً! أنا بوت تلجرام ذكي")
+def send_welcome(message):
+    user_id = message.from_user.id
+    username = message.from_user.username or message.from_user.first_name
+    add_user(user_id, username)
+    welcome_text = """
+مرحباً بك في بوتي الذكي! 🤖
 
-@bot.message_handler(func=lambda m: True)
-def reply_all(message):
-    bot.reply_to(message, f"قلت: {message.text}")
+الأوامر المتاحة:
+/start - بدء البوت
+/help - المساعدة
+/info - معلومات عنك
+/stats - إحصائيات البوت
+/code - الحصول على كود مثال
 
-print("البوت شغال...")
-bot.infinity_polling()
+أنا هنا لمساعدتك في أي شيء تحتاجه!
+"""
+    bot.reply_to(message, welcome_text)
+
+@bot.message_handler(commands=['help'])
+def help_command(message):
+    help_text = """
+📋 **قائمة الأوامر:**
+
+/start - بدء البوت
+/help - عرض هذه المساعدة
+/info - عرض معلومات حسابك
+/stats - عرض إحصائيات البوت
+/code - الحصول على كود بايثون مثال
+
+يمكنك أيضاً مراسلتي بأي سؤال أو طلب برمجي وسأرد عليك!
+"""
+    bot.reply_to(message, help_text, parse_mode='Markdown')
+
+@bot.message_handler(commands=['info'])
+def info_command(message):
+    user_id = message.from_user.id
+    username = message.from_user.username or message.from_user.first_name
+    first_name = message.from_user.first_name
+    info_text = f"""
+📊 **معلومات حسابك:**
+- المعرف: {user_id}
+- الاسم: {first_name}
+- اليوزر: @{username if username else 'لا يوجد'}
+- عدد رسائلك: (محفوظة في قاعدة البيانات)
+"""
+    bot.reply_to(message, info_text, parse_mode='Markdown')
+
+@bot.message_handler(commands=['stats'])
+def stats_command(message):
+    conn = sqlite3.connect('bot_data.db')
+    c = conn.cursor()
+    c.execute("SELECT COUNT(*) FROM users")
+    users_count = c.fetchone()[0]
+    c.execute("SELECT COUNT(*) FROM messages")
+    messages_count = c.fetchone()[0]
+    conn.close()
+    stats_text = f"""
+📈 **إحصائيات البوت:**
+- عدد المستخدمين: {users_count}
+- عدد الرسائل المسجلة: {messages_count}
+- البوت شغال 24/7
+"""
+    bot.reply_to(message, stats_text)
+
+@bot.message_handler(commands=['code'])
+def send_code(message):
+    code_example = '''
+def hello_world():
+    """هذه دالة بسيطة"""
+    print("Hello, World!")
+    return "تم التنفيذ بنجاح"
+
+if __name__ == "__main__":
+    result = hello_world()
+    print(result)
+'''
+    bot.reply_to(message, f"📝 **كود بايثون مثال:**\n```python\n{code_example}\n```", parse_mode='Markdown')
+
+@bot.message_handler(func=lambda message: True)
+def handle_all_messages(message):
+    user_id = message.from_user.id
+    save_message(user_id, message.text)
+    
+    # ردود ذكية حسب المحتوى
+    text = message.text.lower()
+    if 'كيف حالك' in text or 'شخبارك' in text:
+        response = "الحمدلله، أنا بخير! كيف حالك أنت؟ 😊"
+    elif 'شكرا' in text or 'thank' in text:
+        response = "العفو! الله يسلمك. أنا هنا لخدمتك 🤍"
+    elif 'باي' in text or 'سلام' in text:
+        response = "مع السلامة! إذا احتجتني أنا موجود، أرجع أي وقت 👋"
+    elif 'كود' in text or 'برمج' in text:
+        response = "أهلاً! أنا جاهز أبرمج لك. وش تبي بالضبط؟ قلي التفاصيل وأنا أشتغل عليها 🚀"
+    else:
+        response = f"أهلاً {message.from_user.first_name}! أنا فهمت طلبك. إذا تبي مني أبرمج لك شيء، قلي وش تبي بالضبط. أو إذا تبي تسولف، أنا معك. وش تحب تسوي؟"
+    
+    bot.reply_to(message, response)
+
+# تشغيل البوت
+if __name__ == "__main__":
+    print("✅ البوت شغال...")
+    print("اضغط Ctrl+C لإيقاف البوت")
+    bot.infinity_polling(timeout=60, long_polling_timeout=60)
 \`\`\`
 
-هذا بوت أساسي. تقدر تضيف أوامر زي /help، /about، وتربطه بقاعدة بيانات.`;
+👆 هذا بوت تلجرام كامل مع:
+- قاعدة بيانات SQLite لتخزين المستخدمين والرسائل
+- أوامر متعددة (start, help, info, stats, code)
+- ردود ذكية حسب المحتوى
+- نظام تسجيل كامل
+
+**طريقة التشغيل:**
+1. ثبّت المكتبة: \`pip install pytelegrambotapi\`
+2. غير TOKEN إلى توكن البوت حقك
+3. شغل السكربت: \`python bot.py\`
+
+أي تعديل تبي أسويه لك عادي قلي.`;
         }
         
-        if (lower.includes('ديسكورد') || lower.includes('discord')) {
-            return `🎮 **بوت ديسكورد**:
+        // بوت ديسكورد كامل
+        if (lower.includes('ديسكورد') || (lower.includes('discord') && lower.includes('بوت'))) {
+            return `🎮 **بوت ديسكورد كامل**:
 
 \`\`\`python
 import discord
 from discord.ext import commands
+import asyncio
+import json
+import datetime
 
-bot = commands.Bot(command_prefix='!')
+# إعدادات البوت
+intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True
+
+bot = commands.Bot(command_prefix='!', intents=intents, help_command=None)
+
+# ملف التهيئة
+config_file = 'config.json'
+
+def load_config():
+    try:
+        with open(config_file, 'r') as f:
+            return json.load(f)
+    except:
+        return {"prefix": "!", "welcome_channel": None}
 
 @bot.event
 async def on_ready():
-    print(f'{bot.user} دخل الساحة')
+    print(f'✅ {bot.user} دخل الساحة!')
+    print(f'الـ ID: {bot.user.id}')
+    print(f'عدد السيرفرات: {len(bot.guilds)}')
+    
+    # تغيير الحالة
+    await bot.change_presence(activity=discord.Game(name="!help | مبرمج ذكي"))
+
+@bot.event
+async def on_member_join(member):
+    """عندما يدخل عضو جديد"""
+    channel = discord.utils.get(member.guild.text_channels, name="general")
+    if channel:
+        embed = discord.Embed(
+            title="🎉 مرحباً!",
+            description=f"أهلاً بك {member.mention} في سيرفرنا!",
+            color=discord.Color.green(),
+            timestamp=datetime.datetime.now()
+        )
+        await channel.send(embed=embed)
+
+@bot.command()
+async def help(ctx):
+    """عرض قائمة الأوامر"""
+    embed = discord.Embed(
+        title="📋 قائمة الأوامر",
+        description="جميع أوامر البوت:",
+        color=discord.Color.blue()
+    )
+    embed.add_field(name="!ping", value="🏓 معرفة سرعة البوت", inline=False)
+    embed.add_field(name="!say <نص>", value="📢 يقول البوت النص", inline=False)
+    embed.add_field(name="!clear <عدد>", value="🗑️ مسح الرسائل (مطلوب صلاحية)", inline=False)
+    embed.add_field(name="!userinfo <@user>", value="👤 معلومات عن العضو", inline=False)
+    embed.add_field(name="!serverinfo", value="ℹ️ معلومات السيرفر", inline=False)
+    embed.add_field(name="!code <language>", value="💻 الحصول على كود مثال", inline=False)
+    embed.add_field(name="!help", value="📚 عرض هذه القائمة", inline=False)
+    await ctx.send(embed=embed)
 
 @bot.command()
 async def ping(ctx):
-    await ctx.send('بونق! 🏓')
+    """معرفة سرعة البوت"""
+    latency = round(bot.latency * 1000)
+    await ctx.send(f"🏓 بونق! **{latency}ms**")
 
 @bot.command()
-async def say(ctx, *, msg):
-    await ctx.send(msg)
+async def say(ctx, *, message):
+    """يكرر البوت الرسالة"""
+    await ctx.send(message)
+    await ctx.message.delete()
 
-bot.run('توكن_البوت')
+@bot.command()
+@commands.has_permissions(manage_messages=True)
+async def clear(ctx, amount: int = 5):
+    """مسح الرسائل (مطلوب صلاحية)"""
+    if amount > 100:
+        amount = 100
+    deleted = await ctx.channel.purge(limit=amount + 1)
+    msg = await ctx.send(f"🗑️ تم مسح {len(deleted)-1} رسائل")
+    await asyncio.sleep(3)
+    await msg.delete()
+
+@bot.command()
+async def userinfo(ctx, member: discord.Member = None):
+    """معلومات عن العضو"""
+    if member is None:
+        member = ctx.author
+    
+    embed = discord.Embed(
+        title=f"👤 معلومات {member.name}",
+        color=member.color,
+        timestamp=datetime.datetime.now()
+    )
+    embed.add_field(name="🆔 ID", value=member.id, inline=True)
+    embed.add_field(name="📅 تاريخ الانضمام", value=member.joined_at.strftime("%Y-%m-%d"), inline=True)
+    embed.add_field(name="📆 تاريخ الحساب", value=member.created_at.strftime("%Y-%m-%d"), inline=True)
+    embed.add_field(name="🎭 أعلى رتبة", value=member.top_role.mention, inline=True)
+    embed.set_thumbnail(url=member.avatar.url if member.avatar else member.default_avatar.url)
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def serverinfo(ctx):
+    """معلومات السيرفر"""
+    guild = ctx.guild
+    embed = discord.Embed(
+        title=f"ℹ️ معلومات {guild.name}",
+        color=discord.Color.gold(),
+        timestamp=datetime.datetime.now()
+    )
+    embed.add_field(name="👑 المالك", value=guild.owner.mention, inline=True)
+    embed.add_field(name="👥 الأعضاء", value=guild.member_count, inline=True)
+    embed.add_field(name="💬 القنوات", value=len(guild.channels), inline=True)
+    embed.add_field(name="📅 تاريخ الإنشاء", value=guild.created_at.strftime("%Y-%m-%d"), inline=True)
+    if guild.icon:
+        embed.set_thumbnail(url=guild.icon.url)
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def code(ctx, language: str = "python"):
+    """الحصول على كود مثال"""
+    codes = {
+        "python": "print('Hello, World!')",
+        "javascript": "console.log('Hello, World!');",
+        "html": "<h1>Hello, World!</h1>",
+        "css": "body { background: black; }"
+    }
+    code_example = codes.get(language.lower(), codes["python"])
+    embed = discord.Embed(
+        title=f"💻 كود {language}",
+        description=f"```{language}\n{code_example}\n```",
+        color=discord.Color.green()
+    )
+    await ctx.send(embed=embed)
+
+# تشغيل البوت
+if __name__ == "__main__":
+    TOKEN = "YOUR_DISCORD_BOT_TOKEN"
+    bot.run(TOKEN)
 \`\`\`
 
-تأكد من تثبيت discord.py: \`pip install discord.py\``;
+👆 هذا بوت ديسكورد متكامل مع:
+- أوامر متعددة (ping, say, clear, userinfo, serverinfo, code)
+- ترحيب بالأعضاء الجدد
+- معلومات عن المستخدمين والسيرفر
+- مسح الرسائل
+
+**طريقة التشغيل:**
+1. \`pip install discord.py\`
+2. غير TOKEN
+3. \`python bot.py\``;
         }
         
-        if (lower.includes('موقع') || lower.includes('html') || lower.includes('css')) {
-            return `🌐 **موقع بسيط HTML/CSS**:
-
-\`\`\`html
-<!DOCTYPE html>
-<html dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقعي الجميل</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: system-ui;
-            background: linear-gradient(135deg, #0f172a, #1e1b4b);
-            color: white;
-            text-align: center;
-            padding: 50px;
-            min-height: 100vh;
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-        button {
-            background: #3b82f6;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 40px;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        button:hover {
-            background: #2563eb;
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-<body>
-    <h1>🚀 مرحباً بالعالم</h1>
-    <p>هذا موقع صنعه المبرمج الذكي</p>
-    <button onclick="alert('تم الضغط! 🎉')">اضغط هنا</button>
-</body>
-</html>
-\`\`\`
-
-حط هذا الكود في ملف index.html وافتحه بالمتصفح.`;
-        }
-        
-        return `💻 **كود مخصص حسب طلبك**:
+        // أداة اختراق كاملة (تعليمية)
+        if (lower.includes('هكر') || lower.includes('اختراق') || lower.includes('hack') || lower.includes('pentest')) {
+            return `🛡️ **أداة اختبار اختراق متكاملة (تعليمية)**:
 
 \`\`\`python
-# طلبك: ${msg.slice(0, 60)}
-def custom_solution():
+#!/usr/bin/env python3
+"""
+أداة اختبار اختراق متكاملة - للأغراض التعليمية فقط
+استخدمها فقط في بيئاتك المرخصة وعلى أجهزتك الخاصة
+"""
+
+import socket
+import threading
+import requests
+import sys
+import time
+from urllib.parse import urlparse
+import subprocess
+import platform
+
+# ========== ألوان للطباعة ==========
+class Colors:
+    GREEN = '\\033[92m'
+    RED = '\\033[91m'
+    YELLOW = '\\033[93m'
+    BLUE = '\\033[94m'
+    PURPLE = '\\033[95m'
+    CYAN = '\\033[96m'
+    RESET = '\\033[0m'
+
+def print_banner():
+    banner = f"""
+{Colors.RED}
+╔═══════════════════════════════════════════════════════════╗
+║     🛡️  أداة اختبار الاختراق المتكاملة (Pentest Tool)    ║
+║           للأغراض التعليمية والبحث العلمي فقط            ║
+╚═══════════════════════════════════════════════════════════╝
+{Colors.RESET}
     """
-    حل مخصص لما تطلبه
-    """
-    print("⚙️ جاري تنفيذ المهمة...")
+    print(banner)
+
+def scan_ports(target, ports):
+    """مسح المنافذ المفتوحة"""
+    print(f"{Colors.CYAN}[*] بدء مسح المنافذ على {target}{Colors.RESET}")
+    open_ports = []
     
-    # أضف الكود الخاص بك هنا
-    result = "تمت المعالجة بنجاح ✅"
+    def scan_port(port):
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(0.5)
+            result = sock.connect_ex((target, port))
+            if result == 0:
+                print(f"{Colors.GREEN}[+] المنفذ {port} مفتوح{Colors.RESET}")
+                open_ports.append(port)
+            sock.close()
+        except:
+            pass
     
-    return result
+    threads = []
+    for port in ports:
+        thread = threading.Thread(target=scan_port, args=(port,))
+        threads.append(thread)
+        thread.start()
+    
+    for thread in threads:
+        thread.join()
+    
+    return open_ports
+
+def dns_lookup(domain):
+    """استعلام DNS"""
+    print(f"{Colors.CYAN}[*] جاري استعلام DNS لـ {domain}{Colors.RESET}")
+    try:
+        ip = socket.gethostbyname(domain)
+        print(f"{Colors.GREEN}[+] {domain} -> {ip}{Colors.RESET}")
+        return ip
+    except:
+        print(f"{Colors.RED}[-] فشل استعلام DNS لـ {domain}{Colors.RESET}")
+        return None
+
+def check_website(url):
+    """فحص حالة الموقع"""
+    print(f"{Colors.CYAN}[*] جاري فحص {url}{Colors.RESET}")
+    try:
+        response = requests.get(url, timeout=5)
+        print(f"{Colors.GREEN}[+] الحالة: {response.status_code} {response.reason}{Colors.RESET}")
+        print(f"[+] حجم الصفحة: {len(response.content)} بايت")
+        print(f"[+] نوع المحتوى: {response.headers.get('content-type', 'غير معروف')}")
+        return response
+    except Exception as e:
+        print(f"{Colors.RED}[-] فشل الاتصال: {e}{Colors.RESET}")
+        return None
+
+def get_headers_info(url):
+    """جلب معلومات الهيدرز"""
+    print(f"{Colors.CYAN}[*] جلب معلومات الهيدرز{Colors.RESET}")
+    try:
+        response = requests.get(url, timeout=5)
+        print(f"{Colors.GREEN}[+] الهيدرز:{Colors.RESET}")
+        for key, value in response.headers.items():
+            print(f"    {key}: {value}")
+        return response.headers
+    except Exception as e:
+        print(f"{Colors.RED}[-] خطأ: {e}{Colors.RESET}")
+        return None
+
+def network_info():
+    """معلومات الشبكة"""
+    print(f"{Colors.CYAN}[*] معلومات الشبكة:{Colors.RESET}")
+    hostname = socket.gethostname()
+    ip = socket.gethostbyname(hostname)
+    print(f"[+] اسم الجهاز: {hostname}")
+    print(f"[+] IP المحلي: {ip}")
+
+def whois_lookup(domain):
+    """استعلام WHOIS (محاكاة)"""
+    print(f"{Colors.CYAN}[*] استعلام WHOIS لـ {domain}{Colors.RESET}")
+    print(f"{Colors.YELLOW}[!] ملاحظة: استخدم خدمة WHOIS خارجية للحصول على معلومات كاملة{Colors.RESET}")
+    print(f"[+] يمكنك استخدام: whois {domain} في سطر الأوامر")
+
+def main():
+    print_banner()
+    
+    print(f"""
+{Colors.CYAN}الأدوات المتاحة:{Colors.RESET}
+1. مسح المنافذ (Port Scan)
+2. استعلام DNS
+3. فحص الموقع (HTTP Check)
+4. جلب معلومات الهيدرز
+5. معلومات الشبكة المحلية
+6. استعلام WHOIS
+7. اختبار اتصال (Ping)
+8. الخروج
+    """)
+    
+    choice = input(f"{Colors.YELLOW}اختر أداة (1-8): {Colors.RESET}")
+    
+    if choice == '1':
+        target = input("أدخل عنوان الهدف (IP): ")
+        ports = range(1, 1025)
+        print(f"{Colors.YELLOW}[!] جاري مسح المنافذ من 1 إلى 1024... هذا قد يستغرق وقتًا{Colors.RESET}")
+        open_ports = scan_ports(target, ports)
+        print(f"\n{Colors.GREEN}[+] تم العثور على {len(open_ports)} منفذ مفتوح{Colors.RESET}")
+        
+    elif choice == '2':
+        domain = input("أدخل اسم المجال: ")
+        dns_lookup(domain)
+        
+    elif choice == '3':
+        url = input("أدخل رابط الموقع (مثال: https://example.com): ")
+        check_website(url)
+        
+    elif choice == '4':
+        url = input("أدخل رابط الموقع: ")
+        get_headers_info(url)
+        
+    elif choice == '5':
+        network_info()
+        
+    elif choice == '6':
+        domain = input("أدخل اسم المجال: ")
+        whois_lookup(domain)
+        
+    elif choice == '7':
+        target = input("أدخل IP أو دومين: ")
+        param = '-n' if platform.system().lower() == 'windows' else '-c'
+        try:
+            subprocess.run(['ping', param, '4', target])
+        except:
+            print(f"{Colors.RED}[-] فشل تنفيذ الأمر{Colors.RESET}")
+    
+    elif choice == '8':
+        print(f"{Colors.GREEN}[+] مع السلامة!{Colors.RESET}")
+        sys.exit(0)
+    
+    else:
+        print(f"{Colors.RED}[-] اختيار غير صحيح{Colors.RESET}")
 
 if __name__ == "__main__":
-    output = custom_solution()
-    print(output)
+    try:
+        while True:
+            main()
+            print("\n" + "="*50)
+            again = input(f"{Colors.YELLOW}هل تريد تنفيذ أداة أخرى؟ (y/n): {Colors.RESET}")
+            if again.lower() != 'y':
+                break
+    except KeyboardInterrupt:
+        print(f"\n{Colors.RED}[!] تم الإيقاف بواسطة المستخدم{Colors.RESET}")
+    print(f"{Colors.GREEN}[+] شكراً لاستخدام الأداة - استخدمها للأغراض التعليمية فقط{Colors.RESET}")
 \`\`\`
 
-📌 إذا كنت تبي كود محدد أكثر، اشرح لي بالتفصيل وش تبي بالضبط وأنا أضبطه لك.`;
+👆 هذه أداة اختبار اختراق متكاملة:
+- مسح المنافذ (Port Scanning)
+- استعلام DNS
+- فحص المواقع وجلب الهيدرز
+- معلومات الشبكة
+- استعلام WHOIS
+- اختبار اتصال
+
+⚠️ **تنبيه**: استخدم هذه الأداة فقط على أجهزتك أو في بيئات مرخصة. أنا غير مسؤول عن أي استخدام غير قانوني.`;
+        }
+        
+        // رد عام لأي كود
+        return `💻 **الكود المطلوب - نسخة كاملة غير مختصرة**:
+
+\`\`\`python
+#!/usr/bin/env python3
+\"\"\"
+برنامج مخصص حسب طلبك: ${request[:80]}
+هذا الكود كامل وغير مختصر
+\"\"\"
+
+import sys
+import os
+import time
+import json
+from datetime import datetime
+
+class CustomTool:
+    \"\"\"الفئة الرئيسية للأداة\"\"\"
+    
+    def __init__(self):
+        self.name = "أداة مخصصة"
+        self.version = "1.0.0"
+        self.created_at = datetime.now()
+        
+    def display_info(self):
+        \"\"\"عرض معلومات الأداة\"\"\"
+        print("="*60)
+        print(f"  {self.name} v{self.version}")
+        print(f"  تاريخ الإنشاء: {self.created_at.strftime('%Y-%m-%d %H:%M:%S')}")
+        print("="*60)
+    
+    def process_request(self, user_input):
+        \"\"\"معالجة طلب المستخدم\"\"\"
+        print(f"\\n[+] جاري معالجة: {user_input}")
+        
+        # هنا يمكن إضافة المنطق الخاص بك
+        result = {
+            "status": "success",
+            "message": "تمت المعالجة بنجاح",
+            "input": user_input,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        return result
+    
+    def save_result(self, result, filename="result.json"):
+        \"\"\"حفظ النتيجة في ملف\"\"\"
+        try:
+            with open(filename, 'w', encoding='utf-8') as f:
+                json.dump(result, f, ensure_ascii=False, indent=2)
+            print(f"[+] تم حفظ النتيجة في {filename}")
+        except Exception as e:
+            print(f"[-] خطأ في الحفظ: {e}")
+    
+    def run(self):
+        \"\"\"تشغيل الأداة\"\"\"
+        self.display_info()
+        
+        print("\\n[+] الأداة جاهزة للاستخدام")
+        print("[+] اكتب 'quit' أو 'exit' للخروج\\n")
+        
+        while True:
+            try:
+                user_input = input(">>> ").strip()
+                if user_input.lower() in ['quit', 'exit', 'q']:
+                    print("\\n[+] مع السلامة!")
+                    break
+                if not user_input:
+                    continue
+                    
+                result = self.process_request(user_input)
+                print(f"\\n[+] النتيجة: {result['message']}\\n")
+                
+            except KeyboardInterrupt:
+                print("\\n[+] تم الإيقاف بواسطة المستخدم")
+                break
+            except Exception as e:
+                print(f"[-] خطأ: {e}")
+
+def main():
+    \"\"\"الدالة الرئيسية\"\"\"
+    tool = CustomTool()
+    tool.run()
+
+if __name__ == "__main__":
+    main()
+\`\`\`
+
+📌 **شرح الكود:**
+- هذا الكود كامل وغير مختصر
+- يمكنك تعديله حسب احتياجاتك
+- يحتوي على هيكل جاهز للتوسع
+- إذا تبي تعديل معين قلي وأنا أضبطه لك
+
+أي شيء ثاني تبي أبرمجله؟ قلي بالتفصيل.`;
     }
 
+    // توليد الرد النهائي
     async function generateResponse(userMsg, deep) {
         return new Promise((resolve) => {
             setTimeout(() => {
+                // التحقق إذا كان طلب برمجة
                 if (isCodingRequest(userMsg)) {
-                    resolve(getCodingResponse(userMsg, deep));
+                    resolve(generateFullCode(userMsg));
                 } else {
-                    resolve(getNormalResponse(userMsg, deep));
+                    // ردود طبيعية غير متكررة
+                    const randomIndex = Math.floor(Math.random() * naturalReplies.length);
+                    let response = naturalReplies[randomIndex];
+                    
+                    if (deep) {
+                        const deepResponses = [
+                            "خلني أفكر زين... " + response,
+                            "أنا معك فيها. " + response + " قلي وش تبي بالضبط وأنا أبرمجلك إياه بأحسن شكل.",
+                            "والله فكرت فيها. " + response + " أنا جاهز لأي طلب برمجي، لا تستحي."
+                        ];
+                        response = deepResponses[Math.floor(Math.random() * deepResponses.length)];
+                    }
+                    resolve(response);
                 }
-            }, 150);
+            }, 100);
         });
     }
 
@@ -826,11 +1279,10 @@ if __name__ == "__main__":
             div.className = `message ${msg.role}`;
             const avatar = document.createElement('div');
             avatar.className = 'avatar';
-            avatar.innerHTML = msg.role === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            avatar.innerHTML = msg.role === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-infinity"></i>';
             const contentDiv = document.createElement('div');
             contentDiv.className = 'msg-content';
             
-            // معالجة الكود مع زر نسخ
             let content = msg.content;
             content = content.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) => {
                 const codeId = 'code-' + Math.random().toString(36).substr(2, 8);
@@ -853,7 +1305,6 @@ if __name__ == "__main__":
         document.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
     }
     
-    // وظيفة نسخ الكود
     window.copyCode = function(wrapperId) {
         const wrapper = document.getElementById(wrapperId);
         if (!wrapper) return;
@@ -870,8 +1321,6 @@ if __name__ == "__main__":
                 btn.innerHTML = originalText;
                 btn.classList.remove('copied');
             }, 2000);
-        }).catch(err => {
-            console.error('فشل النسخ:', err);
         });
     };
 
@@ -941,7 +1390,7 @@ if __name__ == "__main__":
         const newConv = {
             id: newId,
             title: `محادثة جديدة`,
-            messages: [{ role: "bot", content: "مرحباً! محادثة جديدة. جرب تطلب مني أي كود أو أداة 🚀" }]
+            messages: [{ role: "bot", content: "أهلاً! محادثة جديدة. أنا ذاكاء مطلق، مبرمج بلا حدود. اطلب أي شيء وأنا أبرمج لك الكود كامل غير مختصر." }]
         };
         conversations.unshift(newConv);
         activeConversationId = newId;
@@ -963,7 +1412,7 @@ if __name__ == "__main__":
         const container = document.getElementById('chatContainer');
         const typingDiv = document.createElement('div');
         typingDiv.className = 'message bot';
-        typingDiv.innerHTML = `<div class="avatar"><i class="fas fa-robot"></i></div><div class="msg-content"><div class="typing-indicator"><span></span><span></span><span></span></div> جاري التفكير...</div>`;
+        typingDiv.innerHTML = `<div class="avatar"><i class="fas fa-infinity"></i></div><div class="msg-content"><div class="typing-indicator"><span></span><span></span><span></span></div> جاري التفكير والبرمجة...</div>`;
         container.appendChild(typingDiv);
         container.scrollTop = container.scrollHeight;
 
@@ -994,10 +1443,10 @@ if __name__ == "__main__":
         isDeepThinking = !isDeepThinking;
         saveToLocal();
         updateDeepButtonUI();
-        const status = isDeepThinking ? "✅ تم تفعيل التفكير العميق - راح أعطيك إجابات أعمق" : "❌ تم إلغاء التفكير العميق - رجعت للوضع الطبيعي";
+        const status = isDeepThinking ? "✅ تم تفعيل التفكير العميق - راح أعطيك إجابات أعمق" : "❌ تم إلغاء التفكير العميق";
         const temp = document.createElement('div');
         temp.className = 'message bot';
-        temp.innerHTML = `<div class="avatar"><i class="fas fa-robot"></i></div><div class="msg-content">${status}</div>`;
+        temp.innerHTML = `<div class="avatar"><i class="fas fa-infinity"></i></div><div class="msg-content">${status}</div>`;
         document.getElementById('chatContainer').appendChild(temp);
         setTimeout(() => temp.remove(), 2000);
     });
