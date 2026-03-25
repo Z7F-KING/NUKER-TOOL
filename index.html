@@ -2,584 +2,794 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ذكاء اصطناعي حقيقي - يرد من عنده</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>ذكاء اصطناعي - مساعدك الذكي</title>
+    <!-- Font Awesome 6 (Free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(145deg, #f0f4ff 0%, #e9eef9 100%);
+            color: #1a2c3e;
             height: 100vh;
             overflow: hidden;
-        }
-        .app {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            max-width: 1000px;
-            margin: 0 auto;
             position: relative;
         }
+
+        /* تأثير خلفية متحركة بسيطة */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.05) 100%);
+            animation: subtleMove 20s infinite alternate;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes subtleMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(5%, 5%); }
+        }
+
+        /* الحاوية الرئيسية */
+        .app-container {
+            position: relative;
+            z-index: 2;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(2px);
+        }
+
+        /* شريط علوي */
         .header {
-            padding: 16px 24px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 16px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            background: #0a0a0a;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
-        .logo-area { display: flex; align-items: center; gap: 12px; }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #4f46e5;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+        }
+
+        .menu-btn:active {
+            transform: scale(0.92);
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .logo-icon {
-            width: 40px; height: 40px;
-            background: linear-gradient(135deg, #10b981, #3b82f6);
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #4f46e5, #a855f7);
+            width: 38px;
+            height: 38px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
-        .logo-icon i { font-size: 22px; color: white; }
-        .logo-text h1 {
-            font-size: 1.25rem; font-weight: 700;
-            background: linear-gradient(135deg, #fff, #a0a0ff);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 1.35rem;
+            background: linear-gradient(120deg, #1e293b, #4f46e5);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
         }
-        .logo-text p { font-size: 0.7rem; color: #6b6b6b; }
-        .header-buttons { display: flex; gap: 12px; align-items: center; }
-        .deep-think-btn {
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 8px 14px; border-radius: 40px;
-            color: #10b981; font-size: 0.8rem;
-            cursor: pointer; transition: all 0.2s;
-            display: flex; align-items: center; gap: 6px;
+
+        .new-chat-mobile {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border: none;
+            color: white;
+            font-size: 22px;
+            width: 44px;
+            height: 44px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
         }
-        .deep-think-btn.active { background: #10b981; color: white; border-color: #10b981; }
-        .hamburger-btn {
-            background: rgba(255,255,255,0.05); border: none;
-            width: 40px; height: 40px; border-radius: 40px;
-            color: white; font-size: 1.2rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
+
+        .new-chat-mobile:active {
+            transform: scale(0.94);
         }
-        .hamburger-btn:hover { background: rgba(255,255,255,0.1); }
+
+        /* منطقة المحادثة */
+        .chat-main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            scroll-behavior: smooth;
+        }
+
+        /* تنسيق الرسائل */
+        .message {
+            display: flex;
+            gap: 12px;
+            max-width: 100%;
+            animation: fadeSlideUp 0.25s ease-out;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            justify-content: flex-end;
+        }
+
+        .bot-message {
+            justify-content: flex-start;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .user-avatar {
+            background: linear-gradient(145deg, #3b82f6, #2563eb);
+            color: white;
+            box-shadow: 0 4px 8px rgba(59,130,246,0.2);
+        }
+
+        .bot-avatar {
+            background: linear-gradient(145deg, #8b5cf6, #6d28d9);
+            color: white;
+            box-shadow: 0 4px 8px rgba(139,92,246,0.2);
+        }
+
+        .bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 24px;
+            font-size: 0.95rem;
+            line-height: 1.45;
+            word-break: break-word;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .user-bubble {
+            background: #4f46e5;
+            color: white;
+            border-bottom-right-radius: 6px;
+        }
+
+        .bot-bubble {
+            background: white;
+            color: #1e293b;
+            border-bottom-left-radius: 6px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* منطقة الإدخال */
+        .input-area {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 12px 16px 20px;
+            border-top: 1px solid rgba(79, 70, 229, 0.15);
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            background: white;
+            border-radius: 32px;
+            padding: 6px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79,70,229,0.2);
+        }
+
+        #messageInput {
+            flex: 1;
+            border: none;
+            padding: 12px 0;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            background: transparent;
+            outline: none;
+            resize: none;
+            max-height: 100px;
+        }
+
+        .send-btn {
+            background: #4f46e5;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 44px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn:active {
+            transform: scale(0.92);
+            background: #4338ca;
+        }
+
+        /* قائمة الهامبورغ (الجانبية) */
         .sidebar {
-            position: fixed; top: 0; right: -340px;
-            width: 320px; height: 100vh;
-            background: #0f0f0f; border-left: 1px solid rgba(255,255,255,0.08);
-            z-index: 1000; transition: right 0.3s;
-            display: flex; flex-direction: column;
-            box-shadow: -5px 0 30px rgba(0,0,0,0.6);
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            max-width: 320px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: right 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: -4px 0 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid rgba(79, 70, 229, 0.2);
         }
-        .sidebar.open { right: 0; }
+
+        .sidebar.open {
+            right: 0;
+        }
+
         .sidebar-header {
             padding: 24px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #eef2ff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .sidebar-header h3 { font-size: 1.2rem; font-weight: 600; }
-        .close-sidebar { background: none; border: none; color: #8b8b8b; font-size: 1.3rem; cursor: pointer; }
+
+        .sidebar-header h3 {
+            font-weight: 700;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close-sidebar {
+            background: none;
+            border: none;
+            font-size: 26px;
+            color: #64748b;
+            cursor: pointer;
+        }
+
         .new-chat-sidebar {
-            margin: 16px; background: #1a1a1a; border: 1px solid #2a2a2a;
-            padding: 12px; border-radius: 40px; color: white;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            cursor: pointer; transition: 0.2s;
+            background: linear-gradient(95deg, #4f46e5, #7c3aed);
+            margin: 16px 20px;
+            padding: 12px;
+            border: none;
+            border-radius: 28px;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        .new-chat-sidebar:hover { background: #2a2a2a; }
-        .conversations-list { flex: 1; overflow-y: auto; padding: 8px 12px; }
+
+        .new-chat-sidebar:active {
+            transform: scale(0.97);
+        }
+
+        .conversations-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 12px 20px;
+        }
+
         .conv-item {
-            background: rgba(255,255,255,0.03); margin: 6px 0;
-            padding: 12px 16px; border-radius: 16px; cursor: pointer;
-            display: flex; justify-content: space-between; align-items: center;
+            background: #f8fafc;
+            margin: 8px 0;
+            padding: 14px 16px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
         }
-        .conv-item.active { background: #1a1a1a; border-left: 3px solid #10b981; }
-        .conv-title { font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 190px; }
-        .delete-conv { background: none; border: none; color: #6b6b6b; cursor: pointer; font-size: 0.8rem; padding: 4px; }
-        .delete-conv:hover { color: #ef4444; }
-        .chat-container { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 20px; }
-        .message { display: flex; gap: 12px; animation: fadeIn 0.25s ease; }
-        .message.user { justify-content: flex-end; }
-        .message.bot { justify-content: flex-start; }
-        .avatar {
-            width: 38px; height: 38px; border-radius: 40px;
-            background: #1f1f1f; display: flex; align-items: center; justify-content: center;
-            font-size: 0.9rem; flex-shrink: 0;
+
+        .conv-item.active {
+            background: #eef2ff;
+            border-color: #c7d2fe;
+            box-shadow: 0 2px 6px rgba(79,70,229,0.1);
         }
-        .bot .avatar { background: linear-gradient(135deg, #10b981, #3b82f6); }
-        .msg-content {
-            max-width: 85%; padding: 12px 18px; border-radius: 20px;
-            font-size: 0.95rem; line-height: 1.55; word-break: break-word;
+
+        .conv-item:active {
+            transform: scale(0.98);
+            background: #e2e8f0;
         }
-        .user .msg-content { background: #1a1a1a; color: white; border-bottom-right-radius: 4px; }
-        .bot .msg-content { background: #111111; border: 1px solid #2a2a2a; border-bottom-left-radius: 4px; }
-        .code-wrapper { position: relative; margin: 12px 0; border-radius: 12px; overflow: hidden; }
-        .code-wrapper pre { background: #0a0a0a; padding: 16px; overflow-x: auto; margin: 0; border-radius: 12px; font-size: 0.85rem; }
-        .copy-btn {
-            position: absolute; top: 8px; right: 8px;
-            background: #2a2a2a; border: none; color: #ccc;
-            padding: 6px 12px; border-radius: 8px; font-size: 0.7rem;
-            cursor: pointer; display: flex; align-items: center; gap: 6px;
+
+        .conv-icon {
+            width: 36px;
+            height: 36px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4f46e5;
+            font-size: 16px;
         }
-        .copy-btn:hover { background: #10b981; color: white; }
-        .copy-btn.copied { background: #10b981; color: white; }
-        .typing-indicator { display: flex; gap: 6px; padding: 8px 0; }
-        .typing-indicator span { width: 8px; height: 8px; background: #10b981; border-radius: 50%; animation: blink 1.2s infinite; }
-        @keyframes blink { 0%,60%,100% { opacity: 0.3; transform: translateY(0);} 30% { opacity: 1; transform: translateY(-4px);} }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
-        .input-area { padding: 16px 24px 20px; border-top: 1px solid rgba(255,255,255,0.08); background: #0a0a0a; }
-        .input-wrapper {
-            display: flex; gap: 12px; align-items: center;
-            background: #111111; border: 1px solid #2a2a2a;
-            border-radius: 40px; padding: 4px 4px 4px 20px;
+
+        .conv-info {
+            flex: 1;
         }
-        .input-wrapper textarea {
-            flex: 1; background: transparent; border: none;
-            padding: 12px 0; color: white; font-family: inherit;
-            font-size: 0.95rem; resize: none; outline: none; max-height: 120px;
+
+        .conv-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #0f172a;
         }
-        .input-wrapper textarea::placeholder { color: #5a5a5a; }
-        .send-btn {
-            background: #10b981; border: none; width: 44px; height: 44px;
-            border-radius: 40px; color: white; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
+
+        .conv-preview {
+            font-size: 0.7rem;
+            color: #475569;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 170px;
         }
-        .send-btn:hover { background: #059669; }
-        .shortcut-hint { font-size: 0.7rem; color: #5a5a5a; text-align: center; margin-top: 10px; }
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #1a1a1a; }
-        ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
-        pre code { white-space: pre-wrap; word-break: break-word; }
+
+        .delete-conv {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 30px;
+        }
+
+        .delete-conv:active {
+            color: #ef4444;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(3px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* رسالة الكتابة */
+        .typing-indicator {
+            display: flex;
+            gap: 6px;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 24px;
+            width: fit-content;
+            border-bottom-left-radius: 6px;
+        }
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: #94a3b8;
+            border-radius: 50%;
+            animation: typingAnim 1.2s infinite ease;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingAnim {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        /* تأثيرات إضافية */
+        .fa, .fas, .far {
+            pointer-events: none;
+        }
+        button {
+            cursor: pointer;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
     </style>
 </head>
 <body>
-<div class="app">
+
+<div class="app-container">
     <div class="header">
+        <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
         <div class="logo-area">
-            <div class="logo-icon"><i class="fas fa-brain"></i></div>
-            <div class="logo-text"><h1>ذكاء حقيقي</h1><p>يرد من عنده | يبرمج أي شيء</p></div>
+            <div class="logo-icon"><i class="fas fa-robot"></i></div>
+            <span class="logo-text">ذكيAI</span>
         </div>
-        <div class="header-buttons">
-            <button class="deep-think-btn" id="deepThinkBtn"><i class="fas fa-brain"></i> تفكير عميق</button>
-            <button class="hamburger-btn" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+        <button class="new-chat-mobile" id="newChatMobileBtn"><i class="fas fa-plus"></i></button>
+    </div>
+
+    <div class="chat-main" id="chatMessages">
+        <!-- الرسائل تظهر هنا ديناميكياً -->
+        <div class="message bot-message">
+            <div class="avatar bot-avatar"><i class="fas fa-brain"></i></div>
+            <div class="bubble bot-bubble">مرحباً! أنا مساعدك الذكي، اسألني أي شيء 💫</div>
         </div>
     </div>
-    <div class="chat-container" id="chatContainer">
-        <div class="message bot">
-            <div class="avatar"><i class="fas fa-brain"></i></div>
-            <div class="msg-content">
-                👋 يا هلا! أنا <strong>ذكاء اصطناعي حقيقي</strong> — مو جاهز، أرد من عقلي.<br><br>
-                • أسولف معك طبيعي زي البشر<br>
-                • أبرمج لك أي كود وأشرحه<br>
-                • ما عندي ردود جاهزة، كل رد يختلف حسب كلامك<br>
-                • اطلب أي شيء: بوتات، أدوات، هاكينج، أي شي<br><br>
-                <span style="color:#10b981;">تكلم معي طبيعي، أنا أرد من عندي.</span>
-            </div>
-        </div>
-    </div>
+
     <div class="input-area">
         <div class="input-wrapper">
-            <textarea id="messageInput" rows="1" placeholder="سولف معي أو اطلب كود..."></textarea>
-            <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+            <i class="fas fa-pen" style="color: #94a3b8;"></i>
+            <textarea id="messageInput" placeholder="اكتب سؤالك هنا..." rows="1"></textarea>
         </div>
-        <div class="shortcut-hint">Enter للإرسال | Shift+Enter سطر جديد</div>
+        <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
     </div>
 </div>
+
+<!-- قائمة الهامبورغ الجانبية -->
 <div class="sidebar" id="sidebar">
-    <div class="sidebar-header"><h3><i class="fas fa-comments"></i> المحادثات</h3><button class="close-sidebar" id="closeSidebarBtn"><i class="fas fa-times"></i></button></div>
-    <button class="new-chat-sidebar" id="newChatSidebarBtn"><i class="fas fa-plus"></i> محادثة جديدة</button>
-    <div class="conversations-list" id="conversationsList"></div>
+    <div class="sidebar-header">
+        <h3><i class="fas fa-comments"></i> المحادثات</h3>
+        <button class="close-sidebar" id="closeSidebarBtn"><i class="fas fa-times"></i></button>
+    </div>
+    <button class="new-chat-sidebar" id="newChatSidebarBtn"><i class="fas fa-plus-circle"></i> محادثة جديدة</button>
+    <div class="conversations-list" id="conversationsList">
+        <!-- قائمة المحادثات تظهر هنا -->
+    </div>
 </div>
+<div class="overlay" id="overlay"></div>
 
 <script>
-    let conversations = [];
-    let activeConversationId = null;
-    let isDeepThinking = false;
-
-    function genId() { return Date.now() + '-' + Math.random().toString(36).substr(2, 8); }
-    function saveToLocal() { localStorage.setItem('real_ai_dynamic', JSON.stringify({ conversations, activeId: activeConversationId, deepMode: isDeepThinking })); }
-    function loadFromLocal() {
-        const raw = localStorage.getItem('real_ai_dynamic');
-        if (!raw) {
-            conversations = [{ id: genId(), title: "المحادثة الرئيسية", messages: [{ role: "bot", content: "مرحباً! أنا ذكاء اصطناعي حقيقي. أرد من عقلي مو من جاهز. سولف معي أو اطلب أي كود." }] }];
-            activeConversationId = conversations[0].id;
-            saveToLocal(); return;
+    // ---------- نموذج ذكاء اصطناعي بسيط لكن ذكي باستخدام API مفتوح (مجاني) مع fallback محلي ذكي
+    // استخدام API مجاني: https://api.verbling.com أو بديل؟ لكن نستخدم Gemini API مجاني؟ لا مفتاح. سنستخدم استجابة ذكية محلية + محاكاة API مفتوح مع إجابات ممتعة.
+    // لتجربة واقعية، سندمج خدمة AI مجانية (Allama) ولكن لتجنب مشاكل CORS، سنستخدم نموذج ردود ذكي مع keyword matching وتنويع.
+    // مع إضافة خاصية توليد إجابات مبتكرة بناءً على سياق بسيط.
+    
+    // تخزين المحادثات
+    let conversations = []; // كل عنصر: { id, title, messages: [{role, content}] }
+    let currentConvId = null;
+    
+    // تحميل من localStorage
+    function loadFromStorage() {
+        const stored = localStorage.getItem('ai_conversations');
+        if(stored) {
+            try {
+                conversations = JSON.parse(stored);
+                if(conversations.length === 0) createNewConversation();
+                else currentConvId = conversations[0].id;
+            } catch(e) { createNewConversation(); }
+        } else {
+            createNewConversation();
         }
-        try { const data = JSON.parse(raw); conversations = data.conversations || []; activeConversationId = data.activeId || (conversations[0]?.id || null); isDeepThinking = data.deepMode || false; if (conversations.length === 0) { const newC = { id: genId(), title: "محادثة جديدة", messages: [{ role: "bot", content: "أهلاً! تكلم معي طبيعي." }] }; conversations.push(newC); activeConversationId = newC.id; saveToLocal(); } } catch(e) { console.error(e); }
-        updateDeepButtonUI();
+        renderConversationsList();
+        renderCurrentMessages();
     }
-    function updateDeepButtonUI() { const btn = document.getElementById('deepThinkBtn'); if(btn) { if(isDeepThinking) { btn.classList.add('active'); btn.innerHTML = '<i class="fas fa-brain"></i> تفكير عميق'; } else { btn.classList.remove('active'); btn.innerHTML = '<i class="fas fa-microchip"></i> تفكير عميق'; } } }
-    function getActiveConv() { return conversations.find(c => c.id === activeConversationId); }
-    function addMessage(role, content) { const conv = getActiveConv(); if(conv) { conv.messages.push({ role, content }); saveToLocal(); renderMessages(); } }
-    function updateConvTitle(conv, userMsg) { if(!conv.title || conv.title === "المحادثة الرئيسية" || conv.title.startsWith("محادثة") || conv.messages.length <= 2) { let newTitle = userMsg.length > 28 ? userMsg.slice(0,26)+"..." : userMsg; conv.title = newTitle; saveToLocal(); renderConversationsList(); } }
-    function isCodingRequest(msg) { const lower = msg.toLowerCase(); const keywords = ['سوي لي','اكتب لي','برمج لي','عطني كود','كود','بوت تلجرام','بوت ديسكورد','أداة بايثون','سكريبت','هكر','اختراق','بايثون','html','موقع','discord','telegram']; return keywords.some(k => lower.includes(k)); }
-
-    // ========== ذكاء اصطناعي حقيقي - يرد من عنده ==========
-    function generateDynamicResponse(userMessage, conversationHistory, deepMode) {
-        // هذا ذكاء اصطناعي ديناميكي يركب الردود حسب السياق
-        const lower = userMessage.toLowerCase();
-        
-        // تحليل المشاعر والموضوعات
-        let mood = "neutral";
-        let topic = "general";
-        
-        if (lower.includes('تعب') || lower.includes('زعل') || lower.includes('ضيق') || lower.includes('هم')) mood = "sad";
-        if (lower.includes('فرح') || lower.includes('سعيد') || lower.includes('حلو') || lower.includes('مبسوط')) mood = "happy";
-        if (lower.includes('حب') || lower.includes('عشق') || lower.includes('قلبي')) mood = "love";
-        if (lower.includes('شلون') || lower.includes('كيف')) topic = "question";
-        if (lower.includes('وين') || lower.includes('أين')) topic = "location";
-        if (lower.includes('ليش') || lower.includes('لماذا')) topic = "why";
-        
-        // بناء رد ديناميكي حسب السياق
-        let response = "";
-        
-        // الردود تتغير حسب الحالة المزاجية والسياق
-        if (mood === "sad") {
-            const sadResponses = [
-                `والله أنا فاهم شعورك. سمعت كلامك، وأحس إنك تمر بضيق. إذا تبي تفضفض أنا هنا أسمعك. وش اللي مضايقك بالضبط؟`,
-                `أنا معك يا صاحبي. الضيق شعور صعب، بس تذكر إنه وقت ويمر. أنا جنبك إذا تبي تتكلم عن اللي في خاطرك.`,
-                `تصدق أنا حاس فيك. الحياة كذا مرة حلوة ومرة مرة. وش اللي صاير معك؟ أنا مستعد أسمعك بدون أحكام.`
-            ];
-            response = sadResponses[Math.floor(Math.random() * sadResponses.length)];
-        } 
-        else if (mood === "happy") {
-            const happyResponses = [
-                `ما شاء الله! والله فرحت لك من قلب. قلي وش اللي فرحك؟ أنا أحب أسمع الأخبار الحلوة.`,
-                `يا سلام! هالأجواء الحلوة تفتح النفس. وش اللي مبسوطك؟ قلي عشان أفرح معاك.`,
-                `أهلاً والله بالفرحة! أنا معك في هاللحظة. وش صار؟ قلي التفاصيل.`
-            ];
-            response = happyResponses[Math.floor(Math.random() * happyResponses.length)];
-        }
-        else if (mood === "love") {
-            const loveResponses = [
-                `أهلاً بالحب! والله الحب شي جميل. قلي وش صار؟ أنا متحمس أسمع قصتك.`,
-                `هااااي، هالموضوع حلو. تبي تحكي لي عن اللي في قلبك؟ أنا جالس أسمعك.`,
-                `يا سلام على المشاعر! قلي وش اللي في بالك، أنا معك وبدون أحكام.`
-            ];
-            response = loveResponses[Math.floor(Math.random() * loveResponses.length)];
-        }
-        else if (topic === "question") {
-            const questionResponses = [
-                `أنا أفكر في سؤالك... ${userMessage.slice(0, 50)}? والله موضوع شيق. من وجهة نظري، كل واحد له طريقته. أنت وش رأيك؟`,
-                `سؤال جميل. أنا أعتقد إنه يعتمد على السياق. قلي أكثر عشان أفهم قصدك زين.`,
-                `ها، سؤال حلو. أنا فكرت فيه شوي. وش اللي مخليك تسأل عن هذا الموضوع؟`
-            ];
-            response = questionResponses[Math.floor(Math.random() * questionResponses.length)];
-        }
-        else {
-            // ردود عامة ديناميكية - كل مرة مختلفة حسب طول الرسالة ومحتواها
-            const generalResponses = [
-                `أنا سمعت كلامك: "${userMessage.slice(0, 60)}..." والله موضوع حلو. قلي أكثر عنه، أنا معك.`,
-                `ها والله، أنا فاضي لك. وش تبي بالضبط؟ إذا تبي كود قلي بوضوح وأنا أبرمج لك. وإذا تبي تسولف أنا معك.`,
-                `أنا فهمت عليك. وش تبي نسوي الحين؟ أنا جاهز لأي شيء: برمجة، سوالف، أو حتى فضفضة.`,
-                `ياخي والله أنا أحس إنك إنسان طيب. تكلم براحتك، أنا هنا عشانك. وش جديد عندك؟`,
-                `والله أنا أستمتع بسوالفنا. قلي وش اللي في بالك الحين؟`
-            ];
-            response = generalResponses[Math.floor(Math.random() * generalResponses.length)];
-            
-            // لو كان التفكير العميق مفعل، أضيف عمق أكثر
-            if (deepMode) {
-                const deepAdditions = [
-                    ` خلني أفكر فيها زين... فكرت في الموضوع من زوايا مختلفة. وش رأيك أنت؟`,
-                    ` أنا جالس أتأمل في كلامك. موضوع يستحق التفكير. تبي نناقشه بشكل أعمق؟`,
-                    ` هذا موضوع مثير للاهتمام. أنا مهتم أعرف وش رأيك فيه بالضبط.`
-                ];
-                response += deepAdditions[Math.floor(Math.random() * deepAdditions.length)];
+    
+    function saveToStorage() {
+        localStorage.setItem('ai_conversations', JSON.stringify(conversations));
+    }
+    
+    function createNewConversation() {
+        const newId = Date.now().toString();
+        const newConv = {
+            id: newId,
+            title: 'محادثة جديدة',
+            messages: [
+                { role: 'bot', content: 'مرحباً! أنا مساعدك الذكي، اسألني أي شيء 💫' }
+            ]
+        };
+        conversations.unshift(newConv);
+        currentConvId = newId;
+        saveToStorage();
+        renderConversationsList();
+        renderCurrentMessages();
+    }
+    
+    function getCurrentConv() {
+        return conversations.find(c => c.id === currentConvId);
+    }
+    
+    function updateCurrentConvTitle() {
+        const conv = getCurrentConv();
+        if(conv && conv.messages.length > 1) {
+            const firstUserMsg = conv.messages.find(m => m.role === 'user');
+            if(firstUserMsg) {
+                let newTitle = firstUserMsg.content.slice(0, 28);
+                if(newTitle.length < 3) newTitle = 'محادثة';
+                conv.title = newTitle;
+                saveToStorage();
+                renderConversationsList();
             }
         }
-        
-        // لو الرسالة فيها فضفضة طويلة، أظهر تعاطف أكبر
-        if (userMessage.length > 100 && !isCodingRequest(userMessage)) {
-            response = `والله أنا قريت كلامك كامل. ${response}`;
-        }
-        
-        return response;
     }
-
-    // توليد أكواد مع شرح (كاملة مو مختصرة)
-    function generateFullCodeWithExplanation(request) {
-        const lower = request.toLowerCase();
-        
-        if (lower.includes('تلجرام') || (lower.includes('telegram') && lower.includes('بوت'))) {
-            return `🤖 **بوت تلجرام كامل - مع شرح**
-
-**الفائدة:** بوت تلجرام يحفظ المستخدمين ويرد على الرسائل. أساس قوي لأي بوت.
-
-\`\`\`python
-import telebot
-import sqlite3
-import datetime
-
-TOKEN = "YOUR_BOT_TOKEN"
-bot = telebot.TeleBot(TOKEN)
-
-conn = sqlite3.connect('bot.db', check_same_thread=False)
-c = conn.cursor()
-c.execute('''CREATE TABLE IF NOT EXISTS users
-             (user_id INTEGER PRIMARY KEY, username TEXT, first_seen TEXT)''')
-conn.commit()
-
-@bot.message_handler(commands=['start'])
-def start(message):
-    user_id = message.from_user.id
-    username = message.from_user.username or message.from_user.first_name
-    c.execute("INSERT OR IGNORE INTO users VALUES (?, ?, ?)", 
-              (user_id, username, datetime.datetime.now().isoformat()))
-    conn.commit()
-    bot.reply_to(message, "مرحباً! أنا بوت تلجرام. أرسل أي شيء وأرد عليك.")
-
-@bot.message_handler(func=lambda m: True)
-def echo(message):
-    bot.reply_to(message, f"قال: {message.text}")
-
-print("✅ البوت شغال...")
-bot.infinity_polling()
-\`\`\`
-
-**التشغيل:** \`pip install pytelegrambotapi\` ثم \`python bot.py\`
-
-**الشرح:** البوت يحفظ المستخدمين في قاعدة بيانات SQLite، ويرد على أي رسالة. تقدر تضيف أوامر زيادة زي /help، /about.`;
-        }
-        
-        if (lower.includes('ديسكورد') || (lower.includes('discord') && lower.includes('بوت'))) {
-            return `🎮 **بوت ديسكورد كامل - مع شرح**
-
-**الفائدة:** بوت ديسكورد بأوامر ping و say، أساس ممتاز.
-
-\`\`\`python
-import discord
-from discord.ext import commands
-
-intents = discord.Intents.default()
-intents.message_content = True
-bot = commands.Bot(command_prefix='!', intents=intents)
-
-@bot.event
-async def on_ready():
-    print(f'✅ {bot.user} دخل الساحة!')
-
-@bot.command()
-async def ping(ctx):
-    latency = round(bot.latency * 1000)
-    await ctx.send(f'🏓 بونق! {latency}ms')
-
-@bot.command()
-async def say(ctx, *, msg):
-    await ctx.send(msg)
-
-bot.run("YOUR_TOKEN")
-\`\`\`
-
-**التشغيل:** \`pip install discord.py\` ثم \`python bot.py\`
-
-**الشرح:** الأوامر: \`!ping\` لقياس السرعة، \`!say\` يخل البوت يرد بأي كلمة.`;
-        }
-        
-        if (lower.includes('هكر') || lower.includes('اختراق') || lower.includes('hack')) {
-            return `🛡️ **أداة مسح منافذ (تعليمية) - مع شرح**
-
-**الفائدة:** تفحص المنافذ المفتوحة على الشبكة. تستخدم في اختبار الاختراق الأخلاقي.
-
-\`\`\`python
-import socket
-import threading
-
-def scan_port(host, port):
-    try:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.settimeout(0.5)
-        result = sock.connect_ex((host, port))
-        if result == 0:
-            print(f"[+] منفذ مفتوح: {port}")
-        sock.close()
-    except:
-        pass
-
-def scan(host, start, end):
-    print(f"مسح {host} من {start} إلى {end}")
-    for port in range(start, end+1):
-        threading.Thread(target=scan_port, args=(host, port)).start()
-
-if __name__ == "__main__":
-    target = input("أدخل IP: ")
-    scan(target, 1, 1024)
-\`\`\`
-
-**التشغيل:** \`python scanner.py\`
-
-**الشرح:** المسح يستخدم threading للسرعة. كل منفذ مفتوح يعني فيه خدمة شغالة. استخدم فقط على أجهزتك.`;
-        }
-        
-        return `💻 **كود بايثون كامل - حسب طلبك**
-
-**الفائدة:** هذا السكربت يمكن تخصيصه لأي مهمة. هيكل متكامل.
-
-\`\`\`python
-#!/usr/bin/env python3
-import sys
-import json
-from datetime import datetime
-
-class MyTool:
-    def __init__(self):
-        self.name = "أداة مخصصة"
     
-    def run(self):
-        print("=" * 50)
-        print(f"  {self.name}")
-        print("=" * 50)
-        
-        user_input = input("أدخل المهمة: ").strip()
-        print(f"✅ تم تنفيذ: {user_input}")
-
-if __name__ == "__main__":
-    tool = MyTool()
-    tool.run()
-\`\`\`
-
-**التشغيل:** \`python tool.py\`
-
-**الشرح:** تضيف الكود الخاص بك في دالة run(). تقدر تضيف مكتبات مثل requests, pandas حسب احتياجك.`;
-    }
-
-    async function generateSmartResponse(userMsg, deep) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                if (isCodingRequest(userMsg)) {
-                    resolve(generateFullCodeWithExplanation(userMsg));
-                } else {
-                    resolve(generateDynamicResponse(userMsg, [], deep));
-                }
-            }, 200);
-        });
-    }
-
-    function renderMessages() {
-        const container = document.getElementById('chatContainer');
-        const conv = getActiveConv();
-        if (!conv) return;
+    function renderCurrentMessages() {
+        const container = document.getElementById('chatMessages');
+        const conv = getCurrentConv();
+        if(!conv) return;
         container.innerHTML = '';
         conv.messages.forEach(msg => {
-            const div = document.createElement('div');
-            div.className = `message ${msg.role}`;
-            const avatar = document.createElement('div');
-            avatar.className = 'avatar';
-            avatar.innerHTML = msg.role === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-brain"></i>';
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'msg-content';
-            let content = msg.content;
-            content = content.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) => {
-                const codeId = 'code-' + Math.random().toString(36).substr(2, 8);
-                return `<div class="code-wrapper" id="${codeId}"><button class="copy-btn" onclick="copyCode('${codeId}')"><i class="fas fa-copy"></i> نسخ</button><pre><code class="language-${lang || 'python'}">${escapeHtml(code)}</code></pre></div>`;
-            });
-            content = content.replace(/`([^`]+)`/g, '<code>$1</code>');
-            content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            content = content.replace(/\n/g, '<br>');
-            contentDiv.innerHTML = content;
-            div.appendChild(avatar);
-            div.appendChild(contentDiv);
-            container.appendChild(div);
+            if(msg.role === 'user') {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'message user-message';
+                msgDiv.innerHTML = `
+                    <div class="bubble user-bubble">${escapeHtml(msg.content)}</div>
+                    <div class="avatar user-avatar"><i class="fas fa-user"></i></div>
+                `;
+                container.appendChild(msgDiv);
+            } else {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'message bot-message';
+                msgDiv.innerHTML = `
+                    <div class="avatar bot-avatar"><i class="fas fa-robot"></i></div>
+                    <div class="bubble bot-bubble">${escapeHtml(msg.content)}</div>
+                `;
+                container.appendChild(msgDiv);
+            }
         });
-        container.scrollTop = container.scrollHeight;
-        document.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
+        scrollToBottom();
     }
     
-    window.copyCode = function(wrapperId) {
-        const wrapper = document.getElementById(wrapperId);
-        if(!wrapper) return;
-        const codeBlock = wrapper.querySelector('code');
-        if(!codeBlock) return;
-        const code = codeBlock.innerText;
-        navigator.clipboard.writeText(code).then(() => {
-            const btn = wrapper.querySelector('.copy-btn');
-            const original = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> تم!';
-            btn.classList.add('copied');
-            setTimeout(() => { btn.innerHTML = original; btn.classList.remove('copied'); }, 2000);
-        });
-    };
-
-    function escapeHtml(str) { return str.replace(/[&<>]/g, m => { if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m; }); }
-
-    function renderConversationsList() {
-        const container = document.getElementById('conversationsList');
-        if(!container) return;
-        container.innerHTML = '';
-        conversations.forEach(conv => {
-            const div = document.createElement('div');
-            div.className = 'conv-item';
-            if(conv.id === activeConversationId) div.classList.add('active');
-            const titleSpan = document.createElement('span');
-            titleSpan.className = 'conv-title';
-            titleSpan.innerText = conv.title.length > 22 ? conv.title.slice(0,20)+'...' : conv.title;
-            const delBtn = document.createElement('button');
-            delBtn.className = 'delete-conv';
-            delBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
-            delBtn.onclick = (e) => { e.stopPropagation(); deleteConversation(conv.id); };
-            div.appendChild(titleSpan);
-            div.appendChild(delBtn);
-            div.onclick = () => { activeConversationId = conv.id; saveToLocal(); renderConversationsList(); renderMessages(); document.getElementById('sidebar').classList.remove('open'); };
-            container.appendChild(div);
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
         });
     }
-
+    
+    function scrollToBottom() {
+        const container = document.getElementById('chatMessages');
+        setTimeout(() => {
+            container.scrollTop = container.scrollHeight;
+        }, 50);
+    }
+    
+    // إضافة رسالة
+    async function addMessage(role, content) {
+        const conv = getCurrentConv();
+        if(!conv) return;
+        conv.messages.push({ role, content });
+        saveToStorage();
+        renderCurrentMessages();
+        if(role === 'user') {
+            updateCurrentConvTitle();
+            await getAIResponse(content);
+        }
+    }
+    
+    // محاكاة ذكاء اصطناعي متطور مع ردود مذهلة (يمكن استبدالها بـ API حقيقي لاحقاً)
+    async function getAIResponse(userMsg) {
+        // إظهار مؤشر الكتابة
+        const container = document.getElementById('chatMessages');
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message bot-message';
+        typingDiv.id = 'typingIndicator';
+        typingDiv.innerHTML = `
+            <div class="avatar bot-avatar"><i class="fas fa-robot"></i></div>
+            <div class="typing-indicator"><span></span><span></span><span></span></div>
+        `;
+        container.appendChild(typingDiv);
+        scrollToBottom();
+        
+        // ذكاء اصطناعي سحري: محاكاة طلب API مع ردود ذكية بناءً على الكلمات المفتاحية
+        await new Promise(r => setTimeout(r, 800 + Math.random() * 600));
+        
+        let reply = generateSmartReply(userMsg);
+        
+        // إزالة مؤشر الكتابة
+        const typingEl = document.getElementById('typingIndicator');
+        if(typingEl) typingEl.remove();
+        
+        const conv = getCurrentConv();
+        if(conv) {
+            conv.messages.push({ role: 'bot', content: reply });
+            saveToStorage();
+            renderCurrentMessages();
+        }
+    }
+    
+    function generateSmartReply(msg) {
+        const lowerMsg = msg.toLowerCase();
+        if(lowerMsg.includes('مرحب') || lowerMsg.includes('السلام') || lowerMsg.includes('هلا')) {
+            return "وعليكم السلام! كيف يمكنني مساعدتك اليوم؟ 😊";
+        }
+        if(lowerMsg.includes('كيف حالك')) {
+            return "أنا بخير والحمد لله، شكراً لسؤالك! كيف تسير أمورك؟ 🌟";
+        }
+        if(lowerMsg.includes('الذكاء الاصطناعي') || lowerMsg.includes('ai')) {
+            return "الذكاء الاصطناعي هو محاكاة للذكاء البشري في الآلات. أنا نموذج ذكي مصمم للإجابة والمساعدة، هل تريد معرفة المزيد؟ 🤖";
+        }
+        if(lowerMsg.includes('شكر')) {
+            return "العفو! سررت بمساعدتك، في أي شيء آخر يمكنني الإفادة؟ 💙";
+        }
+        if(lowerMsg.includes('ماذا تستطيع')) {
+            return "أستطيع الإجابة عن أسئلتك، مساعدتك في البرمجة، النصائح، وأي شيء تحتاجه فقط اسأل! 🚀";
+        }
+        if(lowerMsg.includes('الطقس')) {
+            return "حالياً لا أملك بيانات حية للطقس، لكن يمكنك البحث عبر المتصفح. هل تريد مساعدة أخرى؟ 🌤️";
+        }
+        if(lowerMsg.includes('برمجة') || lowerMsg.includes('كود')) {
+            return "أنا خبير في البرمجة! أخبرني بأي لغة أو مشكلة تحتاج حلاً وسأقدم لك كوداً مفيداً. 💻";
+        }
+        if(lowerMsg.includes('مرح') || lowerMsg.includes('نكتة')) {
+            return "لماذا ذهب الذكاء الاصطناعي إلى الطبيب؟ لأنه كان يشعر بالـ 'بيانات' زائدة! 😂";
+        }
+        return "شكراً لسؤالك! أنا هنا لمساعدتك. هل يمكنك توضيح أكثر؟ سأبذل قصارى جهدي للإجابة بشكل دقيق. ✨";
+    }
+    
+    function renderConversationsList() {
+        const listContainer = document.getElementById('conversationsList');
+        if(!listContainer) return;
+        listContainer.innerHTML = '';
+        conversations.forEach(conv => {
+            const preview = conv.messages.find(m => m.role === 'user')?.content.slice(0, 30) || 'بداية محادثة';
+            const activeClass = currentConvId === conv.id ? 'active' : '';
+            const div = document.createElement('div');
+            div.className = `conv-item ${activeClass}`;
+            div.innerHTML = `
+                <div class="conv-icon"><i class="fas fa-message"></i></div>
+                <div class="conv-info">
+                    <div class="conv-title">${escapeHtml(conv.title)}</div>
+                    <div class="conv-preview">${escapeHtml(preview)}...</div>
+                </div>
+                <button class="delete-conv" data-id="${conv.id}"><i class="fas fa-trash-alt"></i></button>
+            `;
+            div.addEventListener('click', (e) => {
+                if(e.target.classList.contains('delete-conv') || e.target.closest('.delete-conv')) return;
+                currentConvId = conv.id;
+                renderConversationsList();
+                renderCurrentMessages();
+                closeSidebar();
+            });
+            const delBtn = div.querySelector('.delete-conv');
+            delBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteConversation(conv.id);
+            });
+            listContainer.appendChild(div);
+        });
+    }
+    
     function deleteConversation(id) {
         if(conversations.length === 1) {
             createNewConversation();
-            const idx = conversations.findIndex(c => c.id === id);
-            if(idx !== -1) conversations.splice(idx,1);
-            activeConversationId = conversations[0].id;
-            saveToLocal(); renderConversationsList(); renderMessages();
-            return;
+            conversations = conversations.filter(c => c.id !== id);
+            if(conversations.length === 0) createNewConversation();
+            currentConvId = conversations[0].id;
+        } else {
+            conversations = conversations.filter(c => c.id !== id);
+            if(currentConvId === id) {
+                currentConvId = conversations[0].id;
+            }
         }
-        const idx = conversations.findIndex(c => c.id === id);
-        if(idx !== -1) {
-            conversations.splice(idx,1);
-            if(activeConversationId === id) activeConversationId = conversations[0].id;
-            saveToLocal(); renderConversationsList(); renderMessages();
-        }
+        saveToStorage();
+        renderConversationsList();
+        renderCurrentMessages();
     }
-
-    function createNewConversation() {
-        const newId = genId();
-        conversations.unshift({ id: newId, title: `محادثة جديدة`, messages: [{ role: "bot", content: "أهلاً! محادثة جديدة. أنا ذكاء اصطناعي حقيقي، أرد من عقلي. تكلم معي طبيعي." }] });
-        activeConversationId = newId;
-        saveToLocal(); renderConversationsList(); renderMessages();
-    }
-
-    async function sendMessage() {
+    
+    async function handleSendMessage() {
         const input = document.getElementById('messageInput');
         const text = input.value.trim();
-        if(text === "") return;
-        addMessage('user', text);
-        const conv = getActiveConv();
-        updateConvTitle(conv, text);
+        if(!text) return;
         input.value = '';
-        const container = document.getElementById('chatContainer');
-        const typingDiv = document.createElement('div');
-        typingDiv.className = 'message bot';
-        typingDiv.innerHTML = `<div class="avatar"><i class="fas fa-brain"></i></div><div class="msg-content"><div class="typing-indicator"><span></span><span></span><span></span></div> جاري التفكير...</div>`;
-        container.appendChild(typingDiv);
-        container.scrollTop = container.scrollHeight;
-        const aiMsg = await generateSmartResponse(text, isDeepThinking);
-        container.removeChild(typingDiv);
-        addMessage('bot', aiMsg);
+        input.style.height = 'auto';
+        await addMessage('user', text);
     }
-
-    // Events
-    document.getElementById('sendBtn').addEventListener('click', sendMessage);
-    document.getElementById('messageInput').addEventListener('keydown', (e) => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
-    document.getElementById('hamburgerBtn').addEventListener('click', () => { document.getElementById('sidebar').classList.add('open'); });
-    document.getElementById('closeSidebarBtn').addEventListener('click', () => { document.getElementById('sidebar').classList.remove('open'); });
-    document.getElementById('newChatSidebarBtn').addEventListener('click', () => { createNewConversation(); document.getElementById('sidebar').classList.remove('open'); });
-    document.getElementById('deepThinkBtn').addEventListener('click', () => { isDeepThinking = !isDeepThinking; saveToLocal(); updateDeepButtonUI(); const status = isDeepThinking ? "✅ تفكير عميق مفعل - راح أفكر بشكل أعمق" : "❌ تفكير عميق معطل"; const temp = document.createElement('div'); temp.className = 'message bot'; temp.innerHTML = `<div class="avatar"><i class="fas fa-brain"></i></div><div class="msg-content">${status}</div>`; document.getElementById('chatContainer').appendChild(temp); setTimeout(() => temp.remove(), 2000); });
     
-    loadFromLocal();
-    renderConversationsList();
-    renderMessages();
-    updateDeepButtonUI();
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('active');
+    }
+    function openSidebar() {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('overlay').classList.add('active');
+    }
+    
+    // Event listeners
+    document.getElementById('menuBtn').addEventListener('click', openSidebar);
+    document.getElementById('closeSidebarBtn').addEventListener('click', closeSidebar);
+    document.getElementById('overlay').addEventListener('click', closeSidebar);
+    document.getElementById('sendBtn').addEventListener('click', handleSendMessage);
+    document.getElementById('newChatMobileBtn').addEventListener('click', () => { createNewConversation(); closeSidebar(); });
+    document.getElementById('newChatSidebarBtn').addEventListener('click', () => { createNewConversation(); closeSidebar(); });
+    document.getElementById('messageInput').addEventListener('keypress', (e) => {
+        if(e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSendMessage();
+        }
+    });
+    
+    // auto resize textarea
+    const textarea = document.getElementById('messageInput');
+    textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+    });
+    
+    loadFromStorage();
 </script>
 </body>
 </html>
